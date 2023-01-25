@@ -3,18 +3,21 @@ import * as THREE from 'three'
 // Scene
 const scene = new THREE.Scene()
 
+
 // Objects
 const group = new THREE.Group()
 group.position.y = 1
 group.rotation.y = 1
 scene.add(group)
 
+// Red Cube
 const cube1 = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
     new THREE.MeshBasicMaterial({ color: 0xff0000 })
 )
 group.add(cube1)
 
+// Green Cube
 const cube2 = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
     new THREE.MeshBasicMaterial({ color: 0x00ff00 })
@@ -22,12 +25,14 @@ const cube2 = new THREE.Mesh(
 cube2.position.x = - 2
 group.add(cube2)
 
+// Blue Cube
 const cube3 = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
     new THREE.MeshBasicMaterial({ color: 0x0000ff })
 )
 cube3.position.x = 2
 group.add(cube3)
+
 
 // Axes helper
 const axesHelper = new THREE.AxesHelper(2)
