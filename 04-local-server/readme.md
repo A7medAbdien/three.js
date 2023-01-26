@@ -14,3 +14,11 @@ npm run dev
 # Build for production in the dist/ directory
 npm run build
 ```
+
+# Controls
+
+1. DeviceOrientation: with moving the device, iOS is no longer supported
+2. Pointer lock: no mouse, move with keyboard
+3. Orbit: with limits
+4. TrackBall: loop over the objects
+
