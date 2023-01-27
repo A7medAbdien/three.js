@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 // Cursor
 const cursor = {
@@ -11,6 +12,18 @@ window.addEventListener('mousemove', e => {
   // console.log(cursor)
 })
 
+/**
+ * Base
+ */
+// Canvas
+const canvas = document.querySelector('canvas.webgl')
+
+// Sizes
+const sizes = {
+  width: 800,
+  height: 600
+}
+
 // Scene
 const scene = new THREE.Scene()
 
@@ -20,12 +33,6 @@ const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-// Sizes
-const sizes = {
-  width: 800,
-  height: 600
-}
-
 // Camera
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -33,8 +40,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 )
-
-const aspectRatio = sizes.width / sizes.height
+// const aspectRatio = sizes.width / sizes.height
 // const camera = new THREE.OrthographicCamera(
 //   -1 * aspectRatio,
 //   1 * aspectRatio,
@@ -48,9 +54,15 @@ camera.position.z = 3
 camera.lookAt(mesh.position)
 scene.add(camera)
 
+// Controls
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true // To enable damping update it on each frame
+// controls.target.y = 2
+// controls.update()
+
 // Renderer
 const renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector('canvas.webgl')
+  canvas: canvas
 })
 renderer.setSize(sizes.width, sizes.height)
 
@@ -70,6 +82,9 @@ const tick = () => {
   // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
   // camera.position.y = cursor.y * 3
   // camera.lookAt(mesh.position)
+
+  // Update Damping
+  controls.update()
 
   // Render
   renderer.render(scene, camera)
