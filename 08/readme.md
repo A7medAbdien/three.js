@@ -22,3 +22,7 @@ npm run build
 3. Orbit: with limits
 4. TrackBall: loop over the objects
 
+# Geometry
+
+no `Geometry` anymore, [link](https://stackoverflow.com/questions/68000359/three-geometry-is-not-a-constructor)
+
