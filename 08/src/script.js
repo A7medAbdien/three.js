@@ -67,11 +67,12 @@ const scene = new THREE.Scene()
 const geometry = new THREE.BufferGeometry()
 
 // 2. Array
-const positionsArray = new Float32Array([
-  0, 0, 0,
-  0, 1, 0,
-  0, 0, 1
-])
+const count = 300
+const positionsArray = new Float32Array(count * 3 * 3)
+
+for (let i = 0; i < positionsArray.length; i++){
+  positionsArray[i] = (Math.random() - 0.5) * 4
+}
 
 // 3. Buffer Attribute
 const positionAttribute = new THREE.BufferAttribute(positionsArray, 3)

@@ -26,3 +26,8 @@ npm run build
 
 no `Geometry` anymore, [link](https://stackoverflow.com/questions/68000359/three-geometry-is-not-a-constructor)
 
+# BufferGeometry
+
+1. BufferGeometry
+2. Float32Array, size = count * no. Vertices * 3, in our example it was a triangle so no. of vertices was 3
+3. ArrayAttribute
