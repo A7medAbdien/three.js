@@ -1,17 +1,18 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import gsap from 'gsap'
+import * as dat from 'dat.gui'
 
-// Cursor
-const cursor = {
-  x: 0,
-  y: 0
-}
-window.addEventListener('mousemove', e => {
-  cursor.x = e.clientX / sizes.width - 0.5
-  cursor.y = -(e.clientY / sizes.height - 0.5)
-  // console.log(cursor)
-})
+console.log(dat);
+
+
+/**
+ * Debug
+ */
+const gui = new dat.GUI()
+
+
 
 /**
  * Sizes
@@ -61,27 +62,8 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Object
-// const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
-
-// 1. Buffer
-const geometry = new THREE.BufferGeometry()
-
-// 2. Array
-const count = 300
-const positionsArray = new Float32Array(count * 3 * 3)
-
-for (let i = 0; i < positionsArray.length; i++){
-  positionsArray[i] = (Math.random() - 0.5) * 4
-}
-
-// 3. Buffer Attribute
-const positionAttribute = new THREE.BufferAttribute(positionsArray, 3)
-geometry.setAttribute('position', positionAttribute)
-
-const material = new THREE.MeshBasicMaterial({
-  color: 0xff0000,
-  wireframe: true
-})
+const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
