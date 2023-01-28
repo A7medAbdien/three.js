@@ -4,15 +4,26 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap'
 import * as dat from 'dat.gui'
 
-console.log(dat);
-
-
 /**
  * Debug
  */
 const gui = new dat.GUI()
 
+const parameters = {
+  color: 0xff0000,
+  spin: ()=>{
+    gsap.to( mesh.rotation, {duration: 1, y: mesh.rotation.y + 10 })
+  },
+}
 
+gui
+  .addColor(parameters, 'color')
+  .onChange( () => {
+    material.color.set(parameters.color)
+  })
+  
+gui
+  .add(parameters, 'spin')
 
 /**
  * Sizes
@@ -63,9 +74,22 @@ const scene = new THREE.Scene()
 
 // Object
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+const material = new THREE.MeshBasicMaterial({ color: parameters.color })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+gui
+  .add(mesh.position, 'y')
+  .min(-3)
+  .max(3)
+  .step(0.01)
+  .name('elevation')
+  
+gui
+  .add(mesh, 'visible')
+
+gui
+  .add(material, 'wireframe')
 
 /**
  * Camera
