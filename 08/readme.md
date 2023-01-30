@@ -177,3 +177,7 @@ const tick = () => {
 tick()
 
 ```
+
+# Texture, Video 11
+
+1. mip mapping: if in the background no need 
