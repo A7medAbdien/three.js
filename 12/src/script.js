@@ -1,11 +1,18 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import * as dat from 'dat.gui'
 
+/**
+ * Debug
+ */
+const gui = new dat.GUI()
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const cubeTextureLoader = new THREE.CubeTextureLoader()
+
 
 const doorColorTexture = textureLoader.load('textures/door/color.jpg')
 const doorAlphaTexture = textureLoader.load('textures/door/alpha.jpg')
@@ -17,6 +24,15 @@ const doorRoughnessTexture = textureLoader.load('textures/door/roughness.jpg')
 const matcapTexture = textureLoader.load('textures/matcaps/8.png')
 const gradientTexture = textureLoader.load('textures/gradients/3.jpg')
 
+const environmentMapTexture = cubeTextureLoader.load([
+    '/textures/environmentMaps/0/px.jpg',
+    '/textures/environmentMaps/0/nx.jpg',
+    '/textures/environmentMaps/0/py.jpg',
+    '/textures/environmentMaps/0/ny.jpg',
+    '/textures/environmentMaps/0/pz.jpg',
+    '/textures/environmentMaps/0/nz.jpg'
+])
+
 /**
  * Base
  */
@@ -25,6 +41,18 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+/**
+ * Lights
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+scene.add(ambientLight)
+
+const light = new THREE.PointLight(0xffffff, 0.5)
+light.position.x = 2
+light.position.y = 3
+light.position.z = 4
+scene.add(light)
 
 /**
  * Objects
@@ -39,27 +67,88 @@ const scene = new THREE.Scene()
 // material.side = THREE.DoubleSide
 
 // const material = new THREE.MeshNormalMaterial()
-// material.wireframe = true
+// // material.wireframe = true
 // material.flatShading = true
 
-const material  = new THREE.MeshMatcapMaterial()
-material.matcap = matcapTexture
+
+// const material = new THREE.MeshMatcapMaterial()
+// material.matcap = matcapTexture
+
+// const material = new THREE.MeshDepthMaterial()
+
+// const material = new THREE.MeshLambertMaterial()
+
+// const material = new THREE.MeshPhongMaterial()
+// material.shininess = 100
+// material.specular = new THREE.Color(0x1188ff)
+
+// const material = new THREE.MeshToonMaterial()
+// gradientTexture.generateMipmaps = false
+// gradientTexture.minFilter = THREE.NearestFilter
+// gradientTexture.magFilter = THREE.NearestFilter
+// material.gradientMap = gradientTexture
+
+// const material = new THREE.MeshStandardMaterial()
+// // material.metalness = 0
+// // material.roughness = 1
+// gui.add(material, 'metalness').min(0).max(1).step(0.0001)
+// gui.add(material, 'roughness').min(0).max(1).step(0.0001)
+// material.map = doorColorTexture
+// material.aoMap = doorAmbientOcclusionTexture
+// material.aoMapIntensity = 1
+// material.displacementMap = doorHeightTexture
+// material.displacementScale = 0.05
+// material.metalnessMap = doorMetalnessTexture
+// material.roughnessMap = doorRoughnessTexture
+// material.normalMap = doorNormalTexture
+// material.normalScale.set(0.5, 0.5)
+// material.transparent = true
+// material.alphaMap = doorAlphaTexture
+
+// const material = new THREE.MeshPhysicalMaterial()
+// material.metalness = 0
+// material.roughness = 1
+// gui.add(material, 'metalness').min(0).max(1).step(0.0001)
+// gui.add(material, 'roughness').min(0).max(1).step(0.0001)
+// material.map = doorColorTexture
+// material.aoMap = doorAmbientOcclusionTexture
+// material.aoMapIntensity = 1
+// material.displacementMap = doorHeightTexture
+// material.displacementScale = 0.05
+// material.metalnessMap = doorMetalnessTexture
+// material.roughnessMap = doorRoughnessTexture
+// material.normalMap = doorNormalTexture
+// material.normalScale.set(0.5, 0.5)
+// material.transparent = true
+// material.alphaMap = doorAlphaTexture
+// material.clearcoat = 1
+// material.clearcoatRoughness = 0
+
+const material = new THREE.MeshStandardMaterial()
+material.metalness = 0.7
+material.roughness = 0.2
+gui.add(material, 'metalness').min(0).max(1).step(0.0001)
+gui.add(material, 'roughness').min(0).max(1).step(0.0001)
+material.envMap = environmentMapTexture
 
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 16, 16),
     material
 )
+sphere.geometry.setAttribute('uv2', new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2))
 sphere.position.x = - 1.5
 
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(1 ,1),
     material
 )
+plane.geometry.setAttribute('uv2', new THREE.BufferAttribute(plane.geometry.attributes.uv.array, 2))
 
 const torus = new THREE.Mesh(
     new THREE.TorusGeometry(0.3, 0.2, 16, 32),
     material
 )
+torus.geometry.setAttribute('uv2', new THREE.BufferAttribute(torus.geometry.attributes.uv.array, 2))
 torus.position.x = 1.5
 
 scene.add(sphere, plane, torus)

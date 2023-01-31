@@ -1,7 +1,11 @@
 # Three.js Journey
 
 ## Setup
-Download [Node.js](https://nodejs.org/en/download/).
+Do
+```js
+
+```
+wnload [Node.js](https://nodejs.org/en/download/).
 Run this followed commands:
 
 ``` bash
@@ -180,4 +184,83 @@ tick()
 
 # Texture, Video 11
 
-1. mip mapping: if in the background no need 
+* mip mapping: if in the background no need 
+
+1. color
+2. alpha: what to see and what not
+3. ambient occlusion: shadow affect, needs uv2
+4. height: need vertexes, to give 3D effect, wight up black down  
+5. normal: more details
+6. metalness
+7. roughness
+8. matcap: it has its own geometry
+9. gradient: it has its own geometry
+
+# Geometries. V 12
+
+1. Basic
+2. Normal
+3. Matcap
+4. Depth
+5. Lamber
+6. Phong
+7. Toon
+8. Standard
+9. Physical
+
+## Basic
+
+```js
+
+```
+
+## Normal
+
+```js
+
+```
+
+## Matcap
+
+```js
+
+```
+
+## Depth
+
+```js
+
+```
+
+## Lamber
+
+```js
+
+```
+
+## Phong
+
+```js
+
+```
+
+## Toon
+
+```js
+
+```
+
+## Standard
+
+```js
+
+```
+
+## Physical
+
+```js
+
+```
+
+
+* **uv2** for the Ambient Occlusion Texture
