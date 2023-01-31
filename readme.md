@@ -216,4 +216,19 @@ tick()
 * the reason for the bounding is the frustum culling,
 * frustum culling: is about rendering or not rendering the object
 
-* we move the geometry not the mesh 
+* we move the geometry not the mesh
+
+# Go Live
+
+1. create an account on vercel 
+2. `npm install vercel`
+3. ```js
+      {
+        "scripts": {
+          // ...
+          "deploy": "vercel --prod"
+        },
+      }
+    ```
+4. `npm run deploy`
+
