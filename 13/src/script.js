@@ -4,7 +4,7 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import * as dat from 'lil-gui'
 
-const myText = 'YaMaNo'
+const myText = 'HaZmY'
 
 /**
  * Base
@@ -23,7 +23,8 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-const matcapTexture = textureLoader.load('textures/matcaps/4.png')
+// const matcapTexture = textureLoader.load('textures/matcaps/4.png')
+
 
 /**
  * Fonts
@@ -154,8 +155,12 @@ const clock = new THREE.Clock()
 
 const tick = () =>
 {
-    const elapsedTime = clock.getElapsedTime()
+    const elapsedTime = clock.getElapsedTime() / 2
 
+    // camera.position.y = Math.sin(elapsedTime) * Math.cos(elapsedTime) * 10
+    // camera.position.x = Math.cos(elapsedTime) * 10
+    // camera.lookAt(text.position)
+    
     // Update controls
     controls.update()
 
