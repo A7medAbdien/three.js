@@ -208,59 +208,12 @@ tick()
 8. Standard
 9. Physical
 
-## Basic
-
-```js
-
-```
-
-## Normal
-
-```js
-
-```
-
-## Matcap
-
-```js
-
-```
-
-## Depth
-
-```js
-
-```
-
-## Lamber
-
-```js
-
-```
-
-## Phong
-
-```js
-
-```
-
-## Toon
-
-```js
-
-```
-
-## Standard
-
-```js
-
-```
-
-## Physical
-
-```js
-
-```
-
-
 * **uv2** for the Ambient Occlusion Texture
+
+# 3D text
+
+* we will center the text using bounding
+* the reason for the bounding is the frustum culling,
+* frustum culling: is about rendering or not rendering the object
+
+* we move the geometry not the mesh 
