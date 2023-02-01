@@ -232,3 +232,19 @@ tick()
     ```
 4. `npm run deploy`
 
+# Lights
+
+1. Ambient: uniform
+2. Directional: from a direction
+   
+3. Hemisphere: color from the top and granularly to another from the obesity direction
+4. Pointer: like a candle, have a distance attribute (when it will dim)
+   
+5. Rect Area: the box they use in the photo sections
+6. Spot: like a flashlight, it has a target that needs to be added to the scene 
+
+* Baking: added to the texture
+
+# Shadow
+
+* core shadow working but the drop not

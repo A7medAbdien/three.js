@@ -4,7 +4,24 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import * as dat from 'lil-gui'
 
-const myText = 'HaZmY'
+const myData = {
+    text: 'HaZmY',
+    noDonut: 100,
+    noBox: 100,
+}
+
+/**
+ * Cursor
+ */
+const cursor = {
+    x: 0,
+    y: 0
+}
+window.addEventListener('mousemove', e => {
+    cursor.x = e.clientX / sizes.width - 0.5
+    cursor.y = -(e.clientY / sizes.height - 0.5)
+    // console.log(cursor)
+})
 
 /**
  * Base
@@ -22,20 +39,24 @@ const scene = new THREE.Scene()
 /**
  * Textures
  */
-const textureLoader = new THREE.TextureLoader()
-// const matcapTexture = textureLoader.load('textures/matcaps/4.png')
+// const textureLoader = new THREE.TextureLoader()
+// const backgroundTexture = textureLoader.load('s.jpg')
+// scene.background = backgroundTexture
 
+/**
+ * Material
+ */
+const material = new THREE.MeshNormalMaterial()
 
 /**
  * Fonts
  */
 const fontLoader = new FontLoader()
-
 fontLoader.load(
     '/fonts/helvetiker_regular.typeface.json',
     (font) => {
         const textGeometry = new TextGeometry(
-            myText,
+            myData.text,
             {
                 font: font,
                 size: 0.5,
@@ -51,85 +72,24 @@ fontLoader.load(
         textGeometry.center()
         // textGeometry.scale(1.5, 1.5, 1.5)
 
-        const material = new THREE.MeshNormalMaterial()
-
         const text = new THREE.Mesh(textGeometry, material)
         scene.add(text)
 
-        const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-        const boxGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
-        const group = new THREE.Group()
-        scene.add(group)
-
-        const clock = new THREE.Clock()
-
+        /**
+         * Animation
+         */
         const tick = () => {
-            let elapsedTime = clock.getElapsedTime() / 1.5
+            let elapsedTime = clock.getElapsedTime() * 0.25
 
-            // Update Text
-            text.position.y = Math.sin(elapsedTime) * 0.5
-            text.position.x = Math.sin(elapsedTime) * 0.5
-            // text.rotation.x = Math.sin(elapsedTime) * 0.5
-            text.rotation.y = Math.sin(elapsedTime) * 0.5
-
-            // Update Camera
-            camera.position.y = Math.sin(elapsedTime)
-            camera.position.x = Math.sin(elapsedTime)
-
-            elapsedTime = -elapsedTime
-            // Update Group
-            group.position.y = Math.sin(elapsedTime) * 0.5
-            group.position.z = Math.sin(elapsedTime) * 0.5
-            group.rotation.x = Math.sin(elapsedTime) * 0.5
-            group.rotation.z = Math.sin(elapsedTime) * 0.5
-
-
-            // Update controls
-            controls.update()
-
-            // Render
-            renderer.render(scene, camera)
+            text.rotation.y = Math.sin(elapsedTime) * Math.PI * 0.1
+            text.rotation.z = Math.sin(elapsedTime) * Math.PI * 0.2
 
             // Call tick again on the next frame
             window.requestAnimationFrame(tick)
         }
-
         tick()
-
-        for (let i = 0; i < 100; i++) {
-            const donut = new THREE.Mesh(donutGeometry, material)
-
-            donut.position.x = ((Math.random() - 0.5) * 15) + 1
-            donut.position.y = ((Math.random() - 0.5) * 15) + 1
-            donut.position.z = ((Math.random() - 0.5) * 15) + 1
-
-            donut.rotation.x = Math.random() * Math.PI
-            donut.rotation.y = Math.random() * Math.PI
-
-            const scale = Math.random()
-            donut.scale.set(scale, scale, scale)
-
-            group.add(donut)
-        }
-
-        for (let i = 0; i < 50; i++) {
-            const donut = new THREE.Mesh(boxGeometry, material)
-
-            donut.position.x = (Math.random() - 0.5) * 15
-            donut.position.y = (Math.random() - 0.5) * 15
-            donut.position.z = (Math.random() - 0.5) * 15
-
-            donut.rotation.x = Math.random() * Math.PI
-            donut.rotation.y = Math.random() * Math.PI
-
-            const scale = Math.random()
-            donut.scale.set(scale, scale, scale)
-
-            group.add(donut)
-        }
     }
 )
-
 
 /**
  * Sizes
@@ -158,14 +118,48 @@ window.addEventListener('resize', () => {
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 1
-camera.position.y = 1
-camera.position.z = 8
+camera.position.z = 5
 scene.add(camera)
 
-// Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+/**
+ * Object
+ */
+const donutGeometry = new THREE.TorusGeometry(0.1, 0.05, 20, 45)
+const boxGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3)
+const group = new THREE.Group()
+scene.add(group)
+
+for (let i = 0; i < myData.noDonut; i++) {
+    const donut = new THREE.Mesh(donutGeometry, material)
+
+    donut.position.x = ((Math.random() - 0.5) * 8) + 0.5
+    donut.position.y = ((Math.random() - 0.5) * 8) + 0.5
+    donut.position.z = ((Math.random() - 0.5) * 8) + 0.5
+
+    donut.rotation.x = Math.random() * Math.PI
+    donut.rotation.y = Math.random() * Math.PI
+
+    // const scale = Math.random()
+    // donut.scale.set(scale, scale, scale)
+
+    group.add(donut)
+}
+
+for (let i = 0; i < myData.noBox; i++) {
+    const donut = new THREE.Mesh(boxGeometry, material)
+
+    donut.position.x = ((Math.random() - 0.5) * 10) + 0.5
+    donut.position.y = ((Math.random() - 0.5) * 10) + 0.5
+    donut.position.z = ((Math.random() - 0.5) * 10) + 0.5
+
+    donut.rotation.x = Math.random() * Math.PI
+    donut.rotation.y = Math.random() * Math.PI
+
+    // const scale = Math.random()
+    // donut.scale.set(scale, scale, scale)
+
+    group.add(donut)
+}
 
 /**
  * Renderer
@@ -182,12 +176,17 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 const clock = new THREE.Clock()
 
 const tick = () => {
-    const elapsedTime = clock.getElapsedTime() / 2
+    let elapsedTime = clock.getElapsedTime() * 0.5
 
-    // camera.lookAt(text.position)
+    // Update camera
+    camera.position.x = Math.sin(cursor.x) * 10
+    camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5) + Math.sin(cursor.y) * 10
+    camera.position.z = Math.cos(elapsedTime) + 2.5
 
-    // Update controls
-    controls.update()
+    // Update Group
+    group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
+    group.rotation.x = Math.cos(elapsedTime) * Math.PI * 0.25
+    camera.lookAt(new THREE.Vector3())
 
     // Render
     renderer.render(scene, camera)
