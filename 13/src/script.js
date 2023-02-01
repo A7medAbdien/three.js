@@ -174,19 +174,33 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Animate
  */
 const clock = new THREE.Clock()
-
+let entered = false
+let enteringValue
 const tick = () => {
     let elapsedTime = clock.getElapsedTime() * 0.5
 
+    if (!entered) {
+        enteringValue = - Math.tan(elapsedTime + Math.PI * 0.5) + 2
+        if (Math.abs(enteringValue) + 0.2 < 2.979) {
+            enteringValue = - Math.cos(elapsedTime + Math.PI * 0.5) + 2
+            entered = true
+        }
+        camera.position.z = enteringValue
+    } else {
+        camera.position.z = - Math.cos(elapsedTime + Math.PI * 0.5) + 2
+    }
+
+    console.log(camera.position.z);
     // Update camera
-    camera.position.x = Math.sin(cursor.x) * 10
-    camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5) + Math.sin(cursor.y) * 10
+    camera.position.x = cursor.x * Math.PI * 5
+    camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5) + cursor.y * Math.PI * 5
     // camera.position.z = Math.cos(elapsedTime) + 2.5
 
     // Update Group
     group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
     group.rotation.x = Math.cos(elapsedTime) * Math.PI * 0.25
     camera.lookAt(new THREE.Vector3())
+
 
     // Render
     renderer.render(scene, camera)
