@@ -23,6 +23,12 @@ window.addEventListener('mousemove', e => {
     // console.log(cursor)
 })
 
+window.addEventListener('touchmove', e => {
+    cursor.x = e.touches[0].clientX / sizes.width - 0.5
+    cursor.y = -(e.touches[0].clientY / sizes.height - 0.5)
+    // console.log(e.touches[0])
+})
+
 /**
  * Base
  */
@@ -190,7 +196,7 @@ const tick = () => {
         camera.position.z = - Math.cos(elapsedTime + Math.PI * 0.5) + 2
     }
 
-    console.log(camera.position.z);
+    // console.log(camera.position.z);
     // Update camera
     camera.position.x = cursor.x * Math.PI * 5
     camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5) + cursor.y * Math.PI * 5
