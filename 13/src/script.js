@@ -39,9 +39,9 @@ const scene = new THREE.Scene()
 /**
  * Textures
  */
-// const textureLoader = new THREE.TextureLoader()
-// const backgroundTexture = textureLoader.load('s.jpg')
-// scene.background = backgroundTexture
+const textureLoader = new THREE.TextureLoader()
+const backgroundTexture = textureLoader.load('s.jpg')
+scene.background = backgroundTexture
 
 /**
  * Material
@@ -118,7 +118,7 @@ window.addEventListener('resize', () => {
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.z = 5
+camera.position.z = 3
 scene.add(camera)
 
 /**
@@ -132,9 +132,9 @@ scene.add(group)
 for (let i = 0; i < myData.noDonut; i++) {
     const donut = new THREE.Mesh(donutGeometry, material)
 
-    donut.position.x = ((Math.random() - 0.5) * 8) + 0.5
-    donut.position.y = ((Math.random() - 0.5) * 8) + 0.5
-    donut.position.z = ((Math.random() - 0.5) * 8) + 0.5
+    donut.position.x = ((Math.random() - 0.5) * 10)
+    donut.position.y = ((Math.random() - 0.5) * 10)
+    donut.position.z = ((Math.random() - 0.5) * 10)
 
     donut.rotation.x = Math.random() * Math.PI
     donut.rotation.y = Math.random() * Math.PI
@@ -148,9 +148,9 @@ for (let i = 0; i < myData.noDonut; i++) {
 for (let i = 0; i < myData.noBox; i++) {
     const donut = new THREE.Mesh(boxGeometry, material)
 
-    donut.position.x = ((Math.random() - 0.5) * 10) + 0.5
-    donut.position.y = ((Math.random() - 0.5) * 10) + 0.5
-    donut.position.z = ((Math.random() - 0.5) * 10) + 0.5
+    donut.position.x = ((Math.random() - 0.5) * 20)
+    donut.position.y = ((Math.random() - 0.5) * 20)
+    donut.position.z = ((Math.random() - 0.5) * 20)
 
     donut.rotation.x = Math.random() * Math.PI
     donut.rotation.y = Math.random() * Math.PI
@@ -181,7 +181,7 @@ const tick = () => {
     // Update camera
     camera.position.x = Math.sin(cursor.x) * 10
     camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5) + Math.sin(cursor.y) * 10
-    camera.position.z = Math.cos(elapsedTime) + 2.5
+    // camera.position.z = Math.cos(elapsedTime) + 2.5
 
     // Update Group
     group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
