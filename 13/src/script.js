@@ -90,12 +90,13 @@ fontLoader.load(
         const tick = () => {
             let elapsedTime = clock.getElapsedTime() * 0.25
 
+            text.position.x = .2 + (Math.sin(elapsedTime) * 0.25)
             text.position.z = prams.textZ
-            // text.position.z = (Math.cos(elapsedTime + Math.PI * 0.25) - 0.5)
+            text.position.z = prams.textZ
 
             text.rotation.y = Math.sin(elapsedTime) * Math.sin(elapsedTime) * Math.PI * 0.1
             text.rotation.z = Math.sin(elapsedTime) * Math.PI * 0.2
-            camera.lookAt(text.position)
+            // camera.lookAt(text.position)
 
 
             // Call tick again on the next frame
@@ -216,7 +217,7 @@ const tick = () => {
     // Update Group
     group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
     group.rotation.x = Math.cos(elapsedTime) * Math.PI * 0.25
-    // camera.lookAt(new THREE.Vector3())
+    camera.lookAt(new THREE.Vector3(0, 0.2, -0.1))
 
 
     // Render
