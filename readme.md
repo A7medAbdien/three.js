@@ -248,3 +248,31 @@ tick()
 # Shadow
 
 * core shadow working but the drop not
+
+# Advices
+
+1. no random at the beginning, start with the base shape
+2. gui: one by one
+3. gui: min is the steps
+
+# Not in the center
+
+1. angel = random * pi * 2
+2. radius = 3 + random * 6
+3. get the x and y = sin/cos(angel) * radius
+4. position
+
+# BufferGeometry
+
+1. geometry
+2. Float32Array, positions
+3. geometry.setAttribute()
+   1. BufferAttribute()
+
+# Practicals
+
+1. BufferGeometry
+2. PointMaterial
+3. Points, like the mesh
+
+
