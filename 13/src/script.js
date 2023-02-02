@@ -4,11 +4,13 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import * as dat from 'lil-gui'
 
-const myData = {
-    text: 'HaZmY',
-    noDonut: 100,
-    noBox: 100,
-}
+const prams = {}
+prams.text = 'HaZmY'
+prams.noDonut = 100
+prams.noBox = 100
+prams.textDistance = - 0.99
+prams.textZ = - 0.3
+
 
 /**
  * Cursor
@@ -34,6 +36,7 @@ window.addEventListener('touchmove', e => {
  */
 // Debug
 const gui = new dat.GUI()
+// gui.add(prams, 'textDistance').min(0).max(5).step(0.5)
 gui.hide()
 
 // Canvas
@@ -62,11 +65,11 @@ fontLoader.load(
     '/fonts/helvetiker_regular.typeface.json',
     (font) => {
         const textGeometry = new TextGeometry(
-            myData.text,
+            prams.text,
             {
                 font: font,
-                size: 0.5,
-                height: 0.3,
+                size: 0.25,
+                height: 0.1,
                 curveSegments: 12,
                 bevelEnabled: true,
                 bevelThickness: 0.03,
@@ -87,8 +90,13 @@ fontLoader.load(
         const tick = () => {
             let elapsedTime = clock.getElapsedTime() * 0.25
 
-            text.rotation.y = Math.sin(elapsedTime) * Math.PI * 0.1
+            text.position.z = prams.textZ
+            // text.position.z = (Math.cos(elapsedTime + Math.PI * 0.25) - 0.5)
+
+            text.rotation.y = Math.sin(elapsedTime) * Math.sin(elapsedTime) * Math.PI * 0.1
             text.rotation.z = Math.sin(elapsedTime) * Math.PI * 0.2
+            camera.lookAt(text.position)
+
 
             // Call tick again on the next frame
             window.requestAnimationFrame(tick)
@@ -96,6 +104,9 @@ fontLoader.load(
         tick()
     }
 )
+
+// const helper = new THREE.AxesHelper()
+// scene.add(helper)
 
 /**
  * Sizes
@@ -135,7 +146,7 @@ const boxGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3)
 const group = new THREE.Group()
 scene.add(group)
 
-for (let i = 0; i < myData.noDonut; i++) {
+for (let i = 0; i < prams.noDonut; i++) {
     const donut = new THREE.Mesh(donutGeometry, material)
 
     donut.position.x = ((Math.random() - 0.5) * 10)
@@ -151,7 +162,7 @@ for (let i = 0; i < myData.noDonut; i++) {
     group.add(donut)
 }
 
-for (let i = 0; i < myData.noBox; i++) {
+for (let i = 0; i < prams.noBox; i++) {
     const donut = new THREE.Mesh(boxGeometry, material)
 
     donut.position.x = ((Math.random() - 0.5) * 20)
@@ -186,14 +197,14 @@ const tick = () => {
     let elapsedTime = clock.getElapsedTime() * 0.5
 
     if (!entered) {
-        enteringValue = - Math.tan(elapsedTime + Math.PI * 0.5) + 2
-        if (Math.abs(enteringValue) + 0.2 < 2.979) {
-            enteringValue = - Math.cos(elapsedTime + Math.PI * 0.5) + 2
+        enteringValue = - Math.tan(elapsedTime + Math.PI * 0.5) + prams.textDistance
+        if (Math.abs(enteringValue) < 1 + prams.textDistance) {
+            enteringValue = - (Math.cos(elapsedTime + Math.PI * 0.25) - 1) + prams.textDistance
             entered = true
         }
         camera.position.z = enteringValue
     } else {
-        camera.position.z = - Math.cos(elapsedTime + Math.PI * 0.5) + 2
+        camera.position.z = Math.abs((- (Math.cos(elapsedTime + Math.PI * 0.25) - 1) + prams.textDistance))
     }
 
     // console.log(camera.position.z);
@@ -205,7 +216,7 @@ const tick = () => {
     // Update Group
     group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
     group.rotation.x = Math.cos(elapsedTime) * Math.PI * 0.25
-    camera.lookAt(new THREE.Vector3())
+    // camera.lookAt(new THREE.Vector3())
 
 
     // Render
