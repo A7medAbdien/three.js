@@ -345,3 +345,5 @@ const createBox = (width, height, depth, position) => {
 1. many sounds and play them randomly
 2. add a delay to not allow more than x sounds per frame
 3. scale the sound based on the strength
+
+## constraint in CANNON
