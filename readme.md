@@ -275,4 +275,16 @@ tick()
 2. PointMaterial
 3. Points, like the mesh
 
+# galaxy affect
 
+1. radius = random * radius => we get a line
+2. branchAngle = (i % branches / branches) * 2pi => apply it with sin/cos on position => 3 lines
+3. spinAngle = radius * spin ==> how far on the x is how far on the z => add it with branch angle => spin effect
+
+# ray caster
+
+1. origin, V3
+2. direction, V3
+3. normalize direction
+4. set 1 and 2 to the raycaster
+5. get the intersectObject/s

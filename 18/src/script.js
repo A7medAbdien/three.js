@@ -22,12 +22,13 @@ const parameters = {}
 parameters.count = 100000
 parameters.size = 0.01
 parameters.radius = 5
-parameters.branches = 3
+parameters.branches = 5
 parameters.spin = 1
 parameters.randomness = 0.2
-parameters.randomnessPower = 3
+parameters.randomnessPower = 1.5
 parameters.insideColor = '#ff6030'
 parameters.outsideColor = '#1b3984'
+parameters.emptyCenter = 0.5
 
 let geometry = null
 let material = null
@@ -56,7 +57,7 @@ const generateGalaxy = () => {
         // Position
         const i3 = i * 3
 
-        const radius = Math.random() * parameters.radius
+        const radius = parameters.emptyCenter + Math.random() * parameters.radius
 
         const spinAngle = radius * parameters.spin
         const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI * 2
@@ -108,6 +109,7 @@ gui.add(parameters, 'randomness').min(0).max(2).step(0.001).onFinishChange(gener
 gui.add(parameters, 'randomnessPower').min(1).max(10).step(0.001).onFinishChange(generateGalaxy)
 gui.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy)
 gui.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy)
+gui.add(parameters, 'emptyCenter').min(0.01).max(0.5).step(0.001).onFinishChange(generateGalaxy)
 
 generateGalaxy()
 
