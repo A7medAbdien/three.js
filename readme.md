@@ -299,3 +299,43 @@ tick()
    2. the material itself
    3. add it to the world
    4. assign it to the bodies/ assign it to the world
+
+1. create three.js
+2. create cannon
+3. copy the position||quaternion in tick()
+
+## enhance
+
+```js
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+
+const createBox = (width, height, depth, position) => {
+    // Three.js
+    const mesh = new THREE.Mesh(boxGeometry, material)
+    mesh.scale.set(width, height, depth)
+    mesh.castShadow = true
+    mesh.position.copy(position)
+    scene.add(mesh)
+
+    // Cannon
+    const shape = new CANNON.Box(new CANNON.Vec3(width / 2, height / 2, depth / 2))
+    const body = new CANNON.Body({
+        mass: 1,
+        position: new CANNON.Vec3(0, 3, 0),
+        shape,
+    })
+    body.position.copy(position)
+    world.add(body)
+
+    objectToUpdate.push({
+        mesh,
+        body
+    })
+}
+```
+
+## performance
+
+1. Naive Broad Phase: like broad search!!
+2. Grid Broad Phase: its grid and its neighbors, object moving fast may result a bug
+3. SAP Broad Phase: ??, just better 
