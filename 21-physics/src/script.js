@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
-import CANNON from 'cannon'
-import { World } from 'cannon'
+import * as CANNON from 'cannon-es'
+import { World } from 'cannon-es'
 
 /**
  * Debug
@@ -81,7 +81,7 @@ const environmentMapTexture = cubeTextureLoader.load([
 /**
  * Physics
  */
-const world = new World()
+const world = new CANNON.World()
 world.broadphase = new CANNON.SAPBroadphase(world)
 world.allowSleep = true
 world.gravity.set(0, -9.82, 0)
@@ -225,7 +225,7 @@ const createSphere = (radius, position) => {
     })
     body.position.copy(position)
     body.addEventListener('collide', playHitSound)
-    world.add(body)
+    world.addBody(body)
 
     objectToUpdate.push({
         mesh,
@@ -256,7 +256,7 @@ const createBox = (width, height, depth, position) => {
     })
     body.position.copy(position)
     body.addEventListener('collide', playHitSound)
-    world.add(body)
+    world.addBody(body)
 
     objectToUpdate.push({
         mesh,
