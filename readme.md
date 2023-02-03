@@ -339,3 +339,9 @@ const createBox = (width, height, depth, position) => {
 1. Naive Broad Phase: like broad search!!
 2. Grid Broad Phase: its grid and its neighbors, object moving fast may result a bug
 3. SAP Broad Phase: ??, just better 
+
+## Event, Sound
+
+1. many sounds and play them randomly
+2. add a delay to not allow more than x sounds per frame
+3. scale the sound based on the strength
