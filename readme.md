@@ -288,3 +288,14 @@ tick()
 3. normalize direction
 4. set 1 and 2 to the raycaster
 5. get the intersectObject/s
+
+# Psychics
+
+1. geometry/Shape
+2. material
+3. mesh/Body: the attributes added to the body
+4. contactMaterial: when two body contacts
+   1. ref
+   2. the material itself
+   3. add it to the world
+   4. assign it to the bodies/ assign it to the world
