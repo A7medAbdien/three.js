@@ -161,16 +161,52 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Utils
  */
 const objectToUpdate = []
-const sphereGeometry = new THREE.SphereGeometry(1, 20, 20)
-const sphereMaterial = new THREE.MeshStandardMaterial({
+
+// Materials
+const material = new THREE.MeshStandardMaterial({
     metalness: 0.3,
     roughness: 0.4,
     envMap: environmentMapTexture
 })
 
+// Sphere
+const sphereGeometry = new THREE.SphereGeometry(1, 20, 20)
+
+// Box
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+
+const createBox = (radius, position) => {
+    // Three.js
+    const mesh = new THREE.Mesh(boxGeometry, material)
+    mesh.scale.set(radius, radius, radius)
+    mesh.castShadow = true
+    mesh.position.copy(position)
+    scene.add(mesh)
+
+    // Cannon
+    const shape = new CANNON.Box(new CANNON.Vec3(1, 1, 1))
+    const body = new CANNON.Body({
+        mass: 1,
+        position: new CANNON.Vec3(0, 3, 0),
+        shape,
+    })
+    body.position.copy(position)
+    console.log(body.position);
+    console.log(mesh.position);
+    world.add(body)
+
+    // objectToUpdate.push(
+    //     mesh,
+    //     body
+    // )
+}
+
+createBox(1, { x: 0, y: 2, z: 0 })
+
+
 const createSphere = (radius, position) => {
     // Three.js Sphere
-    const mesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
+    const mesh = new THREE.Mesh(sphereGeometry, material)
     mesh.scale.set(radius, radius, radius)
     mesh.castShadow = true
     mesh.position.copy(position)
@@ -182,7 +218,7 @@ const createSphere = (radius, position) => {
         mass: 1,
         position: new CANNON.Vec3(0, 3, 0),
         shape,
-        material: defaultMaterial
+        // material: defaultMaterial
     })
     body.position.copy(position)
     world.add(body)
