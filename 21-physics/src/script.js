@@ -240,7 +240,7 @@ const createBox = (width, height, depth, position) => {
     })
 }
 
-createBox(1, 1, 1, { x: 0, y: 2, z: 0 })
+// createBox(1, 1, 1, { x: 0, y: 2, z: 0 })
 
 /**
  * Animate
@@ -259,6 +259,7 @@ const tick = () => {
     for (const object of objectToUpdate) {
         // console.log(object);
         object.mesh.position.copy(object.body.position)
+        object.mesh.quaternion.copy(object.body.quaternion)
     }
 
     // Update controls
