@@ -8,6 +8,18 @@ import { World } from 'cannon'
  * Debug
  */
 const gui = new dat.GUI()
+const debugObject = {}
+debugObject.addSphere = () => {
+    createSphere(
+        Math.random() * 0.5,
+        {
+            x: (Math.random() - 0.5) * 3,
+            y: 3,
+            z: (Math.random() - 0.5) * 3
+        }
+    )
+}
+gui.add(debugObject, 'addSphere')
 
 /**
  * Base
