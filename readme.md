@@ -347,3 +347,9 @@ const createBox = (width, height, depth, position) => {
 3. scale the sound based on the strength
 
 ## constraint in CANNON
+
+# Physics Library
+
+1. CANNON
+2. Ammo.js: uses web assembly, more defect, more control
+3. PhysiJs: uses ammo and support workers natively
