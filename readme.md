@@ -353,3 +353,16 @@ const createBox = (width, height, depth, position) => {
 1. CANNON
 2. Ammo.js: uses web assembly, more defect, more control
 3. PhysiJs: uses ammo and support workers natively
+
+---
+
+# 22 Load Model
+
+1. glTF
+
+## DRACO
+1. get the draco file in the static, node_modules\three\examples\jsm\libs\draco
+
+WHEN:
+
+consider the size of the loader, consider the decompression time
