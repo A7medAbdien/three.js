@@ -361,8 +361,17 @@ const createBox = (width, height, depth, position) => {
 1. glTF
 
 ## DRACO
+
 1. get the draco file in the static, node_modules\three\examples\jsm\libs\draco
 
 WHEN:
 
 consider the size of the loader, consider the decompression time
+
+## Animation
+
+think of animation as a song, each object have a many songs/animations
+
+1. animation mixer: like the player where you play the song / each song has its player
+2. add song/animation to the player/mixer
+3. update the mixer ?!
