@@ -375,3 +375,13 @@ think of animation as a song, each object have a many songs/animations
 1. animation mixer: like the player where you play the song / each song has its player
 2. add song/animation to the player/mixer
 3. update the mixer ?!
+
+---
+
+# Scroll based, Improvements suggestions
+
+1. more HTML
+2. animate:
+   1. material
+   2. HTML text
+   3. particles
