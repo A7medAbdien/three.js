@@ -390,4 +390,7 @@ think of animation as a song, each object have a many songs/animations
 
 # Realistic Renderer
 
-1. renderer.physicallyCorrectLights = true
+1. Lights, renderer.physicallyCorrectLights = true
+2. Models
+3. env map
+4. 
