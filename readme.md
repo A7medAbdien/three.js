@@ -393,4 +393,4 @@ think of animation as a song, each object have a many songs/animations
 1. Lights, renderer.physicallyCorrectLights = true
 2. Models
 3. env map
-4. 
+4. renderer and env encoding, renderer.outputEncoding = THREE.sRGBEncoding
