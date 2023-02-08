@@ -403,3 +403,10 @@ think of animation as a song, each object have a many songs/animations
 
 # Shaders
 
+1. what is shaders/ how they come:
+   1. vertex shader/ fragment shader
+   2. data -> vertex -> shader
+
+
+vertex shader -> apply attributes
+fragment shader -> uniform + varyings
