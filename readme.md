@@ -401,6 +401,20 @@ think of animation as a song, each object have a many songs/animations
 
 ---
 
+# Code Structure
+
+- we can get the Experience From 
+  - a global variable
+  - sending a parameter
+  - singleton
+
+- listening to an event:
+  - each class has its own listener, if some class listen be4 another may result in an error
+  - listen ones and propagate to the children
+
+
+---
+
 # Shaders
 
 1. what is shaders/ how they come:
