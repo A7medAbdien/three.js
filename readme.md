@@ -395,4 +395,6 @@ think of animation as a song, each object have a many songs/animations
 3. env map
 4. renderer and env encoding, renderer.outputEncoding = THREE.sRGBEncoding
 5. tone mapping, it does not work on the bg!?
-6. 
+6. antialias:
+   1. superSampling, break pixel into more pixels
+   2. multiSampling
