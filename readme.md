@@ -398,3 +398,8 @@ think of animation as a song, each object have a many songs/animations
 6. antialias:
    1. superSampling, break pixel into more pixels
    2. multiSampling
+
+---
+
+# Shaders
+
