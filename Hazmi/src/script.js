@@ -183,9 +183,12 @@ const tick = () => {
     // console.log(camera.position.z);
 
     // Update camera
-    camera.position.x = cursor.x * Math.PI * 5
-    camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5) + cursor.y * Math.PI * 5
+    camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5)
     // camera.position.z = Math.cos(elapsedTime) + 2.5
+
+    // Update camera with curser
+    camera.position.x = cursor.x * Math.PI * 5
+    camera.position.y += cursor.y * Math.PI * 5
 
     // Update Group
     group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
