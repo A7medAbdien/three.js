@@ -7,7 +7,22 @@ const myData = {
     text: 'HaPPy Birthday \n    :) HaZmY (:',
     noDonut: 150,
     noBox: 150,
+    textZ: 3
 }
+
+/**
+ * Responsiveness
+ */
+const fitTextZ = () => {
+    if (window.innerWidth <= 400) {
+        myData.textZ = 7
+        console.log(myData.textZ);
+    } else if (window.innerWidth > 400 && window.innerWidth <= 768) {
+        myData.textZ = 4
+        console.log(myData.textZ);
+    }
+}
+fitTextZ()
 
 /**
  * Cursor
@@ -39,11 +54,6 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-
-/**
- * Textures
- */
-const textureLoader = new THREE.TextureLoader()
 scene.background = new THREE.Color('#1B2326')
 gui.addColor(scene, 'background')
 
@@ -113,7 +123,6 @@ scene.add(cameraGroup)
 
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.z = 4
 cameraGroup.add(camera)
 
 /**
@@ -160,7 +169,9 @@ for (let i = 0; i < myData.noBox; i++) {
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    antialias: true
+
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -203,7 +214,7 @@ const tick = () => {
         camera.position.x = - enteringValue
         camera.position.y = enteringValue
     }
-    camera.position.z = Math.cos(elapsedTimeDiv2) + 4
+    camera.position.z = Math.cos(elapsedTimeDiv2) + myData.textZ
     camera.lookAt(new THREE.Vector3())
     // console.log(camera.position.z);
 
