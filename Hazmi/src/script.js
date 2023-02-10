@@ -188,20 +188,20 @@ const tick = () => {
         camera.position.x = - enteringValue
         camera.position.y = enteringValue
     }
-    camera.position.z = Math.cos(elapsedTime) * 0.5 + 2
+    camera.position.z = Math.cos(elapsedTime / 2) + 4
+    camera.lookAt(new THREE.Vector3())
     // console.log(camera.position.z);
-    // camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5)
 
     // Update camera with curser
-    // const parallaxX = cursor.x
-    // const parallaxY = cursor.y
-    // cameraGroup.position.x += (parallaxX * Math.PI * 3 - cameraGroup.position.x) * deltaTime * 5
-    // cameraGroup.position.y += (parallaxY * Math.PI * 3 - cameraGroup.position.y) * deltaTime * 5
+    const parallaxX = cursor.x
+    const parallaxY = cursor.y
+    cameraGroup.position.x += (parallaxX * Math.PI * 3 - cameraGroup.position.x) * deltaTime * 5
+    cameraGroup.position.y += (parallaxY * Math.PI * 3 - cameraGroup.position.y) * deltaTime * 5
 
-    // Update Group
-    // group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
-    // group.rotation.x = Math.cos(elapsedTime) * Math.PI * 0.25
-    camera.lookAt(new THREE.Vector3())
+    // Animate Group
+    group.rotation.x = Math.cos(elapsedTime / 4)
+    group.rotation.y = - Math.cos(elapsedTime / 4)
+
 
     // Update Text
     // if (text !== null) {
