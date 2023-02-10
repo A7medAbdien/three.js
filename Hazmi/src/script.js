@@ -5,8 +5,8 @@ import * as dat from 'lil-gui'
 
 const myData = {
     text: 'HaPPy Birthday \n    :) HaZmY (:',
-    noDonut: 100,
-    noBox: 100,
+    noDonut: 150,
+    noBox: 150,
 }
 
 /**
@@ -44,8 +44,8 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-const backgroundTexture = textureLoader.load('s.jpg')
-scene.background = backgroundTexture
+scene.background = new THREE.Color('#1B2326')
+gui.addColor(scene, 'background')
 
 /**
  * Material
@@ -120,7 +120,7 @@ cameraGroup.add(camera)
  * Object
  */
 const donutGeometry = new THREE.TorusGeometry(0.1, 0.05, 20, 45)
-const coneGeometry = new THREE.ConeGeometry(0.15, 0.3, 20)
+const coneGeometry = new THREE.ConeGeometry(0.15, 0.3, 30)
 const group = new THREE.Group()
 scene.add(group)
 
@@ -164,6 +164,20 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.toneMapping = THREE.ReinhardToneMapping
+renderer.toneMappingExposure = 3
+
+gui
+    .add(renderer, 'toneMapping', {
+        No: THREE.NoToneMapping,
+        Linear: THREE.LinearToneMapping,
+        Reinhard: THREE.ReinhardToneMapping,
+        Cineon: THREE.CineonToneMapping,
+        ACESFilmi: THREE.ACESFilmicToneMapping
+    }).onFinishChange(() => {
+        renderer.toneMapping = Number(renderer.toneMapping)
+        // updateAllMaterials()
+    })
 
 /**
  * Animate
