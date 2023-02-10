@@ -66,7 +66,7 @@ fontLoader.load(
                 font: font,
                 size: 0.5,
                 height: 0.5,
-                curveSegments: 12,
+                curveSegments: 20,
                 bevelEnabled: true,
                 bevelThickness: 0.03,
                 bevelSize: 0.02,
@@ -113,7 +113,7 @@ scene.add(cameraGroup)
 
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.z = 1
+camera.position.z = 4
 cameraGroup.add(camera)
 
 /**
@@ -175,39 +175,41 @@ let entered = false
 let enteringValue
 
 const tick = () => {
+    const elapsedTimeDiv2 = clock.getElapsedTime() / 2
     const elapsedTime = clock.getElapsedTime()
     const deltaTime = elapsedTime - oldElapsedTime
     oldElapsedTime = elapsedTime
 
     // Animate camera
     if (!entered) {
-        enteringValue = - Math.tan(elapsedTime * 0.5 + Math.PI / 2)
+        enteringValue = - Math.tan(elapsedTimeDiv2 + Math.PI / 2)
         if (Math.abs(enteringValue) < 0.1) {
             entered = true
         }
         camera.position.x = - enteringValue
         camera.position.y = enteringValue
     }
-    camera.position.z = Math.cos(elapsedTime / 2) + 4
+    camera.position.z = Math.cos(elapsedTimeDiv2) + 4
     camera.lookAt(new THREE.Vector3())
     // console.log(camera.position.z);
 
     // Update camera with curser
-    const parallaxX = cursor.x
-    const parallaxY = cursor.y
-    cameraGroup.position.x += (parallaxX * Math.PI * 3 - cameraGroup.position.x) * deltaTime * 5
-    cameraGroup.position.y += (parallaxY * Math.PI * 3 - cameraGroup.position.y) * deltaTime * 5
+    const parallaxX = cursor.x * Math.PI * 2.5
+    const parallaxY = cursor.y * Math.PI * 2.5
+    cameraGroup.position.x += (parallaxX * 2 - cameraGroup.position.x) * deltaTime * 2
+    cameraGroup.position.y += (parallaxY * 2 - cameraGroup.position.y) * deltaTime * 2
 
     // Animate Group
-    group.rotation.x = Math.cos(elapsedTime / 4)
-    group.rotation.y = - Math.cos(elapsedTime / 4)
+    group.rotation.x = Math.cos(elapsedTimeDiv2 / 2)
+    group.rotation.y = - Math.cos(elapsedTimeDiv2 / 2)
 
 
     // Update Text
-    // if (text !== null) {
-    //     text.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.1
-    //     text.rotation.z = Math.cos(elapsedTime) * Math.PI * 0.2
-    // }
+    if (text !== null) {
+        text.position.y = Math.cos(elapsedTimeDiv2) * 0.5
+        text.rotation.x = Math.sin(elapsedTimeDiv2 * 0.5) * 0.5
+        text.rotation.z = Math.cos(elapsedTimeDiv2) * 0.5
+    }
 
     // Render
     renderer.render(scene, camera)
