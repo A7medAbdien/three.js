@@ -4,7 +4,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import * as dat from 'lil-gui'
 
 const myData = {
-    text: 'HaPPy Birthday \n :) HaZmY (:',
+    text: 'HaPPy Birthday \n    :) HaZmY (:',
     noDonut: 100,
     noBox: 100,
 }
@@ -65,7 +65,7 @@ fontLoader.load(
             {
                 font: font,
                 size: 0.5,
-                height: 0.3,
+                height: 0.5,
                 curveSegments: 12,
                 bevelEnabled: true,
                 bevelThickness: 0.03,
@@ -113,7 +113,7 @@ scene.add(cameraGroup)
 
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.z = 3
+camera.position.z = 1
 cameraGroup.add(camera)
 
 /**
@@ -181,25 +181,26 @@ const tick = () => {
 
     // Entering Animation
     if (!entered) {
-        enteringValue = - Math.tan(elapsedTime + Math.PI * 0.5) + 2
-        if (Math.abs(enteringValue) + 0.2 < 2.979) {
-            enteringValue = - Math.cos(elapsedTime + Math.PI * 0.5) + 2
+        enteringValue = - Math.tan(elapsedTime * 0.5 + Math.PI / 2)
+        if (Math.abs(enteringValue) < 0.1) {
             entered = true
         }
-        camera.position.z = enteringValue
+        camera.position.x = - enteringValue
+        camera.position.y = enteringValue
+        camera.position.z = Math.cos(elapsedTime) + 2
+
     } else {
-        camera.position.z = - Math.cos(elapsedTime + Math.PI * 0.5) + 2
+        camera.position.z = Math.cos(elapsedTime) + 2
     }
     // console.log(camera.position.z);
-
     // Update camera
-    camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5)
+    // camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5)
 
     // Update camera with curser
-    const parallaxX = cursor.x
-    const parallaxY = cursor.y
-    cameraGroup.position.x += (parallaxX * Math.PI * 3 - cameraGroup.position.x) * deltaTime * 5
-    cameraGroup.position.y += (parallaxY * Math.PI * 3 - cameraGroup.position.y) * deltaTime * 5
+    // const parallaxX = cursor.x
+    // const parallaxY = cursor.y
+    // cameraGroup.position.x += (parallaxX * Math.PI * 3 - cameraGroup.position.x) * deltaTime * 5
+    // cameraGroup.position.y += (parallaxY * Math.PI * 3 - cameraGroup.position.y) * deltaTime * 5
 
     // Update Group
     // group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
@@ -208,8 +209,8 @@ const tick = () => {
 
     // Update Text
     // if (text !== null) {
-    //     text.rotation.y = Math.sin(elapsedTime) * Math.PI * 0.1
-    //     text.rotation.z = Math.sin(elapsedTime) * Math.PI * 0.2
+    //     text.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.1
+    //     text.rotation.z = Math.cos(elapsedTime) * Math.PI * 0.2
     // }
 
     // Render
