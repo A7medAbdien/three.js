@@ -1,6 +1,9 @@
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, TransformControls } from "@react-three/drei";
+import { useRef } from "react";
 
 export default function Experience() {
+
+    const cube = useRef()
 
     return (
         <>
@@ -15,11 +18,12 @@ export default function Experience() {
                 <meshStandardMaterial color="orange" />
             </mesh>
 
-            <mesh rotation-y={Math.PI / 4} position-x={2} scale={1.5}>
+            <mesh ref={cube} rotation-y={Math.PI / 4} position-x={2} scale={1.5}>
                 <boxGeometry scale={1.5} />
                 <meshStandardMaterial color="mediumpurple" />
             </mesh>
 
+            <TransformControls object={cube} />
 
             <mesh position-y={-1} rotation-x={-Math.PI / 2} scale={10}>
                 <planeGeometry />
