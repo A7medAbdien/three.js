@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import * as dat from 'lil-gui'
@@ -56,6 +55,7 @@ const material = new THREE.MeshNormalMaterial()
 /**
  * Fonts
  */
+let text = null
 const fontLoader = new FontLoader()
 fontLoader.load(
     '/fonts/helvetiker_regular.typeface.json',
@@ -77,22 +77,8 @@ fontLoader.load(
         textGeometry.center()
         // textGeometry.scale(1.5, 1.5, 1.5)
 
-        const text = new THREE.Mesh(textGeometry, material)
+        text = new THREE.Mesh(textGeometry, material)
         scene.add(text)
-
-        /**
-         * Animation
-         */
-        const tick = () => {
-            let elapsedTime = clock.getElapsedTime() * 0.25
-
-            text.rotation.y = Math.sin(elapsedTime) * Math.PI * 0.1
-            text.rotation.z = Math.sin(elapsedTime) * Math.PI * 0.2
-
-            // Call tick again on the next frame
-            window.requestAnimationFrame(tick)
-        }
-        tick()
     }
 )
 
@@ -194,18 +180,23 @@ const tick = () => {
     } else {
         camera.position.z = - Math.cos(elapsedTime + Math.PI * 0.5) + 2
     }
+    // console.log(camera.position.z);
 
-    console.log(camera.position.z);
     // Update camera
     camera.position.x = cursor.x * Math.PI * 5
     camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5) + cursor.y * Math.PI * 5
-    // camera.position.z = Math.cos(elapsedTime) + 2.5
+    camera.position.z = Math.cos(elapsedTime) + 2.5
 
     // Update Group
     group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
     group.rotation.x = Math.cos(elapsedTime) * Math.PI * 0.25
     camera.lookAt(new THREE.Vector3())
 
+    // Update Text
+    if (text !== null) {
+        text.rotation.y = Math.sin(elapsedTime) * Math.PI * 0.1
+        text.rotation.z = Math.sin(elapsedTime) * Math.PI * 0.2
+    }
 
     // Render
     renderer.render(scene, camera)
