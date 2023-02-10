@@ -179,7 +179,7 @@ const tick = () => {
     const deltaTime = elapsedTime - oldElapsedTime
     oldElapsedTime = elapsedTime
 
-    // Entering Animation
+    // Animate camera
     if (!entered) {
         enteringValue = - Math.tan(elapsedTime * 0.5 + Math.PI / 2)
         if (Math.abs(enteringValue) < 0.1) {
@@ -187,13 +187,9 @@ const tick = () => {
         }
         camera.position.x = - enteringValue
         camera.position.y = enteringValue
-        camera.position.z = Math.cos(elapsedTime) + 2
-
-    } else {
-        camera.position.z = Math.cos(elapsedTime) + 2
     }
+    camera.position.z = Math.cos(elapsedTime) * 0.5 + 2
     // console.log(camera.position.z);
-    // Update camera
     // camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5)
 
     // Update camera with curser
