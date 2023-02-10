@@ -107,10 +107,14 @@ window.addEventListener('resize', () => {
 /**
  * Camera
  */
+// Group camera
+const cameraGroup = new THREE.Group()
+scene.add(cameraGroup)
+
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.z = 3
-scene.add(camera)
+cameraGroup.add(camera)
 
 /**
  * Object
@@ -165,11 +169,17 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Animate
  */
 const clock = new THREE.Clock()
+let oldElapsedTime = 0
+
 let entered = false
 let enteringValue
-const tick = () => {
-    let elapsedTime = clock.getElapsedTime() * 0.5
 
+const tick = () => {
+    const elapsedTime = clock.getElapsedTime()
+    const deltaTime = elapsedTime - oldElapsedTime
+    oldElapsedTime = elapsedTime
+
+    // Entering Animation
     if (!entered) {
         enteringValue = - Math.tan(elapsedTime + Math.PI * 0.5) + 2
         if (Math.abs(enteringValue) + 0.2 < 2.979) {
@@ -184,22 +194,23 @@ const tick = () => {
 
     // Update camera
     camera.position.y = (Math.sin(elapsedTime) * Math.cos(elapsedTime) * 0.5)
-    // camera.position.z = Math.cos(elapsedTime) + 2.5
 
     // Update camera with curser
-    camera.position.x = cursor.x * Math.PI * 5
-    camera.position.y += cursor.y * Math.PI * 5
+    const parallaxX = cursor.x
+    const parallaxY = cursor.y
+    cameraGroup.position.x += (parallaxX * Math.PI * 3 - cameraGroup.position.x) * deltaTime * 5
+    cameraGroup.position.y += (parallaxY * Math.PI * 3 - cameraGroup.position.y) * deltaTime * 5
 
     // Update Group
-    group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
-    group.rotation.x = Math.cos(elapsedTime) * Math.PI * 0.25
+    // group.rotation.y = Math.cos(elapsedTime) * Math.PI * 0.25
+    // group.rotation.x = Math.cos(elapsedTime) * Math.PI * 0.25
     camera.lookAt(new THREE.Vector3())
 
     // Update Text
-    if (text !== null) {
-        text.rotation.y = Math.sin(elapsedTime) * Math.PI * 0.1
-        text.rotation.z = Math.sin(elapsedTime) * Math.PI * 0.2
-    }
+    // if (text !== null) {
+    //     text.rotation.y = Math.sin(elapsedTime) * Math.PI * 0.1
+    //     text.rotation.z = Math.sin(elapsedTime) * Math.PI * 0.2
+    // }
 
     // Render
     renderer.render(scene, camera)
