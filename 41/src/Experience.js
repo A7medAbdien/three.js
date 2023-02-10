@@ -1,4 +1,4 @@
-import { OrbitControls, TransformControls } from "@react-three/drei";
+import { OrbitControls, PivotControls, TransformControls } from "@react-three/drei";
 import { useRef } from "react";
 
 export default function Experience() {
@@ -12,11 +12,17 @@ export default function Experience() {
             <directionalLight position={[1, 2, 3]} intensity={1.5} />
             <ambientLight intensity={0.5} />
 
-
-            <mesh position-x={-2}>
-                <sphereGeometry />
-                <meshStandardMaterial color="orange" />
-            </mesh>
+            <PivotControls
+                anchor={[0, 0, 0]}
+                depthTest={false}
+            // fixed
+            // scale={100}
+            >
+                <mesh position-x={-2}>
+                    <sphereGeometry />
+                    <meshStandardMaterial color="orange" />
+                </mesh>
+            </PivotControls>
 
             <mesh ref={cube} rotation-y={Math.PI / 4} position-x={2} scale={1.5}>
                 <boxGeometry scale={1.5} />
