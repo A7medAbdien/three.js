@@ -120,16 +120,16 @@ cameraGroup.add(camera)
  * Object
  */
 const donutGeometry = new THREE.TorusGeometry(0.1, 0.05, 20, 45)
-const boxGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3)
+const coneGeometry = new THREE.ConeGeometry(0.15, 0.3, 20)
 const group = new THREE.Group()
 scene.add(group)
 
 for (let i = 0; i < myData.noDonut; i++) {
     const donut = new THREE.Mesh(donutGeometry, material)
 
-    donut.position.x = ((Math.random() - 0.5) * 10)
-    donut.position.y = ((Math.random() - 0.5) * 10)
-    donut.position.z = ((Math.random() - 0.5) * 10)
+    donut.position.x = ((Math.random() - 0.5) * 15)
+    donut.position.y = ((Math.random() - 0.5) * 15)
+    donut.position.z = ((Math.random() - 0.5) * 15)
 
     donut.rotation.x = Math.random() * Math.PI
     donut.rotation.y = Math.random() * Math.PI
@@ -141,11 +141,11 @@ for (let i = 0; i < myData.noDonut; i++) {
 }
 
 for (let i = 0; i < myData.noBox; i++) {
-    const donut = new THREE.Mesh(boxGeometry, material)
+    const donut = new THREE.Mesh(coneGeometry, material)
 
-    donut.position.x = ((Math.random() - 0.5) * 20)
-    donut.position.y = ((Math.random() - 0.5) * 20)
-    donut.position.z = ((Math.random() - 0.5) * 20)
+    donut.position.x = ((Math.random() - 0.5) * 15)
+    donut.position.y = ((Math.random() - 0.5) * 15)
+    donut.position.z = ((Math.random() - 0.5) * 15)
 
     donut.rotation.x = Math.random() * Math.PI
     donut.rotation.y = Math.random() * Math.PI
