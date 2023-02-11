@@ -430,3 +430,5 @@ fragment shader -> uniform + varyings
 # 44 Debug
 
 1. StrictMode, wrap the canvas with it
+2. npm i leva@0.9
+3. npm i r3f-perf@6.5
