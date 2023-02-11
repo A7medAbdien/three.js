@@ -424,3 +424,9 @@ think of animation as a song, each object have a many songs/animations
 
 vertex shader -> apply attributes
 fragment shader -> uniform + varyings
+
+---
+
+# 44 Debug
+
+1. StrictMode, wrap the canvas with it
