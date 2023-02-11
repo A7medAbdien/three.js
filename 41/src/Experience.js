@@ -1,4 +1,4 @@
-import { Html, OrbitControls, PivotControls, Text, TransformControls } from "@react-three/drei";
+import { Float, Html, OrbitControls, PivotControls, Text, TransformControls } from "@react-three/drei";
 import { useRef } from "react";
 
 export default function Experience() {
@@ -33,12 +33,15 @@ export default function Experience() {
                     </Html>
                 </mesh>
             </PivotControls>
-
-            <mesh ref={cube} rotation-y={Math.PI / 4} position-x={2} scale={1.5}>
-                <boxGeometry scale={1.5} />
-                <meshStandardMaterial color="mediumpurple" />
-            </mesh>
-
+            <Float
+                speed={3}
+                floatIntensity={2}
+            >
+                <mesh ref={cube} rotation-y={Math.PI / 4} position-x={2} scale={1.5}>
+                    <boxGeometry scale={1.5} />
+                    <meshStandardMaterial color="mediumpurple" />
+                </mesh>
+            </Float>
             <TransformControls object={cube} />
 
             <mesh position-y={-1} rotation-x={-Math.PI / 2} scale={10}>
@@ -46,16 +49,21 @@ export default function Experience() {
                 <meshStandardMaterial color="greenyellow" />
             </mesh>
 
-            <Text
-                font="./bangers-v20-latin-regular.woff"
-                fontSize={1}
-                color="salmon"
-                position-y={2}
-                maxWidth={2}
-                textAlign="center"
+            <Float
+                speed={3}
+                floatIntensity={5}
             >
-                I am Amazed
-            </Text>
+                <Text
+                    font="./bangers-v20-latin-regular.woff"
+                    fontSize={1}
+                    color="salmon"
+                    position-y={2}
+                    maxWidth={2}
+                    textAlign="center"
+                >
+                    I am Amazed
+                </Text>
+            </Float>
         </>
     )
 };
