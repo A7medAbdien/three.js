@@ -1,4 +1,4 @@
-import { Environment, Float, OrbitControls, useGLTF } from '@react-three/drei'
+import { Environment, Float, OrbitControls, PresentationControls, useGLTF } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
 
 export default function Experience() {
@@ -12,12 +12,19 @@ export default function Experience() {
 
         <color args={['#695b5b']} attach="background" />
 
-        <OrbitControls makeDefault />
-        <Float rotationIntensity={0.4}>
-            <primitive
-                object={computer.scene}
-                position-y={- 1.2}
-            />
-        </Float>
+        <PresentationControls
+            global
+            polar={[-0.4, 0.2]}
+            azimuth={[-1, 0.75]}
+            config={{ mass: 2, tension: 400 }}
+            snap={{ mass: 4, tension: 400 }}
+        >
+            <Float rotationIntensity={0.4}>
+                <primitive
+                    object={computer.scene}
+                    position-y={- 1.2}
+                />
+            </Float>
+        </PresentationControls>
     </>
 }
