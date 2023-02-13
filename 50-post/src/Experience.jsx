@@ -1,11 +1,20 @@
 import { OrbitControls } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
+import { useControls } from 'leva'
+import { BlendFunction } from 'postprocessing'
 import { Perf } from 'r3f-perf'
+import Drunk from './Drunk.jsx'
 
 export default function Experience() {
+
+    const drankProps = useControls('Drunk Effect', {
+        frequency: { value: 2, min: 1, max: 20 },
+        frequency: { value: 0.1, min: 0, max: 1 },
+    })
+
     return <>
 
-        <color args={['#fffff']} attach="background" />
+        <color args={['#ffffff']} attach="background" />
 
         <Perf position="top-left" />
 
@@ -13,6 +22,10 @@ export default function Experience() {
 
         <EffectComposer>
             {/* <Bloom mipmapBlur /> */}
+            <Drunk
+                {...drankProps}
+            // blendFunction={BlendFunction.DARKEN}
+            />
         </EffectComposer>
 
         <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} />
