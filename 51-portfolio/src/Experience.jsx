@@ -1,4 +1,4 @@
-import { ContactShadows, Environment, Float, OrbitControls, PresentationControls, useGLTF } from '@react-three/drei'
+import { ContactShadows, Environment, Float, Html, OrbitControls, PresentationControls, useGLTF } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
 
 export default function Experience() {
@@ -23,7 +23,17 @@ export default function Experience() {
                 <primitive
                     object={computer.scene}
                     position-y={- 1.2}
-                />
+                >
+                    <Html
+                        transform
+                        wrapperClass='htmlScreen'
+                        distanceFactor={1.17}
+                        position={[0, 1.56, -1.4]}
+                        rotation-x={-0.256}
+                    >
+                        <iframe src='https://hazmy.vercel.app/' />
+                    </Html>
+                </primitive>
             </Float>
         </PresentationControls>
 
