@@ -5,14 +5,14 @@ import { Perf } from 'r3f-perf'
 export default function Experience() {
     return <>
 
-        <color args={['#000000']} attach="background" />
+        <color args={['#fffff']} attach="background" />
 
         <Perf position="top-left" />
 
         <OrbitControls makeDefault />
 
         <EffectComposer>
-            <Bloom mipmapBlur />
+            {/* <Bloom mipmapBlur /> */}
         </EffectComposer>
 
         <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} />
@@ -25,7 +25,8 @@ export default function Experience() {
 
         <mesh castShadow position-x={2} scale={1.5}>
             <boxGeometry />
-            <meshStandardMaterial color={[1.5, 1, 4]} toneMapped={false} />
+            {/* <meshStandardMaterial color={[1.5, 1, 4]} toneMapped={false} /> */}
+            <meshStandardMaterial color="red" />
         </mesh>
 
         <mesh receiveShadow position-y={- 1} rotation-x={- Math.PI * 0.5} scale={10}>
