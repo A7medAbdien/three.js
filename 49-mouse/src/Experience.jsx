@@ -11,7 +11,6 @@ export default function Experience() {
 
     const eventHandler = () => {
         cube.current.material.color.set(`hsl(${Math.random() * 360}, 100%, 75%)`)
-        console.log(cube.current.material.color)
     }
 
     return <>
@@ -21,7 +20,9 @@ export default function Experience() {
         <directionalLight position={[1, 2, 3]} intensity={1.5} />
         <ambientLight intensity={0.5} />
 
-        <mesh position-x={- 2}>
+        <mesh position-x={- 2} onClick={(event) => {
+            event.stopPropagation()
+        }}>
             <sphereGeometry />
             <meshStandardMaterial color="orange" />
         </mesh>
