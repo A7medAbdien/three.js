@@ -1,8 +1,13 @@
-import { ContactShadows, Environment, Float, Html, OrbitControls, PresentationControls, useGLTF } from '@react-three/drei'
+import { ContactShadows, Environment, Float, Html, OrbitControls, PresentationControls, Text, useGLTF } from '@react-three/drei'
+import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
 
 export default function Experience() {
     const computer = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf')
+
+    const { background } = useControls({
+        'background': '#695b5b'
+    })
 
     return <>
 
@@ -10,7 +15,7 @@ export default function Experience() {
 
         <Environment preset='city' />
 
-        <color args={['#695b5b']} attach="background" />
+        <color args={[background]} attach="background" />
 
         <PresentationControls
             global
@@ -28,7 +33,7 @@ export default function Experience() {
                         width={2.5}
                         height={1.65}
                         intensity={65}
-                        color={'#ff6900'}
+                        color={'#00b3c7'}
                         rotation={[0.1, Math.PI, 0]}
                         position={[0, 0.55, -1.15]}
                     />
@@ -41,6 +46,16 @@ export default function Experience() {
                     >
                         <iframe src='https://hazmy.vercel.app/' />
                     </Html>
+                    <Text
+                        font='./bangers-v20-latin-regular.woff'
+                        fontSize={1}
+                        position={[2, 1.75, 0.25]}
+                        rotation-y={-1.25}
+                        maxWidth={2}
+                        textAlign="center"
+                    >
+                        GiMMy
+                    </Text>
                 </primitive>
             </Float>
         </PresentationControls>
