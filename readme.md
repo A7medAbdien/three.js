@@ -432,3 +432,20 @@ fragment shader -> uniform + varyings
 1. StrictMode, wrap the canvas with it
 2. npm i leva@0.9
 3. npm i r3f-perf@6.5
+
+---
+
+# 52 Physics
+
+1. Physics
+2. RigiBody
+3. debug
+4. colliders
+   1. ball
+   2. hull
+   3. trimesh
+5. R3f colliders
+6. useRef on RigiBody to apply force
+7. access **gravity** on Physics,it can change on run time
+8. **restitution** on RigidBody
+9. **fraction** 
