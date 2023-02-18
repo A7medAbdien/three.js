@@ -36,14 +36,7 @@ export default function Experience() {
             max: 100
         },
     })
-    const { rotation } = useControls('rota', {
-        rotation: {
-            value: { x: Math.PI / 2, y: 0 },
-            step: 0.01,
-            min: 0,
-            max: Math.PI
-        },
-    })
+
 
     let i = -1
     const theta = 360 / 36
@@ -74,20 +67,19 @@ export default function Experience() {
                     />
                 </mesh>
             })}
-            <mesh
-                scale-z={z}
-                // rotation-x={Math.PI / 2}
-                rotation-x={rotation.x}
-                rotation-y={rotation.y}
-            >
-                <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
-                <meshNormalMaterial />
-            </mesh>
         </group>
     </>
 }
 
 const getCoordinates = (angle, distance = 25) => {
+    angle *= Math.PI / 180
+    let x = distance * Math.cos(angle),
+        y = distance * Math.sin(angle)
+
+    return { x, y, angle, distance }
+}
+
+const getCoordinatesCircle = (angle, distance = 25) => {
     angle *= Math.PI / 180
     let x = distance * Math.cos(angle),
         y = distance * Math.sin(angle)
