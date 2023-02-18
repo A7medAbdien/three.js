@@ -91,7 +91,10 @@ export default function Experience() {
                         position-x={x}
                         position-y={y}
                         rotation-x={Math.PI / 2}
-                        rotation-y={angle}
+                        rotation-y={
+                            (angle + 1)
+                            * fit
+                        }
                         lookAt={[0, 0, 0]}
                     >
                         <Html>
