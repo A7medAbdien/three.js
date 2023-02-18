@@ -1,5 +1,6 @@
 import { OrbitControls } from '@react-three/drei'
 import { useControls } from 'leva'
+import { Perf } from 'r3f-perf'
 
 export default function Experience() {
 
@@ -36,21 +37,40 @@ export default function Experience() {
         },
     })
 
+    let i = -1
+    const theta = 360 / 36
     return <>
-
+        <Perf position='top-left' />
         <OrbitControls makeDefault />
 
         <axesHelper args={[5, 5, 5]} />
-
-        <mesh
-            scale-z={z}
-        >
-            <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
-            <meshNormalMaterial
-                color="red"
-            // wireframe
-            />
-        </mesh>
-
+        <group scale={0.2}>
+            {[...Array(36)].map((e, index) => {
+                i++
+                let { x, y } = getCoordinates(i * theta)
+                return <mesh
+                    key={index}
+                    scale-z={z}
+                    position-x={x}
+                    position-y={y}
+                // rotation-x={3.6 * i}
+                // rotation-y={3.6 * i}
+                >
+                    <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
+                    <meshNormalMaterial
+                        color="red"
+                    // wireframe
+                    />
+                </mesh>
+            })}
+        </group>
     </>
+}
+
+const getCoordinates = (angle, distance = 25) => {
+    angle *= Math.PI / 180
+    let x = -distance * Math.cos(angle),
+        y = -distance * Math.sin(angle)
+
+    return { x, y, distance }
 }
