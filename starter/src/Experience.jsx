@@ -1,10 +1,11 @@
-import { Html, OrbitControls } from '@react-three/drei'
+import { Center, Html, OrbitControls } from '@react-three/drei'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
+import { useEffect, useRef } from 'react'
 
 export default function Experience() {
 
-    const { radius, tube, radialSeg, tubSeg, z } = useControls('', {
+    const { radius, tube, radialSeg, tubSeg, z } = useControls('pice', {
         z: {
             value: 2.3,
             step: 0.01,
@@ -24,62 +25,99 @@ export default function Experience() {
             max: 5
         },
         radialSeg: {
-            value: 30,
+            value: 15,
             step: 1,
             min: 5,
             max: 100
         },
         tubSeg: {
-            value: 30,
+            value: 10,
             step: 1,
             min: 5,
             max: 100
         },
     })
 
+    const { hight, width, num, scale, fit } = useControls('Drop', {
+        hight: {
+            value: 40,
+            step: 0.5,
+            min: 5,
+            max: 100
+        },
+        width: {
+            value: 15,
+            step: 0.5,
+            min: 5,
+            max: 100
+        },
+        num: {
+            value: 39,
+            step: 1,
+            min: 5,
+            max: 100
+        },
+        scale: {
+            value: 0.05,
+            step: 0.001,
+            min: 0,
+            max: 1
+        },
+        fit: {
+            value: 1.25,
+            step: 0.001,
+            min: 0,
+            max: 3
+        }
+    })
 
-    let i = -1
-    const theta = 360 / 36
+
+    let i = Number(num)
+    const theta = 360 / (36 + 10)
     return <>
         <Perf position='top-left' />
         <OrbitControls makeDefault />
 
-        <axesHelper args={[5, 5, 5]} />
-        <group scale={0.2}>
-            {[...Array(36)].map((e, index) => {
-                i++
-                let { x, y, angle } = getCoordinates(i * theta)
-                return <mesh
-                    key={index}
-                    scale-z={z}
-                    position-x={x}
-                    position-y={y}
-                    rotation-x={Math.PI / 2}
-                    rotation-y={angle}
-                >
-                    <Html>
-                        {i * theta}
-                    </Html>
-                    <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
-                    <meshNormalMaterial
-                        color="red"
-                    // wireframe
-                    />
-                </mesh>
-            })}
-        </group>
+        {/* <axesHelper args={[5, 5, 5]} /> */}
+        <Center>
+            <group scale={scale}>
+                {[...Array(36)].map((e, index) => {
+                    i++
+                    let { x, y, angle } = getDropCoordinates(i * theta, hight, width)
+                    // let { x, y, angle } = getCircleCoordinates(i * theta, hight, width)
+                    return <mesh
+                        key={index}
+                        scale-z={z}
+                        position-x={x}
+                        position-y={y}
+                        rotation-x={Math.PI / 2}
+                        rotation-y={angle}
+                        lookAt={[0, 0, 0]}
+                    >
+                        <Html>
+                        </Html>
+                        <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
+                        <meshNormalMaterial
+                            color="red"
+                        // wireframe
+                        />
+                    </mesh>
+                })}
+            </group>
+        </Center>
     </>
+
 }
 
-const getCoordinates = (angle, distance = 25) => {
+const getDropCoordinates = (angle, hight = 15, width = 5) => {
     angle *= Math.PI / 180
-    let x = distance * Math.cos(angle),
-        y = distance * Math.sin(angle)
+    let x = width * Math.cos(angle) * (1 + Math.sin(angle)),
+        y = hight * (1 + Math.sin(angle))
 
-    return { x, y, angle, distance }
+    return { x, y, angle }
 }
 
-const getCoordinatesCircle = (angle, distance = 25) => {
+const getCircleCoordinates = (angle, distance = 25) => {
     angle *= Math.PI / 180
     let x = distance * Math.cos(angle),
         y = distance * Math.sin(angle)
