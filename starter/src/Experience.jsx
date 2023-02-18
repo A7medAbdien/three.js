@@ -1,4 +1,4 @@
-import { OrbitControls } from '@react-three/drei'
+import { Html, OrbitControls } from '@react-three/drei'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
 
@@ -36,6 +36,14 @@ export default function Experience() {
             max: 100
         },
     })
+    const { rotation } = useControls('rota', {
+        rotation: {
+            value: { x: Math.PI / 2, y: 0 },
+            step: 0.01,
+            min: 0,
+            max: Math.PI
+        },
+    })
 
     let i = -1
     const theta = 360 / 36
@@ -47,15 +55,18 @@ export default function Experience() {
         <group scale={0.2}>
             {[...Array(36)].map((e, index) => {
                 i++
-                let { x, y } = getCoordinates(i * theta)
+                let { x, y, angle } = getCoordinates(i * theta)
                 return <mesh
                     key={index}
                     scale-z={z}
                     position-x={x}
                     position-y={y}
-                // rotation-x={3.6 * i}
-                // rotation-y={3.6 * i}
+                    rotation-x={Math.PI / 2}
+                    rotation-y={angle}
                 >
+                    <Html>
+                        {i * theta}
+                    </Html>
                     <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
                     <meshNormalMaterial
                         color="red"
@@ -63,14 +74,23 @@ export default function Experience() {
                     />
                 </mesh>
             })}
+            <mesh
+                scale-z={z}
+                // rotation-x={Math.PI / 2}
+                rotation-x={rotation.x}
+                rotation-y={rotation.y}
+            >
+                <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
+                <meshNormalMaterial />
+            </mesh>
         </group>
     </>
 }
 
 const getCoordinates = (angle, distance = 25) => {
     angle *= Math.PI / 180
-    let x = -distance * Math.cos(angle),
-        y = -distance * Math.sin(angle)
+    let x = distance * Math.cos(angle),
+        y = distance * Math.sin(angle)
 
-    return { x, y, distance }
+    return { x, y, angle, distance }
 }
