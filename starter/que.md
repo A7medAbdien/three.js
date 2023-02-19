@@ -1,51 +1,91 @@
-Hi,
+I can not get the rotation of a shape drawn by an equation
 
-I am trying to place the objects based on an equation, so let us say that I want to draw a circle.
+I am trying to place 3D objects, like a group of boxes or torus, in a shape of a some equation. 
 
-so I use this function to get the coordinates of x and y..
+Example (works fine):
+let us say that I have 36 box and I want to place them in circle shape in a 2D space.
+
+My process will be:
+
+1. divide 2$\pi$ / 36, to get a fixed $\theta$. Let us call it `angle`
+2. a value that ranges between 0 until 36. I called it `i`
+3. the coordinates, $x=\cos\theta$, $y=\sin\theta$, where $\theta$ will be `i*angle`
+4. rotate each box to be aligned with circle shape, this value will be the `angle` - and in this step is my problem
+ 
+Since I can not add an image, this [link](https://drive.google.com/file/d/18bxzu7qJDhwQip9nAYpQQMaMKLmHgaS-/view?usp=sharing) have a final result of this example
+
+Example (with problem):
+
+I have 36 torus and I want to place them in a drop shape in a 2D space.
+
+My process was:
+
+1. divide 2$\pi$ / 36, to get a fixed $\theta$. Let us call it `angle`
+2. a value that ranges between 0 until 36. I called it `i`
+3. the coordinates, $x=b\cos\theta(1+\sin\theta)$, $y=a(1+\sin\theta)$, where $\theta$ will be `i*angle`, $a$ is the `hight` and $b$ is the `width`
+4. rotate each box to be aligned with drop shape, this value will be the `angle` - NOT aligned with the drop shape
+
+how to get rotation values that aligned toruses with the drop shape
+
+## To check the code , here
+
+Note: any change will have an immediate impact on the result, you do not to press any button to run the code.
+
+I use this function to get the coordinates of x and y..
 
 ```js
-const getCircleCoordinates = (angle, distance = 25) => {
+const getDropCoordinates = (angle, hight = 15, width = 5) => {
+    // change to radian
     angle *= Math.PI / 180
-    let x = distance * Math.cos(angle),
-        y = distance * Math.sin(angle)
+    let x = width * Math.cos(angle) * (1 + Math.sin(angle)),
+        y = hight * (1 + Math.sin(angle))
 
-    return { x, y, angle, distance }
+    return { x, y, angle }
 }
 ```
 
-and this is my loop to place the objects.
+and this is my loop to place the tours.
 
 ```js
 let i = -1
-const theta = 360 / (36)
-return <>
+const theta = 360 / 36
+return (
+<>
+    <OrbitControls makeDefault />
+
     <axesHelper args={[5, 5, 5]} />
     <Center>
-        <group scale={scale}>
-            {[...Array(36)].map((e, index) => {
-                i++
-                let { x, y, angle } = getCircleCoordinates(i * theta, hight, width)
-                return <mesh
-                    key={index}
-                    scale-z={z}
-                    position-x={x}
-                    position-y={y}
-                    rotation-x={Math.PI / 2}
-                    rotation-y={angle}
-                    lookAt={[0, 0, 0]}
-                >
-                    <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
-                    <meshNormalMaterial
-                        color="red"
-                    // wireframe
-                    />
-                </mesh>
-            })}
-        </group>
+    <group scale={scale}>
+        {[...Array(36)].map((e, index) => {
+        i++
+        
+        let { x, y, angle } = getDropCoordinates(i * theta, hight, width)
+        // let { x, y, angle } = getCircleCoordinates(i * theta, hight, width)
+        return (
+            <mesh 
+             key={index}
+             scale-z={z}
+             position-x={x}
+             position-y={y}
+             rotation-x={Math.PI / 2} 
+             // Here where I pass the rotation
+             rotation-y={angle}
+            >
+            <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
+            <meshNormalMaterial
+                color="red"
+                // wireframe
+            />
+            </mesh>
+        )
+        })}
+    </group>
     </Center>
 </>
+)
 ```
+
+you can switch between the circle and drop coordinate by commenting `getDropCoordinates` and un-comment the `getCircleCoordinates`
 
 and this is my result
 
