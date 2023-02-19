@@ -2,6 +2,7 @@ import { Center, Html, OrbitControls } from '@react-three/drei'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
 import { useEffect, useRef } from 'react'
+import { rotations } from './rotation'
 
 export default function Experience() {
 
@@ -71,33 +72,29 @@ export default function Experience() {
         }
     })
 
-
     let i = Number(num)
     const theta = 360 / (36 + 10)
     return <>
         <Perf position='top-left' />
         <OrbitControls makeDefault />
 
-        {/* <axesHelper args={[5, 5, 5]} /> */}
+        <axesHelper args={[5, 5, 5]} />
         <Center>
             <group scale={scale}>
                 {[...Array(36)].map((e, index) => {
                     i++
-                    let { x, y, angle } = getDropCoordinates(i * theta, hight, width)
-                    // let { x, y, angle } = getCircleCoordinates(i * theta, hight, width)
+                    let { x, y } = getDropCoordinates(i * theta, hight, width)
                     return <mesh
                         key={index}
                         scale-z={z}
                         position-x={x}
                         position-y={y}
                         rotation-x={Math.PI / 2}
-                        rotation-y={
-                            (angle + 1)
-                            * fit
-                        }
+                        rotation-y={rotations[i - 40]}
                         lookAt={[0, 0, 0]}
                     >
                         <Html>
+                            {/* {i - 40} */}
                         </Html>
                         <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
                         <meshNormalMaterial
