@@ -55,7 +55,7 @@ export default function Experience() {
         num: {
             value: 39,
             step: 1,
-            min: 5,
+            min: -1,
             max: 100
         },
         scale: {
@@ -73,7 +73,7 @@ export default function Experience() {
     })
 
     let i = Number(num)
-    const theta = 360 / (36 + 10)
+    const theta = 360 / (36)
     return <>
         <Perf position='top-left' />
         <OrbitControls makeDefault />
@@ -83,18 +83,20 @@ export default function Experience() {
             <group scale={scale}>
                 {[...Array(36)].map((e, index) => {
                     i++
-                    let { x, y } = getDropCoordinates(i * theta, hight, width)
+                    // let { x, y } = getDropCoordinates(i * theta, hight, width)
+                    let { x, y, angle } = getCircleCoordinates((i + 9) * theta, hight)
                     return <mesh
                         key={index}
                         scale-z={z}
                         position-x={x}
                         position-y={y}
                         rotation-x={Math.PI / 2}
-                        rotation-y={rotations[i - 40]}
+                        // rotation-y={rotations[i - 40]}
+                        rotation-y={angle}
                         lookAt={[0, 0, 0]}
                     >
                         <Html>
-                            {/* {i - 40} */}
+                            {i}
                         </Html>
                         <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
                         <meshNormalMaterial
