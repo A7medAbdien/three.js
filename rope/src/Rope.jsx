@@ -55,7 +55,7 @@ export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss }
                                 <meshStandardMaterial />
                             </Sphere>
                         }
-                        type={i === 0 || i === refs.current.length - 1 ? "kinematicPosition" : "dynamic"}
+                        type={i === startI || i === refs.current.length + startI - 1 ? "kinematicPosition" : "dynamic"}
                     // type={"fixed"}
                     />
                 );
