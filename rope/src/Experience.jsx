@@ -12,12 +12,15 @@ import {
 
 import "./style.css";
 import { Rope } from "./Rope";
+import { Perf } from "r3f-perf";
 
 
 function Scene() {
     return (
-        <group>
-            <Rope length={37} />
+        <group
+            position-x={-5}
+        >
+            <Rope length={20} />
             <ContactShadows
                 scale={20}
                 blur={0.4}
@@ -34,7 +37,8 @@ export default function Experience() {
 
     return (
         <>
-            <axesHelper />
+            {/* <Perf /> */}
+            <axesHelper scale={5} />
             <Environment preset="studio" />
             <fog attach="fog" args={["#000", 2, 100]} />
             <Physics>

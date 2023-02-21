@@ -1,4 +1,4 @@
-import { Sphere } from "@react-three/drei";
+import { Box, Sphere } from "@react-three/drei";
 import {
     RigidBody,
     useSphericalJoint
@@ -7,24 +7,24 @@ import { forwardRef, useRef, createRef } from "react";
 
 
 
-const RopeSegment = forwardRef(({ position, component, type }, ref) => {
+const RopeSegment = forwardRef(({ position, component, type, rotationZ }, ref) => {
     return (
-        <RigidBody colliders="ball" ref={ref} type={type} position={position}>
+        <RigidBody ref={ref} type={type} position={position} rotation-z={rotationZ} scale={1.2}>
             {component}
-        </RigidBody>
+        </RigidBody >
     );
 });
 
 
 const RopeJoint = ({ a, b }) => {
     useSphericalJoint(a, b, [
-        [-0.6, 0, 0],
-        [0.6, 0, 0]
+        [0, -0.7, 0],
+        [0, 0.7, 0]
     ]);
     return null;
 };
 
-const getCircleCoordinates = (angle, distance = 6) => {
+const getCircleCoordinates = (angle, distance = 8) => {
     angle *= Math.PI / 180;
     let x = distance * Math.cos(angle),
         y = distance * Math.sin(angle);
@@ -41,19 +41,22 @@ export const Rope = ({ length }) => {
     return (
         <group>
             {refs.current.map((ref, i) => {
-                let { x, y } = getCircleCoordinates((i + 9) * theta);
+                let { x, y, angle } = getCircleCoordinates((i) * theta);
                 return (
                     <RopeSegment
                         ref={ref}
                         key={i}
                         position={[x, y, 0]}
+                        rotationZ={angle}
                         // position={i === 35 ? [0, 0, 0] : [i * 1, 0, 0]}
+                        // position={[i * 1, 0, 0]}
                         component={
                             <Sphere args={[0.6]}>
                                 <meshStandardMaterial />
                             </Sphere>
                         }
-                        type={i === 0 || i === 36 ? "kinematicPosition" : "dynamic"}
+                        type={i === 0 || i === 19 ? "kinematicPosition" : "dynamic"}
+                    // type={"fixed"}
                     />
                 );
             })}
