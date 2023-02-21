@@ -36,27 +36,33 @@ export default function Experience() {
         }
     })
 
-    const { hight, width, startI, scale, keepEmpty } = useControls('Drop', {
+    const { num, hight, width, startI, scale, keepEmpty } = useControls('Drop', {
+        num: {
+            value: 20,
+            step: 1,
+            min: 0,
+            max: 100
+        },
         hight: {
-            value: 40,
+            value: 20,
             step: 0.5,
             min: 5,
             max: 100
         },
         width: {
-            value: 15,
+            value: 20,
             step: 0.5,
             min: 5,
             max: 100
         },
         startI: {
-            value: 38,
+            value: -1,
             step: 1,
             min: -1,
             max: 100
         },
         keepEmpty: {
-            value: 9,
+            value: 0,
             step: 1,
             min: 0,
             max: 100
@@ -71,7 +77,7 @@ export default function Experience() {
 
     let i = Number(startI)
     // let i = -1
-    const theta = 360 / (36 + keepEmpty)
+    const theta = 360 / (num)
     const getAngle = (nextCoordinates, previousCoordinates, x, y) => {
         let nextAngle = Math.atan2(nextCoordinates.y - y, nextCoordinates.x - x)
         let previousAngle = Math.atan2(previousCoordinates.y - y, previousCoordinates.x - x)
@@ -84,37 +90,37 @@ export default function Experience() {
             <OrbitControls makeDefault />
 
             <axesHelper args={[5, 5, 5]} />
-            <Center>
-                <group scale={scale}>
-                    {[...Array(36)].map((e, index) => {
-                        i++
-                        // let getShapeCoordinates = getCircleCoordinates
-                        let getShapeCoordinates = getDropCoordinates
-                        let { x, y } = getShapeCoordinates(i * theta, hight, width)
-                        let nextCoordinates = getShapeCoordinates((i + 1) * theta, hight, width)
-                        let previousCoordinates = getShapeCoordinates((i - 1) * theta, hight, width)
-                        let angle = getAngle(nextCoordinates, previousCoordinates, x, y)
-                        // console.log(a)
+            {/* <Center> */}
+            <group scale={scale}>
+                {[...Array(num - keepEmpty)].map((e, index) => {
+                    i++
+                    let getShapeCoordinates = getCircleCoordinates
+                    // let getShapeCoordinates = getDropCoordinates
+                    let { x, y } = getShapeCoordinates(i * theta, hight, width)
+                    let nextCoordinates = getShapeCoordinates((i + 1) * theta, hight, width)
+                    let previousCoordinates = getShapeCoordinates((i - 1) * theta, hight, width)
+                    let angle = getAngle(nextCoordinates, previousCoordinates, x, y)
+                    // console.log(a)
 
-                        return (
-                            <mesh
-                                key={index}
-                                scale-z={z}
-                                position-x={x}
-                                position-y={y}
-                                rotation-x={Math.PI / 2}
-                                // Here where I pass the rotation
-                                rotation-y={angle}>
-                                <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
-                                <meshNormalMaterial
-                                    color="red"
-                                // wireframe
-                                />
-                            </mesh>
-                        )
-                    })}
-                </group>
-            </Center>
+                    return (
+                        <mesh
+                            key={index}
+                            scale-z={z}
+                            position-x={x}
+                            position-y={y}
+                            rotation-x={Math.PI / 2}
+                            // Here where I pass the rotation
+                            rotation-y={angle}>
+                            <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
+                            <meshNormalMaterial
+                                color="red"
+                            // wireframe
+                            />
+                        </mesh>
+                    )
+                })}
+            </group>
+            {/* </Center> */}
         </>
     )
 }
