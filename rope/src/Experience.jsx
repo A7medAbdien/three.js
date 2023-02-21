@@ -112,16 +112,12 @@ export default function Experience() {
     const { position } = useControls(
         {
             position: {
-                value: { "x": -0.8300003051757814, "y": 0.38999980926513655 },
+                value: { "x": .18, "y": - 1.4 },
                 step: 0.01,
                 joystick: 'invertY'
             }
         }
     )
-    useEffect(() => {
-        console.log(model.nodes);
-
-    })
 
     const model = useLoader(GLTFLoader, './boxWithSb7a.glb')
     return (
@@ -142,19 +138,86 @@ export default function Experience() {
 
 
             <primitive object={model.scene} />
-            <Clone
-                object={model.scene.children[4]}
-                position-x={-.83}
-                position-y={.39}
-                position-z={-0.36}
-            />
-            <Clone
+            <group>
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={-.83}
+                    position-y={.4}
+                    position-z={-0.36}
+                />
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={-.83}
+                    position-y={.1}
+                    position-z={-0.36}
+                />
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={-.83}
+                    position-y={-.2}
+                    position-z={-0.36}
+                />
+                {/* need R 1 */}
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={-.81}
+                    position-y={-.5}
+                    position-z={-0.36}
+                />
+                {/* need R 2*/}
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={-.78}
+                    position-y={-.8}
+                    position-z={-0.36}
+                />
+                {/* need R 3*/}
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={-.70}
+                    position-y={-1.1}
+                    position-z={-0.36}
+                />
+                {/* need R 3*/}
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={-.58}
+                    position-y={-1.35}
+                    position-z={-0.36}
+                />
+                {/* need R deep*/}
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={-.4}
+                    position-y={-1.58}
+                    position-z={-0.36}
+                />
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={-.1}
+                    position-y={-1.58}
+                    position-z={-0.36}
+                />
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={.11}
+                    position-y={-1.36}
+                    position-z={-0.36}
+                />
+                <Clone
+                    object={model.scene.children[4]}
+                    position-x={.21}
+                    position-y={-1.09}
+                    position-z={-0.36}
+                />
+            </group>
+            {/* <Clone
                 ref={clone}
                 object={model.scene.children[4]}
                 position-x={position.x}
                 position-y={position.y}
                 position-z={-0.36}
-            />
+            /> */}
 
         </>
     );
