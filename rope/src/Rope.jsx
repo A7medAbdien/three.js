@@ -22,15 +22,16 @@ const RopeSegment = forwardRef(({ position, component, type, rotationZ }, ref) =
     );
 });
 
-const RopeJoint = ({ a, b, radius }) => {
+const RopeJoint = ({ a, b, radius, loss }) => {
+    const jointRadius = radius + loss
     useSphericalJoint(a, b, [
-        [0, -radius, 0],
-        [0, radius, 0]
+        [0, -jointRadius, 0],
+        [0, jointRadius, 0]
     ]);
     return null;
 };
 
-export const Rope = ({ length, circleSplit, startI, radius }) => {
+export const Rope = ({ length, circleSplit, startI, radius, loss }) => {
     const refs = useRef(
         Array.from({ length: length }).map(() => createRef())
     );
@@ -66,7 +67,7 @@ export const Rope = ({ length, circleSplit, startI, radius }) => {
             {refs.current.map(
                 (ref, i) =>
                     i > 0 && (
-                        <RopeJoint a={refs.current[i]} b={refs.current[i - 1]} radius={radius} key={i} />
+                        <RopeJoint a={refs.current[i]} b={refs.current[i - 1]} radius={radius} loss={loss} key={i} />
                     )
             )}
         </group>

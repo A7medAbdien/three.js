@@ -19,6 +19,7 @@ const circleSplit = 36
 const theta = 360 / circleSplit;
 const startI = 0
 const radius = 0.6
+const loss = 0
 
 
 function Scene() {
@@ -26,7 +27,13 @@ function Scene() {
         <group
             position-x={-5}
         >
-            <Rope length={20} circleSplit={circleSplit} startI={startI} radius={radius} />
+            <Rope
+                length={20}
+                circleSplit={circleSplit}
+                startI={startI}
+                radius={radius}
+                loss={loss}
+            />
             <ContactShadows
                 scale={20}
                 blur={0.4}
