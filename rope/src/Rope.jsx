@@ -31,6 +31,13 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
+const getAngle = (nextCoordinates, previousCoordinates, x, y) => {
+    let nextAngle = Math.atan2(nextCoordinates.y - y, nextCoordinates.x - x)
+    let previousAngle = Math.atan2(previousCoordinates.y - y, previousCoordinates.x - x)
+
+    return (nextAngle + previousAngle) / 2
+}
+
 export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss }) => {
     const refs = useRef(
         Array.from({ length: length }).map(() => createRef())
@@ -41,7 +48,10 @@ export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss }
             {refs.current.map((ref, i) => {
                 i += startI
                 const theta = 360 / circleSplit;
-                let { x, y, angle } = getCircleCoordinates((i) * theta, hight, width);
+                let { x, y } = getCircleCoordinates((i) * theta, hight, width);
+                let nextCoordinates = getCircleCoordinates((i + 1) * theta, hight, width)
+                let previousCoordinates = getCircleCoordinates((i - 1) * theta, hight, width)
+                let angle = getAngle(nextCoordinates, previousCoordinates, x, y)
                 return (
                     <RopeSegment
                         ref={ref}
@@ -55,8 +65,8 @@ export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss }
                                 <meshStandardMaterial />
                             </Sphere>
                         }
-                        type={i === startI || i === refs.current.length + startI - 1 ? "kinematicPosition" : "dynamic"}
-                    // type={"fixed"}
+                        // type={i === startI || i === refs.current.length + startI - 1 ? "kinematicPosition" : "dynamic"}
+                        type={"fixed"}
                     />
                 );
             })}
