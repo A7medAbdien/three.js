@@ -6,11 +6,6 @@ import {
 import { forwardRef, useRef, createRef } from "react";
 
 
-const circleSplit = 36
-const theta = 360 / circleSplit;
-const startI = 0
-const radius = 0.6
-
 const getCircleCoordinates = (angle, hight = 8, width = 8) => {
     angle *= Math.PI / 180
     let x = width * Math.cos(angle),
@@ -27,7 +22,7 @@ const RopeSegment = forwardRef(({ position, component, type, rotationZ }, ref) =
     );
 });
 
-const RopeJoint = ({ a, b }) => {
+const RopeJoint = ({ a, b, radius }) => {
     useSphericalJoint(a, b, [
         [0, -radius, 0],
         [0, radius, 0]
@@ -35,7 +30,7 @@ const RopeJoint = ({ a, b }) => {
     return null;
 };
 
-export const Rope = ({ length }) => {
+export const Rope = ({ length, circleSplit, startI, radius }) => {
     const refs = useRef(
         Array.from({ length: length }).map(() => createRef())
     );
@@ -44,6 +39,7 @@ export const Rope = ({ length }) => {
         <group>
             {refs.current.map((ref, i) => {
                 i += startI
+                const theta = 360 / circleSplit;
                 let { x, y, angle } = getCircleCoordinates((i) * theta);
                 return (
                     <RopeSegment
@@ -70,7 +66,7 @@ export const Rope = ({ length }) => {
             {refs.current.map(
                 (ref, i) =>
                     i > 0 && (
-                        <RopeJoint a={refs.current[i]} b={refs.current[i - 1]} key={i} />
+                        <RopeJoint a={refs.current[i]} b={refs.current[i - 1]} radius={radius} key={i} />
                     )
             )}
         </group>
