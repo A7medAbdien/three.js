@@ -1,5 +1,6 @@
 import {
     Center,
+    Clone,
     ContactShadows,
     Environment,
     OrbitControls,
@@ -15,6 +16,7 @@ import { Rope } from "./Rope";
 import { Perf } from "r3f-perf";
 import { useControls } from "leva";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useEffect, useRef } from "react";
 
 
 function Scene() {
@@ -105,9 +107,23 @@ function Scene() {
 
 
 export default function Experience() {
+    const clone = useRef()
+
+    const { position } = useControls(
+        {
+            position: {
+                value: { "x": -0.8300003051757814, "y": 0.38999980926513655 },
+                step: 0.01,
+                joystick: 'invertY'
+            }
+        }
+    )
+    useEffect(() => {
+        console.log(model.nodes);
+
+    })
 
     const model = useLoader(GLTFLoader, './boxWithSb7a.glb')
-
     return (
         <>
             {/* <Perf position="top-left" /> */}
@@ -120,12 +136,25 @@ export default function Experience() {
             <Environment preset="studio" />
             <fog attach="fog" args={["#000", 2, 100]} />
             <Physics>
-                <Scene />
+                {/* <Scene /> */}
                 <Debug />
             </Physics>
 
 
             <primitive object={model.scene} />
+            <Clone
+                object={model.scene.children[4]}
+                position-x={-.83}
+                position-y={.39}
+                position-z={-0.36}
+            />
+            <Clone
+                ref={clone}
+                object={model.scene.children[4]}
+                position-x={position.x}
+                position-y={position.y}
+                position-z={-0.36}
+            />
 
         </>
     );
