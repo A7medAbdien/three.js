@@ -2,19 +2,14 @@ import { Box, Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import {
     RigidBody,
-    useSphericalJoint
+    useSphericalJoint,
+    // vec3
 } from "@react-three/rapier";
+
 import { forwardRef, useRef, createRef } from "react";
 import { positions } from "./positions";
 import { Quaternion, Vector3 } from "three";
 
-const getCircleCoordinates = (angle, hight = 8, width = 8) => {
-    angle *= Math.PI / 180
-    let x = width * Math.cos(angle) * (1 + Math.sin(angle)),
-        y = -hight * (1 + Math.sin(angle))
-
-    return { x, y, angle }
-}
 
 const RopeSegment = forwardRef(({ position, component, type, rotationZ }, ref) => {
     return (
@@ -45,14 +40,20 @@ export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss, 
         Array.from({ length: length }).map(() => createRef())
     );
 
-    // useFrame(() => {
-    //     const now = performance.now();
-    //     const position = vec3(rigidBody.current.translation())
-    //     refs.current[0].current.setTranslation(
-    //         new Vector3(Math.sin(now / (800 * 2)) * 1, 0, 0)
-    //     );
-    //     // console.log(refs.current[0].current);
-    // });
+    useFrame(() => {
+        const now = performance.now();
+        const leftAnchor = refs.current[0].current
+        const leftAnchorPosition = leftAnchor.translation()
+        const rightAnchor = refs.current[refs.current.length - 1].current
+        const rightAnchorPosition = rightAnchor.translation()
+
+        leftAnchor.setNextKinematicTranslation(
+            leftAnchor.translation()
+        );
+        rightAnchor.setNextKinematicTranslation(
+            rightAnchor.translation()
+        );
+    });
 
     return (
         <group >
