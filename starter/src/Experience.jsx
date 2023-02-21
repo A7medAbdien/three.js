@@ -1,11 +1,8 @@
 import { Center, Html, OrbitControls } from '@react-three/drei'
 import { useControls } from 'leva'
-import { Perf } from 'r3f-perf'
 import { useEffect, useRef } from 'react'
-import { rotations } from './rotation'
 
 export default function Experience() {
-
     const { radius, tube, radialSeg, tubSeg, z } = useControls('pice', {
         z: {
             value: 2.3,
@@ -36,10 +33,10 @@ export default function Experience() {
             step: 1,
             min: 5,
             max: 100
-        },
+        }
     })
 
-    const { hight, width, num, scale, fit } = useControls('Drop', {
+    const { hight, width, startI, scale, keepEmpty } = useControls('Drop', {
         hight: {
             value: 40,
             step: 0.5,
@@ -52,10 +49,16 @@ export default function Experience() {
             min: 5,
             max: 100
         },
-        num: {
-            value: 39,
+        startI: {
+            value: 38,
             step: 1,
             min: -1,
+            max: 100
+        },
+        keepEmpty: {
+            value: 9,
+            step: 1,
+            min: 0,
             max: 100
         },
         scale: {
@@ -63,55 +66,61 @@ export default function Experience() {
             step: 0.001,
             min: 0,
             max: 1
-        },
-        fit: {
-            value: 1.25,
-            step: 0.001,
-            min: 0,
-            max: 3
         }
     })
 
-    let i = Number(num)
-    const theta = 360 / (36)
-    return <>
-        <Perf position='top-left' />
-        <OrbitControls makeDefault />
+    let i = Number(startI)
+    // let i = -1
+    const theta = 360 / (36 + keepEmpty)
+    const getAngle = (nextCoordinates, previousCoordinates, x, y) => {
+        let nextAngle = Math.atan2(nextCoordinates.y - y, nextCoordinates.x - x)
+        let previousAngle = Math.atan2(previousCoordinates.y - y, previousCoordinates.x - x)
 
-        <axesHelper args={[5, 5, 5]} />
-        <Center>
-            <group scale={scale}>
-                {[...Array(36)].map((e, index) => {
-                    i++
-                    // let { x, y } = getDropCoordinates(i * theta, hight, width)
-                    let { x, y, angle } = getCircleCoordinates((i + 9) * theta, hight)
-                    return <mesh
-                        key={index}
-                        scale-z={z}
-                        position-x={x}
-                        position-y={y}
-                        rotation-x={Math.PI / 2}
-                        // rotation-y={rotations[i - 40]}
-                        rotation-y={angle}
-                        lookAt={[0, 0, 0]}
-                    >
-                        <Html>
-                            {i}
-                        </Html>
-                        <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
-                        <meshNormalMaterial
-                            color="red"
-                        // wireframe
-                        />
-                    </mesh>
-                })}
-            </group>
-        </Center>
-    </>
+        return (nextAngle + previousAngle) / 2
+    }
 
+    return (
+        <>
+            <OrbitControls makeDefault />
+
+            <axesHelper args={[5, 5, 5]} />
+            <Center>
+                <group scale={scale}>
+                    {[...Array(36)].map((e, index) => {
+                        i++
+                        // let getShapeCoordinates = getCircleCoordinates
+                        let getShapeCoordinates = getDropCoordinates
+                        let { x, y } = getShapeCoordinates(i * theta, hight, width)
+                        let nextCoordinates = getShapeCoordinates((i + 1) * theta, hight, width)
+                        let previousCoordinates = getShapeCoordinates((i - 1) * theta, hight, width)
+                        let angle = getAngle(nextCoordinates, previousCoordinates, x, y)
+                        // console.log(a)
+
+                        return (
+                            <mesh
+                                key={index}
+                                scale-z={z}
+                                position-x={x}
+                                position-y={y}
+                                rotation-x={Math.PI / 2}
+                                // Here where I pass the rotation
+                                rotation-y={angle}>
+                                <torusGeometry args={[radius, tube, radialSeg, tubSeg]} />
+                                <meshNormalMaterial
+                                    color="red"
+                                // wireframe
+                                />
+                            </mesh>
+                        )
+                    })}
+                </group>
+            </Center>
+        </>
+    )
 }
 
 const getDropCoordinates = (angle, hight = 15, width = 5) => {
+    // change angle to radion
     angle *= Math.PI / 180
     let x = width * Math.cos(angle) * (1 + Math.sin(angle)),
         y = hight * (1 + Math.sin(angle))
@@ -119,10 +128,10 @@ const getDropCoordinates = (angle, hight = 15, width = 5) => {
     return { x, y, angle }
 }
 
-const getCircleCoordinates = (angle, distance = 25) => {
+const getCircleCoordinates = (angle, hight = 25, width = hight) => {
     angle *= Math.PI / 180
-    let x = distance * Math.cos(angle),
-        y = distance * Math.sin(angle)
+    let x = width * Math.cos(angle),
+        y = hight * Math.sin(angle)
 
-    return { x, y, angle, distance }
+    return { x, y, angle, distance: hight }
 }
