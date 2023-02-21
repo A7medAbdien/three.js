@@ -16,21 +16,10 @@ import { Perf } from "r3f-perf";
 import { useControls } from "leva";
 
 
-// const circleSplit = 36
-// const startI = 0
-// const radius = 0.6
-// const loss = 0
-// const length = 18
-// const hight = 8
-// const width = 8
-
-
-// const { hight } = useControls('Drop', {
-
 function Scene() {
     const { length, hight, width, startI, loss, circleSplit, radius } = useControls('Drop', {
         length: {
-            value: 18,
+            value: 30,
             step: 1,
             min: 0,
             max: 100
@@ -42,19 +31,19 @@ function Scene() {
             max: 3
         },
         hight: {
-            value: 8,
+            value: 20,
             step: 0.5,
             min: 5,
             max: 100
         },
         width: {
-            value: 8,
+            value: 8.5,
             step: 0.5,
             min: 5,
             max: 100
         },
         startI: {
-            value: 0,
+            value: 19,
             step: 1,
             min: 0,
             max: 100
@@ -66,7 +55,7 @@ function Scene() {
             max: 100
         },
         circleSplit: {
-            value: 36,
+            value: 48,
             step: 1,
             min: 0,
             max: 100
