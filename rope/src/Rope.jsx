@@ -8,10 +8,10 @@ import { forwardRef, useRef, createRef } from "react";
 
 const getCircleCoordinates = (angle, hight = 8, width = 8) => {
     angle *= Math.PI / 180
-    let x = width * Math.cos(angle),
-        y = hight * Math.sin(angle)
+    let x = width * Math.cos(angle) * (1 + Math.sin(angle)),
+        y = -hight * (1 + Math.sin(angle))
 
-    return { x, y, angle, distance: hight }
+    return { x, y, angle }
 }
 
 const RopeSegment = forwardRef(({ position, component, type, rotationZ }, ref) => {
@@ -24,6 +24,7 @@ const RopeSegment = forwardRef(({ position, component, type, rotationZ }, ref) =
 
 const RopeJoint = ({ a, b, radius, loss }) => {
     const jointRadius = radius + loss
+    console.log(jointRadius);
     useSphericalJoint(a, b, [
         [0, -jointRadius, 0],
         [0, jointRadius, 0]
@@ -38,7 +39,7 @@ const getAngle = (nextCoordinates, previousCoordinates, x, y) => {
     return (nextAngle + previousAngle) / 2
 }
 
-export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss }) => {
+export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss, scale }) => {
     const refs = useRef(
         Array.from({ length: length }).map(() => createRef())
     );
@@ -61,11 +62,12 @@ export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss }
                         // position={i === 35 ? [0, 0, 0] : [i * 1, 0, 0]}
                         // position={[i * 1, 0, 0]}
                         component={
-                            <Sphere args={[radius]}>
-                                <meshStandardMaterial />
+                            <Sphere args={[radius]} >
+                                <meshStandardMaterial color={"red"} />
                             </Sphere>
                         }
                         // type={i === startI || i === refs.current.length + startI - 1 ? "kinematicPosition" : "dynamic"}
+                        // type={i === startI ? "kinematicPosition" : "dynamic"}
                         type={"fixed"}
                     />
                 );
@@ -77,7 +79,7 @@ export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss }
             {refs.current.map(
                 (ref, i) =>
                     i > 0 && (
-                        <RopeJoint a={refs.current[i]} b={refs.current[i - 1]} radius={radius} loss={loss} key={i} />
+                        <RopeJoint a={refs.current[i]} b={refs.current[i - 1]} radius={radius * scale} loss={loss} key={i} />
                     )
             )}
         </group>

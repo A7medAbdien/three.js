@@ -9,7 +9,7 @@ root.render(
     <Canvas
         shadows
         camera={{
-            position: [-8, 4, 8]
+            position: [0, 0, -3]
         }}
     >
         <Experience />

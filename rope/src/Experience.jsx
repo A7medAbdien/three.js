@@ -4,7 +4,7 @@ import {
     Environment,
     OrbitControls,
 } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import {
     Debug,
     Physics,
@@ -14,48 +14,61 @@ import "./style.css";
 import { Rope } from "./Rope";
 import { Perf } from "r3f-perf";
 import { useControls } from "leva";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 
 function Scene() {
-    const { length, hight, width, startI, loss, circleSplit, radius } = useControls('Drop', {
+    const { z, scale, length, hight, width, startI, loss, circleSplit, radius } = useControls('Drop', {
+        z: {
+            value: -0.36,
+            step: 0.001,
+            min: -2,
+            max: 0
+        },
+        scale: {
+            value: 0.1,
+            step: 0.001,
+            min: 0,
+            max: 0.2
+        },
         length: {
-            value: 30,
+            value: 5,
             step: 1,
             min: 0,
             max: 100
         },
         radius: {
-            value: 0.6,
+            value: 1,
             step: 0.01,
             min: 0.1,
             max: 3
         },
         hight: {
-            value: 20,
+            value: 23,
             step: 0.5,
             min: 5,
             max: 100
         },
         width: {
-            value: 8.5,
+            value: 12,
             step: 0.5,
             min: 5,
             max: 100
         },
         startI: {
-            value: 19,
+            value: 10,
             step: 1,
             min: 0,
             max: 100
         },
         loss: {
-            value: 0,
-            step: 1,
+            value: 0.07,
+            step: 0.01,
             min: 0,
-            max: 100
+            max: 1
         },
         circleSplit: {
-            value: 48,
+            value: 35,
             step: 1,
             min: 0,
             max: 100
@@ -64,8 +77,13 @@ function Scene() {
 
 
     return (
-        <group>
+        <group
+            position-z={z}
+            position-y={3}
+            position-x={-0.3}
+            scale={scale}>
             <Rope
+                scale={scale}
                 length={length}
                 circleSplit={circleSplit}
                 startI={startI}
@@ -81,7 +99,6 @@ function Scene() {
                 position={[-0, -1.5, 0]}
             />
 
-            <OrbitControls />
         </group>
     );
 }
@@ -89,18 +106,26 @@ function Scene() {
 
 export default function Experience() {
 
-
+    const model = useLoader(GLTFLoader, './boxWithSb7a.glb')
 
     return (
         <>
-            {/* <Perf /> */}
+            {/* <Perf position="top-left" /> */}
             <axesHelper scale={5} />
+
+            <OrbitControls />
+
+            {/* <directionalLight position={[5, 5, 15]} /> */}
+            {/* <ambientLight intensity={0.1} /> */}
             <Environment preset="studio" />
             <fog attach="fog" args={["#000", 2, 100]} />
             <Physics>
                 <Scene />
                 <Debug />
             </Physics>
+
+
+            <primitive object={model.scene} />
 
         </>
     );
