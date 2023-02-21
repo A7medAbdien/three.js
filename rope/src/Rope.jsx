@@ -6,6 +6,18 @@ import {
 import { forwardRef, useRef, createRef } from "react";
 
 
+const circleSplit = 36
+const theta = 360 / circleSplit;
+const startI = 0
+const radius = 0.6
+
+const getCircleCoordinates = (angle, hight = 8, width = 8) => {
+    angle *= Math.PI / 180
+    let x = width * Math.cos(angle),
+        y = hight * Math.sin(angle)
+
+    return { x, y, angle, distance: hight }
+}
 
 const RopeSegment = forwardRef(({ position, component, type, rotationZ }, ref) => {
     return (
@@ -15,21 +27,12 @@ const RopeSegment = forwardRef(({ position, component, type, rotationZ }, ref) =
     );
 });
 
-
 const RopeJoint = ({ a, b }) => {
     useSphericalJoint(a, b, [
-        [0, -0.7, 0],
-        [0, 0.7, 0]
+        [0, -radius, 0],
+        [0, radius, 0]
     ]);
     return null;
-};
-
-const getCircleCoordinates = (angle, distance = 8) => {
-    angle *= Math.PI / 180;
-    let x = distance * Math.cos(angle),
-        y = distance * Math.sin(angle);
-
-    return { x, y, angle, distance };
 };
 
 export const Rope = ({ length }) => {
@@ -37,10 +40,10 @@ export const Rope = ({ length }) => {
         Array.from({ length: length }).map(() => createRef())
     );
 
-    const theta = 360 / 36;
     return (
         <group>
             {refs.current.map((ref, i) => {
+                i += startI
                 let { x, y, angle } = getCircleCoordinates((i) * theta);
                 return (
                     <RopeSegment
@@ -51,11 +54,11 @@ export const Rope = ({ length }) => {
                         // position={i === 35 ? [0, 0, 0] : [i * 1, 0, 0]}
                         // position={[i * 1, 0, 0]}
                         component={
-                            <Sphere args={[0.6]}>
+                            <Sphere args={[radius]}>
                                 <meshStandardMaterial />
                             </Sphere>
                         }
-                        type={i === 0 || i === 19 ? "kinematicPosition" : "dynamic"}
+                        type={i === 0 || i === refs.current.length - 1 ? "kinematicPosition" : "dynamic"}
                     // type={"fixed"}
                     />
                 );
