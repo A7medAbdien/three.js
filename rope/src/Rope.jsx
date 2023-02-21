@@ -31,7 +31,7 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
-export const Rope = ({ length, circleSplit, startI, radius, loss }) => {
+export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss }) => {
     const refs = useRef(
         Array.from({ length: length }).map(() => createRef())
     );
@@ -41,7 +41,7 @@ export const Rope = ({ length, circleSplit, startI, radius, loss }) => {
             {refs.current.map((ref, i) => {
                 i += startI
                 const theta = 360 / circleSplit;
-                let { x, y, angle } = getCircleCoordinates((i) * theta);
+                let { x, y, angle } = getCircleCoordinates((i) * theta, hight, width);
                 return (
                     <RopeSegment
                         ref={ref}
