@@ -34,7 +34,7 @@ function Scene() {
             max: 0.2
         },
         length: {
-            value: 5,
+            value: 10,
             step: 1,
             min: 0,
             max: 100
@@ -80,10 +80,11 @@ function Scene() {
 
     return (
         <group
-            position-z={z}
-            position-y={3}
-            position-x={-0.3}
-            scale={scale}>
+        // position-z={z}
+        // position-y={3}
+        // position-x={-0.3}
+        // scale={scale}
+        >
             <Rope
                 scale={scale}
                 length={length}
@@ -132,92 +133,12 @@ export default function Experience() {
             <Environment preset="studio" />
             <fog attach="fog" args={["#000", 2, 100]} />
             <Physics>
-                {/* <Scene /> */}
+                <Scene />
                 <Debug />
             </Physics>
 
 
-            <primitive object={model.scene} />
-            <group>
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={-.83}
-                    position-y={.4}
-                    position-z={-0.36}
-                />
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={-.83}
-                    position-y={.1}
-                    position-z={-0.36}
-                />
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={-.83}
-                    position-y={-.2}
-                    position-z={-0.36}
-                />
-                {/* need R 1 */}
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={-.81}
-                    position-y={-.5}
-                    position-z={-0.36}
-                />
-                {/* need R 2*/}
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={-.78}
-                    position-y={-.8}
-                    position-z={-0.36}
-                />
-                {/* need R 3*/}
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={-.70}
-                    position-y={-1.1}
-                    position-z={-0.36}
-                />
-                {/* need R 3*/}
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={-.58}
-                    position-y={-1.35}
-                    position-z={-0.36}
-                />
-                {/* need R deep*/}
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={-.4}
-                    position-y={-1.58}
-                    position-z={-0.36}
-                />
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={-.1}
-                    position-y={-1.58}
-                    position-z={-0.36}
-                />
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={.11}
-                    position-y={-1.36}
-                    position-z={-0.36}
-                />
-                <Clone
-                    object={model.scene.children[4]}
-                    position-x={.21}
-                    position-y={-1.09}
-                    position-z={-0.36}
-                />
-            </group>
-            {/* <Clone
-                ref={clone}
-                object={model.scene.children[4]}
-                position-x={position.x}
-                position-y={position.y}
-                position-z={-0.36}
-            /> */}
+            {/* <primitive object={model.scene} /> */}
 
         </>
     );
