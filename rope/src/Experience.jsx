@@ -19,7 +19,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useEffect, useRef } from "react";
 
 
-function Scene({ anchorLeft, anchorRightPos, model }) {
+function Scene({ model }) {
     const { scale, length, loss, radius } = useControls('Drop', {
         scale: {
             value: 0.1,
@@ -28,7 +28,7 @@ function Scene({ anchorLeft, anchorRightPos, model }) {
             max: 0.2
         },
         length: {
-            value: 10,
+            value: 13,
             step: 1,
             min: 0,
             max: 100
@@ -40,7 +40,7 @@ function Scene({ anchorLeft, anchorRightPos, model }) {
             max: 3
         },
         loss: {
-            value: 0.07,
+            value: 0.05,
             step: 0.01,
             min: 0,
             max: 1
@@ -51,8 +51,6 @@ function Scene({ anchorLeft, anchorRightPos, model }) {
         <group>
             <Rope
                 model={model}
-                anchorLeft={anchorLeft}
-                anchorRightPos={anchorRightPos}
                 scale={scale}
                 length={length}
                 radius={radius}
@@ -84,36 +82,27 @@ export default function Experience() {
     )
 
 
-    const model = useLoader(GLTFLoader, './boxWithSb7a.glb')
+    const model = useLoader(GLTFLoader, './boxWithSb7a2.glb')
+    console.log(model.scene.children);
     const modelRef = useRef()
     useFrame((state, delta) => {
-        // modelRef.current.rotation.y += Math.sin(delta)
-        rope.current.rotation.x += Math.sin(state.clock.elapsedTime) * 0.002
-        // console.log(rope.current);
+        // rope.current.rotation.x += Math.sin(state.clock.elapsedTime) * 0.002
     })
-    const anchorLeft = model.scene.children[16]
-    const anchorRightPos = model.scene.children[17]
+
     // console.log(model.scene.children)
     return (
         <>
-            {/* <Perf position="top-left" /> */}
             <axesHelper scale={5} />
 
             <OrbitControls />
-
-            {/* <directionalLight position={[5, 5, 15]} /> */}
-            {/* <ambientLight intensity={0.1} /> */}
             <Environment preset="studio" />
             <fog attach="fog" args={["#000", 2, 100]} />
+
             <Physics
             // gravity={[9.81, 0, 0]}
             >
                 <group ref={rope} >
-                    <Scene
-                        model={model.scene}
-                        anchorLeft={anchorLeft}
-                        anchorRightPos={anchorRightPos}
-                    />
+                    <Scene model={model.scene} />
                     <Debug />
                     <primitive
                         object={model.scene}
