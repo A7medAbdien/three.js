@@ -7,7 +7,6 @@ import {
 } from "@react-three/rapier";
 
 import { forwardRef, useRef, createRef } from "react";
-import { positions } from "./positions";
 import { Quaternion, Vector3 } from "three";
 
 
@@ -34,12 +33,29 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
-export const Rope = ({ length, radius, loss, scale, nodes }) => {
+export const Rope = ({ radius, loss, scale, nodes }) => {
     const refs = useRef(
         Array.from({ length: nodes.length }).map(() => createRef())
     );
 
 
+
+    useFrame((state, delta) => {
+        const now = performance.now();
+        const leftAnchor = refs.current[0].current
+        const rightAnchor = refs.current[nodes.length - 1].current
+
+        const leftAnchorPos = leftAnchor.translation()
+        const rightAnchorPos = rightAnchor.translation()
+        // console.log(leftAnchor);
+
+        // leftAnchor.setTranslation(
+        //     new Vector3(leftAnchorPos.x, Math.sin(now / 800) * 0.5, leftAnchorPos.z)
+        // )
+        // rightAnchor.setTranslation(
+        //     new Vector3(rightAnchorPos.x, Math.sin(now / 800) * 0.5, rightAnchorPos.z)
+        // )
+    });
     return (
         <group >
             {refs.current.map((ref, i) => {

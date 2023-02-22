@@ -25,7 +25,7 @@ import { SpotLightHelper } from "three";
 
 
 function Scene({ nodes }) {
-    const { scale, length, loss, radius } = useControls('Drop', {
+    const { scale, loss, radius } = useControls('Drop', {
         scale: {
             value: 0.1,
             step: 0.001,
@@ -57,7 +57,6 @@ function Scene({ nodes }) {
             <Rope
                 nodes={nodes}
                 scale={scale}
-                length={length}
                 radius={radius}
                 loss={loss}
             />
@@ -98,8 +97,8 @@ export default function Experience() {
 
     return (
         <>
-            {/* <axesHelper scale={5} /> */}
-            <Perf />
+            <axesHelper scale={5} />
+            {/* <Perf position="top-left" /> */}
             <OrbitControls />
 
             {/* <Environment preset="studio" /> */}
@@ -113,7 +112,7 @@ export default function Experience() {
                 intensity={5}
             />
             <ambientLight intensity={0.25} />
-            <Model nodes={nodes} />
+            {/* <Model nodes={nodes} /> */}
 
             <fog attach="fog" args={["#000", 2, 100]} />
             <group>
