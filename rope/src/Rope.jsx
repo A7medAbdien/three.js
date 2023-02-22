@@ -34,16 +34,16 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
-export const Rope = ({ length, radius, loss, scale, model }) => {
+export const Rope = ({ length, radius, loss, scale, nodes }) => {
     const refs = useRef(
-        Array.from({ length: length }).map(() => createRef())
+        Array.from({ length: nodes.length }).map(() => createRef())
     );
 
 
     return (
         <group >
             {refs.current.map((ref, i) => {
-                const sphereMesh = model.children[i + 24]
+                const sphereMesh = nodes[i]
                 return (
                     <RopeSegment
                         ref={ref}

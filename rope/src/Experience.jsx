@@ -3,7 +3,9 @@ import {
     Clone,
     ContactShadows,
     Environment,
+    Float,
     OrbitControls,
+    useGLTF,
 } from "@react-three/drei";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import {
@@ -16,10 +18,11 @@ import { Rope } from "./Rope";
 import { Perf } from "r3f-perf";
 import { useControls } from "leva";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { Model } from "./Model";
 
 
-function Scene({ model }) {
+function Scene({ nodes }) {
     const { scale, length, loss, radius } = useControls('Drop', {
         scale: {
             value: 0.1,
@@ -50,7 +53,7 @@ function Scene({ model }) {
     return (
         <group>
             <Rope
-                model={model}
+                nodes={nodes}
                 scale={scale}
                 length={length}
                 radius={radius}
@@ -60,7 +63,7 @@ function Scene({ model }) {
                 scale={20}
                 blur={0.4}
                 opacity={0.2}
-                position={[-0, -1.5, 0]}
+                position={[-0, -2, 0]}
             />
 
         </group>
@@ -69,49 +72,39 @@ function Scene({ model }) {
 
 
 export default function Experience() {
-    const rope = useRef()
 
-    const { position } = useControls(
-        {
-            position: {
-                value: { "x": .18, "y": - 1.4 },
-                step: 0.01,
-                joystick: 'invertY'
-            }
-        }
-    )
+    const { nodes, materials, scene } = useGLTF("/boxWithSb7a.glb");
+    const ropeNodes = scene.children.slice(24, 38)
+    console.log(ropeNodes);
 
+    useLayoutEffect(() => {
+        Object.values(materials).forEach((material) => {
+            material.roughness = 0
+            // material.metalness = 1
+        })
+    }, [])
 
-    const model = useLoader(GLTFLoader, './boxWithSb7a.glb')
-    console.log(model.scene.children);
-    const modelRef = useRef()
-    useFrame((state, delta) => {
-        // rope.current.rotation.x += Math.sin(state.clock.elapsedTime) * 0.002
-    })
-
-    // console.log(model.scene.children)
     return (
         <>
-            <axesHelper scale={5} />
-
+            {/* <axesHelper scale={5} /> */}
+            <Perf />
             <OrbitControls />
+
             <Environment preset="studio" />
+            <ambientLight intensity={0.5} />
+            <Model nodes={nodes} />
+
             <fog attach="fog" args={["#000", 2, 100]} />
-
-            <Physics
-            // gravity={[9.81, 0, 0]}
-            >
-                <group ref={rope} >
-                    <Scene model={model.scene} />
+            <group>
+                <Physics>
+                    <Scene nodes={ropeNodes} />
                     <Debug />
-                    <primitive
-                        object={model.scene}
-                    />
-                </group>
-
-            </Physics>
+                </Physics>
+            </group>
 
 
         </>
     );
 }
+
+useGLTF.preload("/boxWithSb7a.glb");
