@@ -21,12 +21,13 @@ import { Rope } from "./Rope";
 import { Perf } from "r3f-perf";
 import { useControls } from "leva";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createRef, forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Model } from "./Model";
 import { SpotLightHelper } from "three";
 
 
-function Scene({ nodes }) {
+const Scene = forwardRef(({ nodes }, ref) => {
+
     const { scale, loss, radius } = useControls('Drop', {
         scale: {
             value: 0.1,
@@ -57,6 +58,7 @@ function Scene({ nodes }) {
     return (
         <group>
             <Rope
+                ref={ref}
                 nodes={nodes}
                 scale={scale}
                 radius={radius}
@@ -71,14 +73,19 @@ function Scene({ nodes }) {
 
         </group>
     );
-}
+})
 
 
 export default function Experience() {
 
+    const ref = createRef()
     const [gravity, setGravity] = useState([0, -9.87, 0])
     const testBox = useRef()
 
+
+    /**
+     * Leva
+    */
     const { position } = useControls({
         position: {
             value: { x: 2.5, y: 2.5, z: 2 },
@@ -87,9 +94,11 @@ export default function Experience() {
         }
     })
 
+    /**
+     * Model
+    */
     const { nodes, materials, scene } = useGLTF("/boxWithSb7a.glb");
     const ropeNodes = scene.children.slice(24, 38)
-
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
             material.roughness = 0.5
@@ -98,6 +107,13 @@ export default function Experience() {
     }, [])
 
 
+    useEffect(() => {
+        // console.log(ref);
+    })
+
+    /**
+     * Animation
+    */
     useFrame((state, delta) => {
         const elapsedTime = state.clock.elapsedTime
         setGravity([
@@ -113,8 +129,8 @@ export default function Experience() {
 
     return (
         <>
-            <axesHelper scale={5} />
             {/* <Perf position="top-left" /> */}
+            <axesHelper scale={5} />
             <OrbitControls />
 
             {/* <Environment preset="studio" /> */}
@@ -127,14 +143,18 @@ export default function Experience() {
                 intensity={5}
             />
             <ambientLight intensity={0.25} />
+            <fog attach="fog" args={["#000", 2, 100]} />
+
             {/* <Model nodes={nodes} /> */}
 
-            <fog attach="fog" args={["#000", 2, 100]} />
             <group>
                 <Physics
                     gravity={gravity}
                 >
-                    <Scene nodes={ropeNodes} />
+                    <Scene
+                        ref={ref}
+                        nodes={ropeNodes}
+                    />
                     <Debug />
                 </Physics>
             </group>
