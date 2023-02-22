@@ -6,6 +6,7 @@ import {
     Float,
     OrbitControls,
     useGLTF,
+    useHelper,
 } from "@react-three/drei";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import {
@@ -20,6 +21,7 @@ import { useControls } from "leva";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { Model } from "./Model";
+import { SpotLightHelper } from "three";
 
 
 function Scene({ nodes }) {
@@ -62,7 +64,7 @@ function Scene({ nodes }) {
             <ContactShadows
                 scale={20}
                 blur={0.4}
-                opacity={0.2}
+                opacity={0.5}
                 position={[-0, -2, 0]}
             />
 
@@ -73,16 +75,26 @@ function Scene({ nodes }) {
 
 export default function Experience() {
 
+    const sp = useRef()
+    const { position } = useControls({
+        position: {
+            value: { x: 2.5, y: 2.5, z: 2 },
+            stop: 0.1,
+            joystick: 'invertY'
+        }
+    })
+
     const { nodes, materials, scene } = useGLTF("/boxWithSb7a.glb");
     const ropeNodes = scene.children.slice(24, 38)
-    console.log(ropeNodes);
 
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
-            material.roughness = 0
-            // material.metalness = 1
+            material.roughness = 0.5
+            material.metalness = 0
         })
     }, [])
+
+    // useHelper(sp, SpotLightHelper)
 
     return (
         <>
@@ -90,8 +102,17 @@ export default function Experience() {
             <Perf />
             <OrbitControls />
 
-            <Environment preset="studio" />
-            <ambientLight intensity={0.5} />
+            {/* <Environment preset="studio" /> */}
+            <spotLight
+                ref={sp}
+                distance={5}
+                angle={0.7}
+                position-x={position.x}
+                position-y={position.y}
+                position-z={position.z}
+                intensity={5}
+            />
+            <ambientLight intensity={0.25} />
             <Model nodes={nodes} />
 
             <fog attach="fog" args={["#000", 2, 100]} />
