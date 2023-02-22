@@ -19,7 +19,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useEffect, useRef } from "react";
 
 
-function Scene() {
+function Scene({ anchorLeft }) {
     const { scale, length, loss, radius } = useControls('Drop', {
         scale: {
             value: 0.1,
@@ -47,10 +47,11 @@ function Scene() {
         },
     })
 
-
+    console.log(anchorLeft);
     return (
         <group>
             <Rope
+                anchorLeft={anchorLeft}
                 scale={scale}
                 length={length}
                 radius={radius}
@@ -82,7 +83,9 @@ export default function Experience() {
     )
 
     const model = useLoader(GLTFLoader, './boxWithSb7a.glb')
-    console.log(model.scene)
+    const anchorLeft = model.scene.children[16]
+    const anchorRightPos = model.scene.children[17].position
+    // console.log(model.scene.children)
     return (
         <>
             {/* <Perf position="top-left" /> */}
@@ -95,12 +98,12 @@ export default function Experience() {
             <Environment preset="studio" />
             <fog attach="fog" args={["#000", 2, 100]} />
             <Physics>
-                <Scene />
+                <Scene anchorLeft={anchorLeft} anchorRightPos={anchorRightPos} />
                 <Debug />
             </Physics>
 
 
-            {/* <primitive object={model.scene} /> */}
+            <primitive object={model.scene} />
 
         </>
     );
