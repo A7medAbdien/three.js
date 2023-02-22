@@ -5,7 +5,7 @@ import {
     Environment,
     OrbitControls,
 } from "@react-three/drei";
-import { Canvas, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import {
     Debug,
     Physics,
@@ -19,7 +19,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useEffect, useRef } from "react";
 
 
-function Scene({ anchorLeft }) {
+function Scene({ anchorLeft, anchorRightPos }) {
     const { scale, length, loss, radius } = useControls('Drop', {
         scale: {
             value: 0.1,
@@ -52,6 +52,7 @@ function Scene({ anchorLeft }) {
         <group>
             <Rope
                 anchorLeft={anchorLeft}
+                anchorRightPos={anchorRightPos}
                 scale={scale}
                 length={length}
                 radius={radius}
@@ -82,7 +83,13 @@ export default function Experience() {
         }
     )
 
+
     const model = useLoader(GLTFLoader, './boxWithSb7a.glb')
+    const modelRef = useRef()
+    useFrame((state, delta) => {
+        // modelRef.current.rotation.y += Math.sin(delta)
+        // console.log(modelRef.current);
+    })
     const anchorLeft = model.scene.children[16]
     const anchorRightPos = model.scene.children[17].position
     // console.log(model.scene.children)
@@ -97,13 +104,16 @@ export default function Experience() {
             {/* <ambientLight intensity={0.1} /> */}
             <Environment preset="studio" />
             <fog attach="fog" args={["#000", 2, 100]} />
-            <Physics>
-                <Scene anchorLeft={anchorLeft} anchorRightPos={anchorRightPos} />
-                <Debug />
-            </Physics>
-
-
-            <primitive object={model.scene} />
+            <group>
+                <Physics>
+                    <Scene anchorLeft={anchorLeft} anchorRightPos={anchorRightPos} />
+                    <Debug />
+                </Physics>
+                <primitive
+                    ref={modelRef}
+                    object={model.scene}
+                />
+            </group>
 
         </>
     );

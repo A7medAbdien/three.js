@@ -36,7 +36,7 @@ const getAngle = (nextCoordinates, previousCoordinates, x, y) => {
     return (nextAngle + previousAngle) / 2
 }
 
-export const Rope = ({ anchorLeft, length, radius, loss, scale }) => {
+export const Rope = ({ anchorLeft, anchorRightPos, length, radius, loss, scale }) => {
     const refs = useRef(
         Array.from({ length: length }).map(() => createRef())
     );
@@ -44,15 +44,14 @@ export const Rope = ({ anchorLeft, length, radius, loss, scale }) => {
     useFrame(() => {
         const now = performance.now();
         const leftAnchor = refs.current[0].current
-        const leftAnchorPosition = leftAnchor.translation()
         const rightAnchor = refs.current[refs.current.length - 1].current
-        const rightAnchorPosition = rightAnchor.translation()
-
+        const anchorLeftPos = anchorLeft.position
+        // console.log(anchorLeftPos);
         leftAnchor.setNextKinematicTranslation(
-            leftAnchor.translation()
+            anchorLeftPos
         );
         rightAnchor.setNextKinematicTranslation(
-            rightAnchor.translation()
+            anchorRightPos
         );
     });
 
@@ -71,24 +70,15 @@ export const Rope = ({ anchorLeft, length, radius, loss, scale }) => {
                         key={i}
                         position={[x, y, shapeZ]}
                         rotationZ={i == length - 1 ? Math.PI : angle}
-                        // position={i === 35 ? [0, 0, 0] : [i * 1, 0, 0]}
-                        // position={[i * 1, 0, 0]}
                         component={
-                            // <Sphere args={[1, 20, 15]}  >
-                            //     <meshStandardMaterial color={"red"} />
-                            // </Sphere>
                             <Clone object={anchorLeft} position={[0, 0, 0]} />
                         }
                         type={i === 0 || i === refs.current.length + 0 - 1 ? "kinematicPosition" : "dynamic"}
-                    // type={i === 0 ? "kinematicPosition" : "dynamic"}
                     // type={"fixed"}
                     />
                 );
             })}
-            {/**
-             * Multiple joints can be initiated dynamically by
-             * mapping out wrapped components containing the hooks
-             */}
+
             {refs.current.map(
                 (ref, i) =>
                     i > 0 && (
