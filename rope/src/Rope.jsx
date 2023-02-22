@@ -35,7 +35,7 @@ const getAngle = (nextCoordinates, previousCoordinates, x, y) => {
     return (nextAngle + previousAngle) / 2
 }
 
-export const Rope = ({ length, hight, width, circleSplit, startI, radius, loss, scale }) => {
+export const Rope = ({ length, radius, loss, scale }) => {
     const refs = useRef(
         Array.from({ length: length }).map(() => createRef())
     );

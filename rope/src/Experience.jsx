@@ -20,13 +20,7 @@ import { useEffect, useRef } from "react";
 
 
 function Scene() {
-    const { z, scale, length, hight, width, startI, loss, circleSplit, radius } = useControls('Drop', {
-        z: {
-            value: -0.36,
-            step: 0.001,
-            min: -2,
-            max: 0
-        },
+    const { scale, length, loss, radius } = useControls('Drop', {
         scale: {
             value: 0.1,
             step: 0.001,
@@ -45,55 +39,22 @@ function Scene() {
             min: 0.1,
             max: 3
         },
-        hight: {
-            value: 23,
-            step: 0.5,
-            min: 5,
-            max: 100
-        },
-        width: {
-            value: 12,
-            step: 0.5,
-            min: 5,
-            max: 100
-        },
-        startI: {
-            value: 10,
-            step: 1,
-            min: 0,
-            max: 100
-        },
         loss: {
             value: 0.07,
             step: 0.01,
             min: 0,
             max: 1
         },
-        circleSplit: {
-            value: 35,
-            step: 1,
-            min: 0,
-            max: 100
-        },
     })
 
 
     return (
-        <group
-        // position-z={z}
-        // position-y={3}
-        // position-x={-0.3}
-        // scale={scale}
-        >
+        <group>
             <Rope
                 scale={scale}
                 length={length}
-                circleSplit={circleSplit}
-                startI={startI}
                 radius={radius}
                 loss={loss}
-                hight={hight}
-                width={width}
             />
             <ContactShadows
                 scale={20}
@@ -121,6 +82,7 @@ export default function Experience() {
     )
 
     const model = useLoader(GLTFLoader, './boxWithSb7a.glb')
+    console.log(model.scene)
     return (
         <>
             {/* <Perf position="top-left" /> */}
