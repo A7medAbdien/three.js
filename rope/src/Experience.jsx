@@ -1,4 +1,5 @@
 import {
+    Box,
     Center,
     Clone,
     ContactShadows,
@@ -12,6 +13,7 @@ import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import {
     Debug,
     Physics,
+    useRapier,
 } from "@react-three/rapier";
 
 import "./style.css";
@@ -19,7 +21,7 @@ import { Rope } from "./Rope";
 import { Perf } from "r3f-perf";
 import { useControls } from "leva";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Model } from "./Model";
 import { SpotLightHelper } from "three";
 
@@ -74,7 +76,9 @@ function Scene({ nodes }) {
 
 export default function Experience() {
 
-    const sp = useRef()
+    const [gravity, setGravity] = useState([0, -9.87, 0])
+    const testBox = useRef()
+
     const { position } = useControls({
         position: {
             value: { x: 2.5, y: 2.5, z: 2 },
@@ -93,7 +97,19 @@ export default function Experience() {
         })
     }, [])
 
-    // useHelper(sp, SpotLightHelper)
+
+    useFrame((state, delta) => {
+        const elapsedTime = state.clock.elapsedTime
+        setGravity([
+            (Math.sin(elapsedTime) * - 9.87),
+            -Math.abs((Math.cos(elapsedTime) * - 9.87)),
+            0
+        ])
+        // testBox.current.position = [Math.sin(elapsedTime), Math.cos(elapsedTime), 0]
+        testBox.current.position.x = (Math.sin(elapsedTime) * - 9.87) - 2
+        testBox.current.position.y = -Math.abs((Math.cos(elapsedTime) * - 9.87)) - 2
+    })
+
 
     return (
         <>
@@ -103,7 +119,6 @@ export default function Experience() {
 
             {/* <Environment preset="studio" /> */}
             <spotLight
-                ref={sp}
                 distance={5}
                 angle={0.7}
                 position-x={position.x}
@@ -116,12 +131,15 @@ export default function Experience() {
 
             <fog attach="fog" args={["#000", 2, 100]} />
             <group>
-                <Physics>
+                <Physics
+                    gravity={gravity}
+                >
                     <Scene nodes={ropeNodes} />
                     <Debug />
                 </Physics>
             </group>
 
+            <Box ref={testBox} />
 
         </>
     );

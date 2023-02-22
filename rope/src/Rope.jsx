@@ -33,20 +33,20 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
-export const Rope = ({ radius, loss, scale, nodes }) => {
+export const Rope = ({ radius, loss, scale, nodes, setLeftAnchor }) => {
     const refs = useRef(
         Array.from({ length: nodes.length }).map(() => createRef())
     );
 
+    const rightAnchor = refs.current[nodes.length - 1].current
 
 
     useFrame((state, delta) => {
         const now = performance.now();
-        const leftAnchor = refs.current[0].current
-        const rightAnchor = refs.current[nodes.length - 1].current
 
-        const leftAnchorPos = leftAnchor.translation()
-        const rightAnchorPos = rightAnchor.translation()
+
+        // const leftAnchorPos = leftAnchor.translation()
+        // const rightAnchorPos = rightAnchor.translation()
         // console.log(leftAnchor);
 
         // leftAnchor.setTranslation(
@@ -54,7 +54,7 @@ export const Rope = ({ radius, loss, scale, nodes }) => {
         // )
         // rightAnchor.setTranslation(
         //     new Vector3(rightAnchorPos.x, Math.sin(now / 800) * 0.5, rightAnchorPos.z)
-        // )
+        // )latest
     });
     return (
         <group >
