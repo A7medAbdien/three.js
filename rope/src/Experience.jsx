@@ -82,7 +82,7 @@ export default function Experience() {
     )
 
 
-    const model = useLoader(GLTFLoader, './boxWithSb7a2.glb')
+    const model = useLoader(GLTFLoader, './boxWithSb7a.glb')
     console.log(model.scene.children);
     const modelRef = useRef()
     useFrame((state, delta) => {
