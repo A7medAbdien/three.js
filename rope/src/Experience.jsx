@@ -78,7 +78,7 @@ const Scene = forwardRef(({ nodes }, ref) => {
 
 export default function Experience() {
 
-    const ref = createRef()
+    const anchors = createRef() // using forwardRef
     const [gravity, setGravity] = useState([0, -9.87, 0])
     const testBox = useRef()
 
@@ -108,22 +108,22 @@ export default function Experience() {
 
 
     useEffect(() => {
-        // console.log(ref);
+        // console.log(anchors.current.left);
     })
 
     /**
      * Animation
     */
     useFrame((state, delta) => {
-        const elapsedTime = state.clock.elapsedTime
+        const elapsedTime = state.clock.elapsedTime;
         setGravity([
             (Math.sin(elapsedTime) * - 9.87),
             -Math.abs((Math.cos(elapsedTime) * - 9.87)),
             0
         ])
-        // testBox.current.position = [Math.sin(elapsedTime), Math.cos(elapsedTime), 0]
-        testBox.current.position.x = (Math.sin(elapsedTime) * - 9.87) - 2
-        testBox.current.position.y = -Math.abs((Math.cos(elapsedTime) * - 9.87)) - 2
+        const leftAnchor = anchors.current.left
+        const rightAnchor = anchors.current.right
+
     })
 
 
@@ -152,14 +152,12 @@ export default function Experience() {
                     gravity={gravity}
                 >
                     <Scene
-                        ref={ref}
+                        ref={anchors}
                         nodes={ropeNodes}
                     />
                     <Debug />
                 </Physics>
             </group>
-
-            <Box ref={testBox} />
 
         </>
     );
