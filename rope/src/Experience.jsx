@@ -19,7 +19,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useEffect, useRef } from "react";
 
 
-function Scene({ anchorLeft, anchorRightPos }) {
+function Scene({ anchorLeft, anchorRightPos, model }) {
     const { scale, length, loss, radius } = useControls('Drop', {
         scale: {
             value: 0.1,
@@ -47,10 +47,10 @@ function Scene({ anchorLeft, anchorRightPos }) {
         },
     })
 
-    console.log(anchorLeft);
     return (
         <group>
             <Rope
+                model={model}
                 anchorLeft={anchorLeft}
                 anchorRightPos={anchorRightPos}
                 scale={scale}
@@ -71,7 +71,7 @@ function Scene({ anchorLeft, anchorRightPos }) {
 
 
 export default function Experience() {
-    const clone = useRef()
+    const rope = useRef()
 
     const { position } = useControls(
         {
@@ -88,10 +88,11 @@ export default function Experience() {
     const modelRef = useRef()
     useFrame((state, delta) => {
         // modelRef.current.rotation.y += Math.sin(delta)
-        // console.log(modelRef.current);
+        rope.current.rotation.x += Math.sin(state.clock.elapsedTime) * 0.002
+        // console.log(rope.current);
     })
     const anchorLeft = model.scene.children[16]
-    const anchorRightPos = model.scene.children[17].position
+    const anchorRightPos = model.scene.children[17]
     // console.log(model.scene.children)
     return (
         <>
@@ -104,16 +105,23 @@ export default function Experience() {
             {/* <ambientLight intensity={0.1} /> */}
             <Environment preset="studio" />
             <fog attach="fog" args={["#000", 2, 100]} />
-            <group>
-                <Physics>
-                    <Scene anchorLeft={anchorLeft} anchorRightPos={anchorRightPos} />
+            <Physics
+            // gravity={[9.81, 0, 0]}
+            >
+                <group ref={rope} >
+                    <Scene
+                        model={model.scene}
+                        anchorLeft={anchorLeft}
+                        anchorRightPos={anchorRightPos}
+                    />
                     <Debug />
-                </Physics>
-                <primitive
-                    ref={modelRef}
-                    object={model.scene}
-                />
-            </group>
+                    <primitive
+                        object={model.scene}
+                    />
+                </group>
+
+            </Physics>
+
 
         </>
     );
