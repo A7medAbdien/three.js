@@ -41,18 +41,21 @@ export const Rope = ({ radius, loss, scale, nodes, model }) => {
 
     const leftAnchorPos = { x: -1.11, y: 1.06, z: -0.39 } // from model file
     const rightAnchorPos = { x: 0.05, y: - 0.98, z: -0.39 } // from model file
-    const initialAngel = Math.atan(leftAnchorPos.y / leftAnchorPos.x)
+    const leftInitialAngel = Math.atan(leftAnchorPos.y / leftAnchorPos.x)
+    const leftRadius = Math.sqrt(Math.pow(leftAnchorPos.x, 2) + Math.pow(leftAnchorPos.y, 2))
+    const rightInitialAngel = Math.atan(rightAnchorPos.y / rightAnchorPos.x)
+    const rightRadius = Math.sqrt(Math.pow(rightAnchorPos.x, 2) + Math.pow(rightAnchorPos.y, 2))
     const move = (leftAnchor, rightAnchor) => {
 
         const modelPos = model.current.position
         const modelRot = model.current.rotation
         const leftPos = new Vector3(
-            (-0.4 + leftAnchorPos.x + modelPos.x) * Math.cos(modelRot.z + initialAngel),
-            (0.4 + leftAnchorPos.y + modelPos.y) * - Math.sin(modelRot.z + initialAngel),
+            (leftRadius + modelPos.x) * - Math.cos(modelRot.z + leftInitialAngel),
+            (leftRadius + modelPos.y) * - Math.sin(modelRot.z + leftInitialAngel),
             leftAnchorPos.z + modelPos.z)
         const rightPos = new Vector3(
-            rightAnchorPos.x + modelPos.x,
-            rightAnchorPos.y + modelPos.y,
+            (rightRadius + modelPos.x) * Math.cos(modelRot.z + rightInitialAngel),
+            (rightRadius + modelPos.y) * Math.sin(modelRot.z + rightInitialAngel),
             rightAnchorPos.z + modelPos.z)
 
         leftAnchor.setNextKinematicTranslation(leftPos)
