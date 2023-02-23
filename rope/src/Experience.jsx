@@ -23,7 +23,7 @@ import { useControls } from "leva";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { createRef, forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Model } from "./Model";
-import { SpotLightHelper } from "three";
+import { Quaternion, SpotLightHelper, Vector3 } from "three";
 
 
 const Scene = forwardRef(({ nodes }, ref) => {
@@ -99,6 +99,8 @@ export default function Experience() {
     */
     const { nodes, materials, scene } = useGLTF("/boxWithSb7a.glb");
     const ropeNodes = scene.children.slice(24, 38)
+    const leftAnchorPos = { x: -1.11, y: 1.06, z: -0.39 } // from model file
+    const rightAnchorPos = { x: 0.05, y: - 0.98, z: -0.39 } // from model file
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
             material.roughness = 0.5
@@ -106,23 +108,36 @@ export default function Experience() {
         })
     }, [])
 
-
-    useEffect(() => {
-        // console.log(anchors.current.left);
-    })
-
     /**
      * Animation
     */
     useFrame((state, delta) => {
-        const elapsedTime = state.clock.elapsedTime;
-        setGravity([
-            (Math.sin(elapsedTime) * - 9.87),
-            -Math.abs((Math.cos(elapsedTime) * - 9.87)),
-            0
-        ])
+        const elapsedTime = state.clock.elapsedTime
+
+        // setGravity([
+        //     (Math.sin(elapsedTime) * - 9.87),
+        //     -Math.abs((Math.cos(elapsedTime) * - 9.87)),
+        //     0
+        // ])
+
         const leftAnchor = anchors.current.left
         const rightAnchor = anchors.current.right
+
+        const rotation = new Quaternion(0, 0, Math.sin(elapsedTime * 2) * 5)
+        leftAnchor?.setRotation(rotation)
+        rightAnchor?.setRotation(rotation)
+
+        const leftPos = new Vector3(
+            leftAnchorPos.x,
+            leftAnchorPos.y,
+            Math.sin(elapsedTime * 2))
+        const rightPos = new Vector3(
+            rightAnchorPos.x,
+            rightAnchorPos.y,
+            Math.sin(elapsedTime * 2))
+
+        leftAnchor?.setNextKinematicTranslation(leftPos)
+        rightAnchor?.setNextKinematicTranslation(rightPos)
 
     })
 
@@ -159,6 +174,7 @@ export default function Experience() {
                 </Physics>
             </group>
 
+            {/* <Box ref={testBox} /> */}
         </>
     );
 }
