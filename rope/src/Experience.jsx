@@ -80,16 +80,22 @@ export default function Experience() {
 
     const model = createRef()
     const [gravity, setGravity] = useState([0, -9.87, 0])
-    const testBox = useRef()
+
 
     /**
      * Leva
     */
-    const { position } = useControls({
+    const { position, angle } = useControls({
         position: {
             value: { x: 2.5, y: 2.5, z: 2 },
             stop: 0.1,
             joystick: 'invertY'
+        },
+        angle: {
+            value: 0,
+            stop: 0.1,
+            min: 0,
+            max: 360
         }
     })
 
@@ -111,9 +117,9 @@ export default function Experience() {
     useFrame((state, delta) => {
         const elapsedTime = state.clock.elapsedTime
         // console.log(model);
-
-        model.current.position.z += Math.sin(elapsedTime * 2) * 0.02
-        model.current.position.x += Math.cos(elapsedTime * 2) * 0.02
+    })
+    useEffect(() => {
+        console.log(model.current.rotation._z);
     })
 
     return (
@@ -134,7 +140,11 @@ export default function Experience() {
             <ambientLight intensity={0.25} />
             <fog attach="fog" args={["#000", 2, 100]} />
 
-            <Model ref={model} nodes={nodes} />
+            <Model
+                ref={model}
+                rotation-z={angle * (Math.PI / 180)}
+                nodes={nodes}
+            />
 
             <group>
                 <Physics gravity={gravity}>
@@ -145,8 +155,6 @@ export default function Experience() {
                     {/* <Debug /> */}
                 </Physics>
             </group>
-
-            {/* <Box ref={testBox} /> */}
         </>
     );
 }

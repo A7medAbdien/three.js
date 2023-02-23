@@ -344,12 +344,42 @@ translation
 
 # Help
 
-## How to make a (Spherical Joint) anchor follow an object
+## How to make a Spherical Joint anchor follow an object
+I mean by Spherical Joint anchor, is the same as the one is used in [the rapier documentation example][1] . I mean by an object, a .glTF model that I loaded. 
 
-I mean by Spherical Joint/rope, is the same rope that is used here. I mean by an object, a .glTF model that I loaded. 
 
-I am trying to make a Spherical Joint (rope) to follow the edge of the model, when it rotate, or moves
+I am trying to make the anchor, Spherical Joint anchor, to follow the edge of the model, when it rotate or moves.
 
+I was able to make the anchor follows the model position using this method, and I call it on each frame
+
+```js
+const move = (leftAnchor, rightAnchor) => {
+
+    /**
+     *  model: a reference for the group that contain the .glTF model
+     *  leftAnchorPos: the initial position of the leftAnchor
+     *  rightAnchorPos: the initial position of the rightAnchor
+     */
+    const modelPos = model.current.position
+    const leftPos = new Vector3(
+        leftAnchorPos.x + modelPos.x,
+        leftAnchorPos.y + modelPos.y,
+        leftAnchorPos.z + modelPos.z)
+    const rightPos = new Vector3(
+        rightAnchorPos.x + modelPos.x,
+        rightAnchorPos.y + modelPos.y,
+        rightAnchorPos.z + modelPos.z)
+
+    leftAnchor.setNextKinematicTranslation(leftPos)
+    rightAnchor.setNextKinematicTranslation(rightPos)
+
+}
+```
+
+I am struggling with making the anchor moves in the right position to follow the model rotation. I am wondering if there is an easier way to do that.
+
+
+  [1]: https://codesandbox.io/s/react-three-rapier-joints-mhhbd4
 
 ## How to apply such a scroll effect in r3f
 
