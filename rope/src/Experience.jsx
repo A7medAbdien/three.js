@@ -81,9 +81,7 @@ export default function Experience() {
     const model = createRef()
     const [gravity, setGravity] = useState([0, -9.87, 0])
     const testBox = useRef()
-    useEffect(() => {
-        console.log(model.current.position);
-    })
+
     /**
      * Leva
     */
@@ -110,7 +108,13 @@ export default function Experience() {
     /**
      * Animation
     */
+    useFrame((state, delta) => {
+        const elapsedTime = state.clock.elapsedTime
+        // console.log(model);
 
+        model.current.position.z += Math.sin(elapsedTime * 2) * 0.02
+        model.current.position.x += Math.cos(elapsedTime * 2) * 0.02
+    })
 
     return (
         <>

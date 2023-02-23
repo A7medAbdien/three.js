@@ -7,14 +7,6 @@ import React, { forwardRef, useRef } from "react";
 
 export const Model = forwardRef((props, ref) => {
     const { nodes } = props
-    useFrame((state, delta) => {
-        const elapsedTime = state.clock.elapsedTime
-        // console.log(ref);
-
-        ref.current.position.z += Math.sin(elapsedTime * 2) * 0.02
-        ref.current.position.x += Math.cos(elapsedTime * 2) * 0.02
-    })
-
     return (
         <group ref={ref} {...props} dispose={null}>
             <mesh
