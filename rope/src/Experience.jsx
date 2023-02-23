@@ -82,6 +82,7 @@ export default function Experience() {
     const model = createRef()
     const [gravity, setGravity] = useState([0, -9.87, 0])
     const leftAnchorConnector = useRef()
+    const rightAnchorConnector = useRef()
 
     /**
      * Leva
@@ -106,6 +107,7 @@ export default function Experience() {
     const { nodes, materials, scene } = useGLTF("/boxWithSb7a.glb");
     const ropeNodes = scene.children.slice(24, 38)
     const leftAnchorPos = nodes.Sphere018.position
+    const rightAnchorPos = nodes.Sphere031.position
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
             material.roughness = 0.5
@@ -118,11 +120,12 @@ export default function Experience() {
     */
     useFrame((state, delta) => {
         const elapsedTime = state.clock.elapsedTime
-        model.current.rotation.y += Math.sin(elapsedTime) * 0.001
+        model.current.rotation.y += Math.sin(elapsedTime) * 0.003
         model.current.position.z += Math.sin(elapsedTime) * 0.003
     })
     useEffect(() => {
         model.current.add(leftAnchorConnector.current)
+        model.current.add(rightAnchorConnector.current)
     })
 
     return (
@@ -145,10 +148,11 @@ export default function Experience() {
 
             <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
             <group ref={leftAnchorConnector} position={leftAnchorPos} />
+            <group ref={rightAnchorConnector} position={rightAnchorPos} />
 
             <group>
                 <Physics gravity={gravity}>
-                    <Scene anchor={leftAnchorConnector} nodes={ropeNodes} />
+                    <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
                     <Debug />
                 </Physics>
             </group>

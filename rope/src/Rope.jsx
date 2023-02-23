@@ -39,20 +39,23 @@ export const Rope = ({ radius, loss, scale, nodes, anchor }) => {
         Array.from({ length: nodes.length }).map(() => createRef())
     );
 
-
     useFrame((params) => {
+        const { leftAnchorConnector, rightAnchorConnector } = anchor
         const leftPos = new Vector3()
-        anchor.current.getWorldPosition(leftPos)
+        leftAnchorConnector.current.getWorldPosition(leftPos)
         refs.current[0].current.setTranslation(new Vector3(
             leftPos.x,
             leftPos.y,
             leftPos.z,
         ))
+        const rightPos = new Vector3()
+        rightAnchorConnector.current.getWorldPosition(rightPos)
         refs.current[refs.current.length - 1].current.setTranslation(new Vector3(
-            leftPos.x,
-            leftPos.y,
-            leftPos.z,
+            rightPos.x,
+            rightPos.y,
+            rightPos.z,
         ))
+
     })
     return (
         <group >
