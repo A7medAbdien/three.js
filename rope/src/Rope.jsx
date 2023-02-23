@@ -68,7 +68,7 @@ export const Rope = ({ radius, loss, scale, nodes, anchor }) => {
                         position={[sphereMesh.position.x, sphereMesh.position.y, sphereMesh.position.z]}
                         rotation={[sphereMesh.rotation.x, sphereMesh.rotation.y, sphereMesh.rotation.z]}
                         component={
-                            < Clone object={nodes[i]} position={[0, 0, 0]} />
+                            < Clone object={nodes[1]} position={[0, 0, 0]} />
                             // <primitive object={sphereMesh} position={[0, 0, 0]} />
                         }
                         type={i === 0 || i === refs.current.length - 1 ? "kinematicPosition" : "dynamic"}

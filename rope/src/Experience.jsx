@@ -89,7 +89,7 @@ export default function Experience() {
     */
     const { position, angle } = useControls({
         position: {
-            value: { x: 2.5, y: 2.5, z: 2 },
+            value: { x: 3, y: 1.5, z: 1.5 },
             stop: 0.1,
             joystick: 'invertY'
         },
@@ -115,14 +115,6 @@ export default function Experience() {
         })
     }, [])
 
-    /**
-     * Animation
-    */
-    useFrame((state, delta) => {
-        const elapsedTime = state.clock.elapsedTime
-        model.current.rotation.y += Math.sin(elapsedTime) * 0.003
-        model.current.position.z += Math.sin(elapsedTime) * 0.003
-    })
     useEffect(() => {
         model.current.add(leftAnchorConnector.current)
         model.current.add(rightAnchorConnector.current)
@@ -131,10 +123,10 @@ export default function Experience() {
     return (
         <>
             {/* <Perf position="top-left" /> */}
-            <axesHelper scale={5} />
+            {/* <axesHelper scale={5} /> */}
             <OrbitControls />
 
-            <Environment preset="studio" />
+            {/* <Environment preset="studio" />  */}
             <spotLight
                 distance={5}
                 angle={0.7}
@@ -143,17 +135,31 @@ export default function Experience() {
                 position-z={position.z}
                 intensity={5}
             />
+            <spotLight
+                distance={5}
+                angle={0.7}
+                position-x={-position.x}
+                position-y={-position.y}
+                position-z={-position.z}
+                intensity={5}
+            />
             <ambientLight intensity={0.25} />
             <fog attach="fog" args={["#000", 2, 100]} />
-
-            <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
+            <Float
+                speed={1} // Animation speed, defaults to 1
+                rotationIntensity={1.5} // XYZ rotation intensity, defaults to 1
+                floatIntensity={0.5} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
+                floatingRange={[0.1, 0.7]}
+            >
+                <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
+            </Float>
             <group ref={leftAnchorConnector} position={leftAnchorPos} />
             <group ref={rightAnchorConnector} position={rightAnchorPos} />
 
             <group>
                 <Physics gravity={gravity}>
                     <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
-                    <Debug />
+                    {/* <Debug /> */}
                 </Physics>
             </group>
         </>
