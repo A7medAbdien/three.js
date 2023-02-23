@@ -42,20 +42,6 @@ export const Rope = forwardRef(({ radius, loss, scale, nodes, setAnchor }, ref) 
     const rightAnchor = refs.current[nodes.length - 1].current
     ref.current = { left: leftAnchor, right: rightAnchor }
 
-
-    useFrame((state, delta) => {
-        const now = performance.now();
-        // const leftAnchorPos = leftAnchor.translation()
-        // const rightAnchorPos = rightAnchor.translation()
-        // console.log(leftAnchor);
-
-        // leftAnchor.setTranslation(
-        //     new Vector3(leftAnchorPos.x, Math.sin(now / 800) * 0.5, leftAnchorPos.z)
-        // )
-        // rightAnchor.setTranslation(
-        //     new Vector3(rightAnchorPos.x, Math.sin(now / 800) * 0.5, rightAnchorPos.z)
-        // )latest
-    });
     return (
         <group >
             {refs.current.map((ref, i) => {
