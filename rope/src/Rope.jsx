@@ -39,8 +39,6 @@ export const Rope = ({ radius, loss, scale, nodes }) => {
         Array.from({ length: nodes.length }).map(() => createRef())
     );
 
-    const leftAnchor = useRef()
-
 
     useFrame((params) => {
 
@@ -59,7 +57,7 @@ export const Rope = ({ radius, loss, scale, nodes }) => {
                             < Clone ref={i == 0 ? leftAnchor : null} object={sphereMesh} position={[0, 0, 0]} />
                             // <primitive object={sphereMesh} position={[0, 0, 0]} />
                         }
-                        type={i === 0 || i === refs.current.length + 0 - 1 ? "kinematicPosition" : "dynamic"}
+                        type={i === 0 || i === refs.current.length - 1 ? "kinematicPosition" : "dynamic"}
                     />
                 );
             })}
