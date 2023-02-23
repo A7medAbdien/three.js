@@ -33,7 +33,7 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
-export const Rope = forwardRef(({ radius, loss, scale, nodes, setAnchor }, ref) => {
+export const Rope = ({ radius, loss, scale, nodes, setAnchor }) => {
 
     const refs = useRef(
         Array.from({ length: nodes.length }).map(() => createRef())
@@ -104,4 +104,4 @@ export const Rope = forwardRef(({ radius, loss, scale, nodes, setAnchor }, ref) 
             )}
         </group>
     );
-})
+}
