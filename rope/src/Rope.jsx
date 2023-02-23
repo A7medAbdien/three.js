@@ -41,10 +41,9 @@ export const Rope = ({ radius, loss, scale, nodes, model }) => {
 
     const leftAnchorPos = { x: -1.11, y: 1.06, z: -0.39 } // from model file
     const rightAnchorPos = { x: 0.05, y: - 0.98, z: -0.39 } // from model file
-    const move = (leftAnchor, rightAnchor, elapsedTime) => {
+    const move = (leftAnchor, rightAnchor) => {
 
         const modelPos = model.current.position
-        const motion = Math.sin(elapsedTime * 2) * 0.2
         const leftPos = new Vector3(
             leftAnchorPos.x + modelPos.x,
             leftAnchorPos.y + modelPos.y,
@@ -63,7 +62,7 @@ export const Rope = ({ radius, loss, scale, nodes, model }) => {
 
         const leftAnchor = refs.current[0].current
         const rightAnchor = refs.current[nodes.length - 1].current
-        move(leftAnchor, rightAnchor, elapsedTime)
+        move(leftAnchor, rightAnchor)
 
         const rotation = new Quaternion(0, 0, Math.sin(elapsedTime * 2) * 5)
         // leftAnchor?.setRotation(rotation)
