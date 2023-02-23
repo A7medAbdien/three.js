@@ -35,7 +35,6 @@ const RopeJoint = ({ a, b, radius, loss }) => {
 
 export const Rope = ({ radius, loss, scale, nodes, model }) => {
 
-    console.log(model);
     const refs = useRef(
         Array.from({ length: nodes.length }).map(() => createRef())
     );
