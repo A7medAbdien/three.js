@@ -33,7 +33,7 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
-export const Rope = ({ radius, loss, scale, nodes, model }) => {
+export const Rope = ({ radius, loss, scale, nodes, anchor }) => {
 
     const refs = useRef(
         Array.from({ length: nodes.length }).map(() => createRef())
@@ -42,9 +42,13 @@ export const Rope = ({ radius, loss, scale, nodes, model }) => {
 
     useFrame((params) => {
         const leftPos = new Vector3()
-        model.current.getWorldPosition(leftPos)
-        // console.log(leftPos);
+        anchor.current.getWorldPosition(leftPos)
         refs.current[0].current.setTranslation(new Vector3(
+            leftPos.x,
+            leftPos.y,
+            leftPos.z,
+        ))
+        refs.current[refs.current.length - 1].current.setTranslation(new Vector3(
             leftPos.x,
             leftPos.y,
             leftPos.z,

@@ -27,7 +27,7 @@ import { Model } from "./Model";
 import { Quaternion, SpotLightHelper, Vector3 } from "three";
 
 
-const Scene = ({ nodes, model }) => {
+const Scene = ({ nodes, anchor }) => {
 
     const { scale, loss, radius } = useControls('Drop', {
         scale: {
@@ -59,7 +59,7 @@ const Scene = ({ nodes, model }) => {
     return (
         <group>
             <Rope
-                model={model}
+                anchor={anchor}
                 nodes={nodes}
                 scale={scale}
                 radius={radius}
@@ -81,7 +81,7 @@ export default function Experience() {
 
     const model = createRef()
     const [gravity, setGravity] = useState([0, -9.87, 0])
-    const test = useRef()
+    const leftAnchorConnector = useRef()
 
     /**
      * Leva
@@ -105,6 +105,7 @@ export default function Experience() {
     */
     const { nodes, materials, scene } = useGLTF("/boxWithSb7a.glb");
     const ropeNodes = scene.children.slice(24, 38)
+    const leftAnchorPos = nodes.Sphere018.position
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
             material.roughness = 0.5
@@ -119,16 +120,9 @@ export default function Experience() {
         const elapsedTime = state.clock.elapsedTime
         model.current.rotation.y += Math.sin(elapsedTime) * 0.001
         model.current.position.z += Math.sin(elapsedTime) * 0.003
-
-        const leftPos = new Vector3()
-        nodes.Sphere018.getWorldPosition(leftPos)
-        const p = new Vector3()
-        test.current.getWorldPosition(p);
-
-
     })
     useEffect(() => {
-        model.current.add(test.current)
+        model.current.add(leftAnchorConnector.current)
     })
 
     return (
@@ -150,11 +144,11 @@ export default function Experience() {
             <fog attach="fog" args={["#000", 2, 100]} />
 
             <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
-            <group ref={test} position-z={1} />
+            <group ref={leftAnchorConnector} position={leftAnchorPos} />
 
             <group>
                 <Physics gravity={gravity}>
-                    <Scene model={test} nodes={ropeNodes} />
+                    <Scene anchor={leftAnchorConnector} nodes={ropeNodes} />
                     <Debug />
                 </Physics>
             </group>
