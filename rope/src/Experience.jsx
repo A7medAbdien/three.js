@@ -81,7 +81,7 @@ export default function Experience() {
     const anchors = createRef() // using forwardRef
     const [gravity, setGravity] = useState([0, -9.87, 0])
     const testBox = useRef()
-
+    console.log(anchors);
 
     /**
      * Leva
@@ -108,39 +108,14 @@ export default function Experience() {
         })
     }, [])
 
+
+
+    useEffect(() => {
+
+    })
     /**
      * Animation
     */
-    useFrame((state, delta) => {
-        const elapsedTime = state.clock.elapsedTime
-
-        // setGravity([
-        //     (Math.sin(elapsedTime) * - 9.87),
-        //     -Math.abs((Math.cos(elapsedTime) * - 9.87)),
-        //     0
-        // ])
-
-        const leftAnchor = anchors.current.left
-        const rightAnchor = anchors.current.right
-        const motion = Math.sin(elapsedTime * 2) * 0.2
-
-        const rotation = new Quaternion(0, 0, Math.sin(elapsedTime * 2) * 5)
-        // leftAnchor?.setRotation(rotation)
-        // rightAnchor?.setRotation(rotation)
-
-        const leftPos = new Vector3(
-            leftAnchorPos.x + motion,
-            leftAnchorPos.y + motion,
-            leftAnchorPos.z + motion)
-        const rightPos = new Vector3(
-            rightAnchorPos.x,
-            rightAnchorPos.y + Math.sin(elapsedTime * 2) * 0.2,
-            rightAnchorPos.z)
-
-        leftAnchor?.setNextKinematicTranslation(leftPos)
-        rightAnchor?.setNextKinematicTranslation(rightPos)
-
-    })
 
 
     return (
