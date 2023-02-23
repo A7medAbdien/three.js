@@ -122,19 +122,20 @@ export default function Experience() {
 
         const leftAnchor = anchors.current.left
         const rightAnchor = anchors.current.right
+        const motion = Math.sin(elapsedTime * 2) * 0.2
 
         const rotation = new Quaternion(0, 0, Math.sin(elapsedTime * 2) * 5)
-        leftAnchor?.setRotation(rotation)
-        rightAnchor?.setRotation(rotation)
+        // leftAnchor?.setRotation(rotation)
+        // rightAnchor?.setRotation(rotation)
 
         const leftPos = new Vector3(
-            leftAnchorPos.x,
-            leftAnchorPos.y,
-            Math.sin(elapsedTime * 2))
+            leftAnchorPos.x + motion,
+            leftAnchorPos.y + motion,
+            leftAnchorPos.z + motion)
         const rightPos = new Vector3(
             rightAnchorPos.x,
-            rightAnchorPos.y,
-            Math.sin(elapsedTime * 2))
+            rightAnchorPos.y + Math.sin(elapsedTime * 2) * 0.2,
+            rightAnchorPos.z)
 
         leftAnchor?.setNextKinematicTranslation(leftPos)
         rightAnchor?.setNextKinematicTranslation(rightPos)
@@ -144,8 +145,8 @@ export default function Experience() {
 
     return (
         <>
-            {/* <Perf position="top-left" /> */}
-            <axesHelper scale={5} />
+            <Perf position="top-left" />
+            {/* <axesHelper scale={5} /> */}
             <OrbitControls />
 
             {/* <Environment preset="studio" /> */}
@@ -160,7 +161,7 @@ export default function Experience() {
             <ambientLight intensity={0.25} />
             <fog attach="fog" args={["#000", 2, 100]} />
 
-            {/* <Model nodes={nodes} /> */}
+            <Model nodes={nodes} />
 
             <group>
                 <Physics
@@ -170,7 +171,7 @@ export default function Experience() {
                         ref={anchors}
                         nodes={ropeNodes}
                     />
-                    <Debug />
+                    {/* <Debug /> */}
                 </Physics>
             </group>
 
