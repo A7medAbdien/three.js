@@ -310,7 +310,8 @@ useGLTF.preload("/boxWithSb7a2.glb");
 
 ```
 
-##
+## RigidBody current options
+
 addForce
 addForceAtPoint
 addTorque
@@ -340,3 +341,16 @@ setNextKinematicTranslation
 setRotation
 setTranslation
 translation
+
+# Help
+
+## How to make a (Spherical Joint) anchor follow an object
+
+I mean by Spherical Joint/rope, is the same rope that is used here. I mean by an object, a .glTF model that I loaded. 
+
+I am trying to make a Spherical Joint (rope) to follow the edge of the model, when it rotate, or moves
+
+
+## How to apply such a scroll effect in r3f
+
+How to implement the scroll effect similar to this  
