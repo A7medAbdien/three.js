@@ -82,7 +82,6 @@ export default function Experience() {
     const model = createRef()
     const [gravity, setGravity] = useState([0, -9.87, 0])
     const test = useRef()
-    const testP = useRef()
 
     /**
      * Leva
@@ -123,22 +122,12 @@ export default function Experience() {
 
         const leftPos = new Vector3()
         nodes.Sphere018.getWorldPosition(leftPos)
-        // console.log(leftPos);
         const p = new Vector3()
         test.current.getWorldPosition(p);
-        // console.log(p);
-        // testP.current.setTranslation(new Vector3(
-        //     p.x,
-        //     p.y,
-        //     p.z,
-        // ))
+
 
     })
     useEffect(() => {
-        const p = new Vector3()
-        nodes.Cube.getWorldPosition(p)
-        console.log(p);
-
         model.current.add(test.current)
     })
 
@@ -160,24 +149,12 @@ export default function Experience() {
             <ambientLight intensity={0.25} />
             <fog attach="fog" args={["#000", 2, 100]} />
 
-            <Model
-                ref={model}
-                rotation-z={angle * (Math.PI / 180)}
-                nodes={nodes}
-            />
+            <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
+            <group ref={test} position-z={1} />
 
             <group>
                 <Physics gravity={gravity}>
-                    <Scene
-                        model={test}
-                        nodes={ropeNodes}
-                    />
-                    {/* <RigidBody ref={testP} type={"kinematicPosition"}> */}
-                    <Box
-                        ref={test}
-                        scale={0.5}
-                    />
-                    {/* </RigidBody> */}
+                    <Scene model={test} nodes={ropeNodes} />
                     <Debug />
                 </Physics>
             </group>
