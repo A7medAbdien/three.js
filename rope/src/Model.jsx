@@ -178,6 +178,14 @@ export const Model = forwardRef((props, ref) => {
                 position={[0.24, 0.19, -0.39]}
                 rotation={[-Math.PI, 1.57, 0]}
             />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere018.geometry}
+                material={nodes.Sphere018.material}
+                position={[-1.11, 1.06, -0.39]}
+                rotation={[0, -1.57, 0]}
+            />
         </group>
     );
 })

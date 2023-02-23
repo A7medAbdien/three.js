@@ -121,14 +121,17 @@ export default function Experience() {
         model.current.rotation.y += Math.sin(elapsedTime) * 0.001
         model.current.position.z += Math.sin(elapsedTime) * 0.003
 
+        const leftPos = new Vector3()
+        nodes.Sphere018.getWorldPosition(leftPos)
+        // console.log(leftPos);
         const p = new Vector3()
         test.current.getWorldPosition(p);
         // console.log(p);
-        testP.current.setTranslation(new Vector3(
-            p.x,
-            p.y,
-            p.z,
-        ))
+        // testP.current.setTranslation(new Vector3(
+        //     p.x,
+        //     p.y,
+        //     p.z,
+        // ))
 
     })
     useEffect(() => {
@@ -166,16 +169,15 @@ export default function Experience() {
             <group>
                 <Physics gravity={gravity}>
                     <Scene
-                        model={model}
+                        model={test}
                         nodes={ropeNodes}
                     />
-                    <RigidBody ref={testP} type={"kinematicPosition"}>
-                        <Box
-                            ref={test}
-                            scale={0.5}
-
-                        />
-                    </RigidBody>
+                    {/* <RigidBody ref={testP} type={"kinematicPosition"}> */}
+                    <Box
+                        ref={test}
+                        scale={0.5}
+                    />
+                    {/* </RigidBody> */}
                     <Debug />
                 </Physics>
             </group>

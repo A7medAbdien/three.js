@@ -33,7 +33,7 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
-export const Rope = ({ radius, loss, scale, nodes }) => {
+export const Rope = ({ radius, loss, scale, nodes, model }) => {
 
     const refs = useRef(
         Array.from({ length: nodes.length }).map(() => createRef())
@@ -41,7 +41,14 @@ export const Rope = ({ radius, loss, scale, nodes }) => {
 
 
     useFrame((params) => {
-
+        const leftPos = new Vector3()
+        model.current.getWorldPosition(leftPos)
+        // console.log(leftPos);
+        refs.current[0].current.setTranslation(new Vector3(
+            leftPos.x,
+            leftPos.y,
+            leftPos.z,
+        ))
     })
     return (
         <group >
@@ -54,7 +61,7 @@ export const Rope = ({ radius, loss, scale, nodes }) => {
                         position={[sphereMesh.position.x, sphereMesh.position.y, sphereMesh.position.z]}
                         rotation={[sphereMesh.rotation.x, sphereMesh.rotation.y, sphereMesh.rotation.z]}
                         component={
-                            < Clone ref={i == 0 ? leftAnchor : null} object={sphereMesh} position={[0, 0, 0]} />
+                            < Clone object={nodes[i]} position={[0, 0, 0]} />
                             // <primitive object={sphereMesh} position={[0, 0, 0]} />
                         }
                         type={i === 0 || i === refs.current.length - 1 ? "kinematicPosition" : "dynamic"}
