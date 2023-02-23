@@ -13,6 +13,7 @@ import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import {
     Debug,
     Physics,
+    RigidBody,
     useRapier,
 } from "@react-three/rapier";
 
@@ -80,7 +81,8 @@ export default function Experience() {
 
     const model = createRef()
     const [gravity, setGravity] = useState([0, -9.87, 0])
-
+    const test = useRef()
+    const testP = useRef()
 
     /**
      * Leva
@@ -116,16 +118,31 @@ export default function Experience() {
     */
     useFrame((state, delta) => {
         const elapsedTime = state.clock.elapsedTime
-        // console.log(model);
+        model.current.rotation.y += Math.sin(elapsedTime) * 0.001
+        model.current.position.z += Math.sin(elapsedTime) * 0.003
+
+        const p = new Vector3()
+        test.current.getWorldPosition(p);
+        // console.log(p);
+        testP.current.setTranslation(new Vector3(
+            p.x,
+            p.y,
+            p.z,
+        ))
+
     })
     useEffect(() => {
-        console.log(model.current.rotation._z);
+        const p = new Vector3()
+        nodes.Cube.getWorldPosition(p)
+        console.log(p);
+
+        model.current.add(test.current)
     })
 
     return (
         <>
-            <Perf position="top-left" />
-            {/* <axesHelper scale={5} /> */}
+            {/* <Perf position="top-left" /> */}
+            <axesHelper scale={5} />
             <OrbitControls />
 
             <Environment preset="studio" />
@@ -152,7 +169,14 @@ export default function Experience() {
                         model={model}
                         nodes={ropeNodes}
                     />
-                    {/* <Debug /> */}
+                    <RigidBody ref={testP} type={"kinematicPosition"}>
+                        <Box
+                            ref={test}
+                            scale={0.5}
+
+                        />
+                    </RigidBody>
+                    <Debug />
                 </Physics>
             </group>
         </>

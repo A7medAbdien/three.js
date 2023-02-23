@@ -384,3 +384,41 @@ I am struggling with making the anchor moves in the right position to follow the
 ## How to apply such a scroll effect in r3f
 
 How to implement the scroll effect similar to this  
+
+
+```js
+    const leftAnchorPos = { x: -1.11, y: 1.06, z: -0.39 } // from model file
+    const rightAnchorPos = { x: 0.05, y: - 0.98, z: -0.39 } // from model file
+    const leftInitialAngel = Math.atan(leftAnchorPos.y / leftAnchorPos.x)
+    const leftRadius = Math.sqrt(Math.pow(leftAnchorPos.x, 2) + Math.pow(leftAnchorPos.y, 2))
+    const rightInitialAngel = Math.atan(rightAnchorPos.y / rightAnchorPos.x)
+    const rightRadius = Math.sqrt(Math.pow(rightAnchorPos.x, 2) + Math.pow(rightAnchorPos.y, 2))
+    const move = (leftAnchor, rightAnchor) => {
+
+        const modelPos = model.current.position
+        const modelRot = model.current.rotation
+        const leftPos = new Vector3(
+            (leftRadius + modelPos.x) * - Math.cos(modelRot.z + leftInitialAngel),
+            (leftRadius + modelPos.y) * - Math.sin(modelRot.z + leftInitialAngel),
+            leftAnchorPos.z + modelPos.z)
+        const rightPos = new Vector3(
+            (rightRadius + modelPos.x) * Math.cos(modelRot.z + rightInitialAngel),
+            (rightRadius + modelPos.y) * Math.sin(modelRot.z + rightInitialAngel),
+            rightAnchorPos.z + modelPos.z)
+
+        leftAnchor.setNextKinematicTranslation(leftPos)
+        rightAnchor.setNextKinematicTranslation(rightPos)
+
+    }
+    useFrame((state, delta) => {
+        const elapsedTime = state.clock.elapsedTime
+
+        const leftAnchor = refs.current[0].current
+        const rightAnchor = refs.current[nodes.length - 1].current
+        move(leftAnchor, rightAnchor)
+
+        const rotation = new Quaternion(0, 0, Math.sin(elapsedTime * 2) * 5)
+        // leftAnchor?.setRotation(rotation)
+        // rightAnchor?.setRotation(rotation)
+    })
+```
