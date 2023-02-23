@@ -41,12 +41,14 @@ export const Rope = ({ radius, loss, scale, nodes, model }) => {
 
     const leftAnchorPos = { x: -1.11, y: 1.06, z: -0.39 } // from model file
     const rightAnchorPos = { x: 0.05, y: - 0.98, z: -0.39 } // from model file
+    const initialAngel = Math.atan(leftAnchorPos.y / leftAnchorPos.x)
     const move = (leftAnchor, rightAnchor) => {
 
         const modelPos = model.current.position
+        const modelRot = model.current.rotation
         const leftPos = new Vector3(
-            leftAnchorPos.x + modelPos.x,
-            leftAnchorPos.y + modelPos.y,
+            (-0.4 + leftAnchorPos.x + modelPos.x) * Math.cos(modelRot.z + initialAngel),
+            (0.4 + leftAnchorPos.y + modelPos.y) * - Math.sin(modelRot.z + initialAngel),
             leftAnchorPos.z + modelPos.z)
         const rightPos = new Vector3(
             rightAnchorPos.x + modelPos.x,
