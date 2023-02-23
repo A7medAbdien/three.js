@@ -26,7 +26,7 @@ import { Model } from "./Model";
 import { Quaternion, SpotLightHelper, Vector3 } from "three";
 
 
-const Scene = ({ nodes }) => {
+const Scene = ({ nodes, model }) => {
 
     const { scale, loss, radius } = useControls('Drop', {
         scale: {
@@ -58,6 +58,7 @@ const Scene = ({ nodes }) => {
     return (
         <group>
             <Rope
+                model={model}
                 nodes={nodes}
                 scale={scale}
                 radius={radius}
@@ -77,9 +78,12 @@ const Scene = ({ nodes }) => {
 
 export default function Experience() {
 
+    const model = createRef()
     const [gravity, setGravity] = useState([0, -9.87, 0])
     const testBox = useRef()
-
+    useEffect(() => {
+        console.log(model.current.position);
+    })
     /**
      * Leva
     */
@@ -128,13 +132,12 @@ export default function Experience() {
             <ambientLight intensity={0.25} />
             <fog attach="fog" args={["#000", 2, 100]} />
 
-            <Model nodes={nodes} />
+            <Model ref={model} nodes={nodes} />
 
             <group>
-                <Physics
-                    gravity={gravity}
-                >
+                <Physics gravity={gravity}>
                     <Scene
+                        model={model}
                         nodes={ropeNodes}
                     />
                     {/* <Debug /> */}
