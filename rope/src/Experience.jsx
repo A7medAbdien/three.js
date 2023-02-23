@@ -100,8 +100,6 @@ export default function Experience() {
     */
     const { nodes, materials, scene } = useGLTF("/boxWithSb7a.glb");
     const ropeNodes = scene.children.slice(24, 38)
-    const leftAnchorPos = { x: -1.11, y: 1.06, z: -0.39 } // from model file
-    const rightAnchorPos = { x: 0.05, y: - 0.98, z: -0.39 } // from model file
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
             material.roughness = 0.5
@@ -120,7 +118,7 @@ export default function Experience() {
             {/* <axesHelper scale={5} /> */}
             <OrbitControls />
 
-            {/* <Environment preset="studio" /> */}
+            <Environment preset="studio" />
             <spotLight
                 distance={5}
                 angle={0.7}

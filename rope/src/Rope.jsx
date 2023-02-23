@@ -33,8 +33,9 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
-export const Rope = ({ radius, loss, scale, nodes }) => {
+export const Rope = ({ radius, loss, scale, nodes, model }) => {
 
+    console.log(model);
     const refs = useRef(
         Array.from({ length: nodes.length }).map(() => createRef())
     );
@@ -43,15 +44,16 @@ export const Rope = ({ radius, loss, scale, nodes }) => {
     const rightAnchorPos = { x: 0.05, y: - 0.98, z: -0.39 } // from model file
     const move = (leftAnchor, rightAnchor, elapsedTime) => {
 
+        const modelPos = model.current.position
         const motion = Math.sin(elapsedTime * 2) * 0.2
         const leftPos = new Vector3(
-            leftAnchorPos.x + motion,
-            leftAnchorPos.y + motion,
-            leftAnchorPos.z + motion)
+            leftAnchorPos.x + modelPos.x,
+            leftAnchorPos.y + modelPos.y,
+            leftAnchorPos.z + modelPos.z)
         const rightPos = new Vector3(
-            rightAnchorPos.x,
-            rightAnchorPos.y + motion,
-            rightAnchorPos.z)
+            rightAnchorPos.x + modelPos.x,
+            rightAnchorPos.y + modelPos.y,
+            rightAnchorPos.z + modelPos.z)
 
         leftAnchor.setNextKinematicTranslation(leftPos)
         rightAnchor.setNextKinematicTranslation(rightPos)
