@@ -33,14 +33,11 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     return null;
 };
 
-export const Rope = ({ radius, loss, scale, nodes, setAnchor }) => {
+export const Rope = ({ radius, loss, scale, nodes }) => {
 
     const refs = useRef(
         Array.from({ length: nodes.length }).map(() => createRef())
     );
-    const leftAnchor = refs.current[0].current
-    const rightAnchor = refs.current[nodes.length - 1].current
-    // ref.current = { left: leftAnchor, right: rightAnchor }
 
     const leftAnchorPos = { x: -1.11, y: 1.06, z: -0.39 } // from model file
     const rightAnchorPos = { x: 0.05, y: - 0.98, z: -0.39 } // from model file
@@ -62,12 +59,6 @@ export const Rope = ({ radius, loss, scale, nodes, setAnchor }) => {
     }
     useFrame((state, delta) => {
         const elapsedTime = state.clock.elapsedTime
-
-        // setGravity([
-        //     (Math.sin(elapsedTime) * - 9.87),
-        //     -Math.abs((Math.cos(elapsedTime) * - 9.87)),
-        //     0
-        // ])
 
         const leftAnchor = refs.current[0].current
         const rightAnchor = refs.current[nodes.length - 1].current
