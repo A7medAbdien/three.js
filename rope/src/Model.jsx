@@ -9,7 +9,7 @@ export const Model = forwardRef((props, ref) => {
     const { nodes } = props
     return (
         <group ref={ref} {...props} dispose={null}>
-            <mesh
+            {/* <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes.NurbsPath.geometry}
@@ -193,7 +193,7 @@ export const Model = forwardRef((props, ref) => {
                 material={nodes.Sphere018.material}
                 position={[-1.11, 1.06, -0.39]}
                 rotation={[0, -1.57, 0]}
-            />
+            /> */}
             {/* <mesh
                 castShadow
                 receiveShadow

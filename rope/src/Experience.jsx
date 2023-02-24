@@ -15,6 +15,7 @@ import {
     Physics,
     RigidBody,
     useRapier,
+    useSphericalJoint,
 } from "@react-three/rapier";
 
 import "./style.css";
@@ -83,6 +84,8 @@ export default function Experience() {
     const [gravity, setGravity] = useState([0, -9.87, 0])
     const leftAnchorConnector = useRef()
     const rightAnchorConnector = useRef()
+    const midAnchorConnector = useRef()
+    const ball = useRef()
 
     /**
      * Leva
@@ -108,6 +111,7 @@ export default function Experience() {
     const ropeNodes = scene.children.slice(24, 38)
     const leftAnchorPos = nodes.Sphere018.position
     const rightAnchorPos = nodes.Sphere031.position
+    const midAnchorPos = nodes.Sphere037.position
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
             material.roughness = 0.5
@@ -159,11 +163,40 @@ export default function Experience() {
             <group>
                 <Physics gravity={gravity}>
                     <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
+
+                    <RigidBody
+                        ref={midAnchorConnector}
+                        colliders={"ball"}
+                        type={"kinematicPosition"}
+                        // rotation={rotation}
+                        position={[0, 1.2, 1]}
+                    >
+                    </RigidBody >
+                    <RigidBody
+                        ref={ball}
+                        colliders={"ball"}
+                        type={"dynamic"}
+                        // rotation={rotation}
+                        position={[0, 1.2, 0]}
+                    >
+                        <Box />
+                    </RigidBody >
+                    <RopeJoint a={ball} b={midAnchorConnector} radius={1.7} loss={0} />
+
                     <Debug />
                 </Physics>
             </group>
         </>
     );
 }
+
+const RopeJoint = ({ a, b, radius, loss }) => {
+    const jointRadius = 0.5
+    useSphericalJoint(a, b, [
+        [0, 2, 0],
+        [0, -0.5, 0]
+    ]);
+    return null;
+};
 
 useGLTF.preload("/boxWithSb7a.glb");
