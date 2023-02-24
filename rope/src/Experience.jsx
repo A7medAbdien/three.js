@@ -159,7 +159,7 @@ export default function Experience() {
             <group>
                 <Physics gravity={gravity}>
                     <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
-                    {/* <Debug /> */}
+                    <Debug />
                 </Physics>
             </group>
         </>

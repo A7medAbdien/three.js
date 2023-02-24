@@ -12,6 +12,14 @@ export const Model = forwardRef((props, ref) => {
             <mesh
                 castShadow
                 receiveShadow
+                geometry={nodes.NurbsPath.geometry}
+                material={nodes.NurbsPath.material}
+                position={[-0.49, -1.11, 0.52]}
+                rotation={[-Math.PI, 0, -Math.PI / 2]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
                 geometry={nodes.Cube.geometry}
                 material={nodes.Cube.material}
                 position={[0, 0.07, -0.22]}
@@ -31,8 +39,8 @@ export const Model = forwardRef((props, ref) => {
                 receiveShadow
                 geometry={nodes.Sphere002.geometry}
                 material={nodes.Sphere002.material}
-                position={[0.01, 0.39, 0.43]}
-                rotation={[Math.PI / 2, 1.16, Math.PI / 2]}
+                position={[0.05, 0.38, 0.43]}
+                rotation={[Math.PI / 2, 1.3, Math.PI / 2]}
             />
             <mesh
                 castShadow
@@ -88,7 +96,7 @@ export const Model = forwardRef((props, ref) => {
                 geometry={nodes.Sphere009.geometry}
                 material={nodes.Sphere009.material}
                 position={[-0.02, 0.1, 0.43]}
-                rotation={[1.57, 1.57, 1.57]}
+                rotation={[Math.PI / 2, 1.28, Math.PI / 2]}
             />
             <mesh
                 castShadow
@@ -186,6 +194,102 @@ export const Model = forwardRef((props, ref) => {
                 position={[-1.11, 1.06, -0.39]}
                 rotation={[0, -1.57, 0]}
             />
+            {/* <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere019.geometry}
+                material={nodes.Sphere019.material}
+                position={[-1.13, 0.76, -0.39]}
+                rotation={[0, -1.57, 0]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere020.geometry}
+                material={nodes.Sphere020.material}
+                position={[-1.14, 0.46, -0.39]}
+                rotation={[0, -1.57, 0]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere021.geometry}
+                material={nodes.Sphere021.material}
+                position={[-1.13, 0.16, -0.39]}
+                rotation={[0, -1.57, 0]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere022.geometry}
+                material={nodes.Sphere022.material}
+                position={[-1.13, -0.13, -0.39]}
+                rotation={[0, -1.57, 0]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere023.geometry}
+                material={nodes.Sphere023.material}
+                position={[-1.12, -0.43, -0.39]}
+                rotation={[0, -1.57, 0]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere024.geometry}
+                material={nodes.Sphere024.material}
+                position={[-1.1, -0.73, -0.39]}
+                rotation={[Math.PI / 2, -1.51, Math.PI / 2]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere025.geometry}
+                material={nodes.Sphere025.material}
+                position={[-1.07, -1.03, -0.39]}
+                rotation={[Math.PI / 2, -1.41, Math.PI / 2]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere026.geometry}
+                material={nodes.Sphere026.material}
+                position={[-0.97, -1.3, -0.39]}
+                rotation={[-Math.PI / 2, 1.32, -Math.PI / 2]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere027.geometry}
+                material={nodes.Sphere027.material}
+                position={[-0.79, -1.53, -0.39]}
+                rotation={[Math.PI / 2, -0.93, Math.PI / 2]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere028.geometry}
+                material={nodes.Sphere028.material}
+                position={[-0.51, -1.6, -0.39]}
+                rotation={[Math.PI / 2, 0.03, Math.PI / 2]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere029.geometry}
+                material={nodes.Sphere029.material}
+                position={[-0.24, -1.5, -0.39]}
+                rotation={[Math.PI / 2, 0.89, Math.PI / 2]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere030.geometry}
+                material={nodes.Sphere030.material}
+                position={[-0.07, -1.25, -0.39]}
+                rotation={[Math.PI / 2, 1.04, Math.PI / 2]}
+            /> */}
             <mesh
                 castShadow
                 receiveShadow
@@ -194,6 +298,33 @@ export const Model = forwardRef((props, ref) => {
                 position={[0.05, -0.98, -0.39]}
                 rotation={[Math.PI / 2, 1.21, Math.PI / 2]}
             />
-        </group>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere037.geometry}
+                material={nodes.Sphere037.material}
+                position={[-0.35, -0.31, 0.47]}
+                rotation={[1.48, 1.3, Math.PI / 2]}
+                scale={[1.19, 1.43, 1.19]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere.geometry}
+                material={nodes.Sphere.material}
+                position={[-0.49, -1.28, 0.52]}
+                scale={0.42}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Sphere014.geometry}
+                material={nodes.Sphere014.material}
+                position={[-0.49, -1.11, 0.52]}
+                rotation={[0.03, 0, 0]}
+                scale={0.69}
+            />
+
+        </group >
     );
 })
