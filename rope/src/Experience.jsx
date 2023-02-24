@@ -88,8 +88,8 @@ export default function Experience() {
     const rightAnchorConnector = useRef()
     const midAnchor = useRef()
     const midAnchorMesh = useRef()
-    const flyingHead = useRef()
-    const flyingHeadMesh = useRef()
+    const freeCap = useRef()
+    const freeCapMesh = useRef()
 
     /**
      * Leva
@@ -115,8 +115,8 @@ export default function Experience() {
     const ropeNodes = scene.children.slice(24, 38)
     const leftAnchorPos = nodes.Sphere018.position
     const rightAnchorPos = nodes.Sphere031.position
-    const headPos = nodes.Sphere014.position
-    const headBase = nodes.Sphere036.position
+    const capPos = nodes.Sphere014.position
+    const capBase = nodes.Sphere036.position
 
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
@@ -167,9 +167,9 @@ export default function Experience() {
             <ambientLight intensity={0.25} />
             <fog attach="fog" args={["#000", 2, 100]} />
             <Float
-                speed={1} // Animation speed, defaults to 1
-                rotationIntensity={1.5} // XYZ rotation intensity, defaults to 1
-                floatIntensity={0.5} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
+                speed={1}
+                rotationIntensity={1.5}
+                floatIntensity={0.5}
                 floatingRange={[0.1, 0.7]}
             >
                 <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
@@ -185,15 +185,11 @@ export default function Experience() {
                         ref={midAnchor}
                         colliders={"ball"}
                         type={"kinematicPosition"} >
-                        <group ref={midAnchorMesh} position={headBase} />
+                        <group ref={midAnchorMesh} position={capBase} />
                     </RigidBody >
 
-                    <RigidBody
-                        ref={flyingHead}
-                        type={"dynamic"}
-                        position={headPos}
-                    >
-                        <group ref={flyingHeadMesh}>
+                    <RigidBody ref={freeCap} type={"dynamic"} position={capPos}>
+                        <group ref={freeCapMesh}>
                             <mesh
                                 castShadow
                                 receiveShadow
@@ -213,8 +209,8 @@ export default function Experience() {
                             />
                         </group>
                     </RigidBody >
-                    <RopeJoint a={flyingHead} b={midAnchor} radius={1.7} loss={0} />
-                    <Cable start={midAnchorMesh} end={flyingHeadMesh} />
+                    <RopeJoint a={freeCap} b={midAnchor} radius={1.7} loss={0} />
+                    <Cable start={midAnchorMesh} end={freeCapMesh} />
 
                     {/* <Debug /> */}
                 </Physics>
