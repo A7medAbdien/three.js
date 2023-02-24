@@ -298,7 +298,7 @@ export const Model = forwardRef((props, ref) => {
                 position={[0.05, -0.98, -0.39]}
                 rotation={[Math.PI / 2, 1.21, Math.PI / 2]}
             />
-            <mesh
+            {/* <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes.Sphere037.geometry}
@@ -306,8 +306,8 @@ export const Model = forwardRef((props, ref) => {
                 position={[-0.35, -0.31, 0.47]}
                 rotation={[1.48, 1.3, Math.PI / 2]}
                 scale={[1.19, 1.43, 1.19]}
-            />
-            <mesh
+            /> */}
+            {/* <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes.Sphere.geometry}
@@ -323,7 +323,7 @@ export const Model = forwardRef((props, ref) => {
                 position={[-0.49, -1.11, 0.52]}
                 rotation={[0.03, 0, 0]}
                 scale={0.69}
-            />
+            /> */}
 
         </group >
     );

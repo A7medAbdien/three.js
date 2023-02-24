@@ -116,6 +116,7 @@ export default function Experience() {
     const leftAnchorPos = nodes.Sphere018.position
     const rightAnchorPos = nodes.Sphere031.position
     const midAnchorPos = nodes.Sphere037.position
+    const ballPos = nodes.Sphere014.position
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
             material.roughness = 0.5
@@ -126,12 +127,23 @@ export default function Experience() {
     useEffect(() => {
         model.current.add(leftAnchorConnector.current)
         model.current.add(rightAnchorConnector.current)
+        model.current.add(midAnchorConnectorMesh.current)
+    })
+
+    useFrame(() => {
+        const leftPos = new Vector3()
+        midAnchorConnectorMesh.current.getWorldPosition(leftPos)
+        midAnchorConnector.current.setTranslation(new Vector3(
+            leftPos.x,
+            leftPos.y,
+            leftPos.z,
+        ))
     })
 
     return (
         <>
             {/* <Perf position="top-left" /> */}
-            {/* <axesHelper scale={5} /> */}
+            <axesHelper scale={5} />
             <OrbitControls />
 
             {/* <Environment preset="studio" />  */}
@@ -159,32 +171,56 @@ export default function Experience() {
                 floatIntensity={0.5} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
                 floatingRange={[0.1, 0.7]}
             >
-                <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
             </Float>
+            <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
             <group ref={leftAnchorConnector} position={leftAnchorPos} />
             <group ref={rightAnchorConnector} position={rightAnchorPos} />
 
             <group>
                 <Physics gravity={gravity}>
-                    <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
+                    {/* <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} /> */}
 
                     <RigidBody
                         ref={midAnchorConnector}
                         colliders={"ball"}
                         type={"kinematicPosition"}
-                        // rotation={rotation}
-                        position={[1, 1.2, 1]}
+                    // rotation={rotation}
+
                     >
-                        <group ref={midAnchorConnectorMesh} />
+                        <group ref={midAnchorConnectorMesh} position={
+                            [
+                                midAnchorPos.x - 0.15,
+                                midAnchorPos.y - 0.3,
+                                midAnchorPos.z + 0.05,
+                            ]
+                        } />
                     </RigidBody >
                     <RigidBody
                         ref={ball}
                         colliders={"ball"}
                         type={"dynamic"}
                         // rotation={rotation}
-                        position={[0, 1.2, 0]}
+                        position={ballPos}
                     >
-                        <Box ref={ballMesh} scale={0.5} />
+                        <group ref={ballMesh}>
+                            <mesh
+                                castShadow
+                                receiveShadow
+                                geometry={nodes.Sphere.geometry}
+                                material={nodes.Sphere.material}
+                                position={[0, -0.17, 0]}
+                                scale={0.42}
+                            />
+                            <mesh
+                                castShadow
+                                receiveShadow
+                                geometry={nodes.Sphere014.geometry}
+                                material={nodes.Sphere014.material}
+                                position={[0, 0, 0]}
+                                rotation={[0.03, 0, 0]}
+                                scale={0.69}
+                            />
+                        </group>
                     </RigidBody >
                     <RopeJoint a={ball} b={midAnchorConnector} radius={1.7} loss={0} />
                     <Cable start={midAnchorConnectorMesh} end={ballMesh} />
@@ -199,8 +235,8 @@ export default function Experience() {
 const RopeJoint = ({ a, b, radius, loss }) => {
     const jointRadius = 0.5
     useSphericalJoint(a, b, [
-        [0, 2, 0],
-        [-1, 0, 0]
+        [0, 0.5, 0],
+        [-0.05, 0, 0]
     ]);
     return null;
 };
@@ -212,9 +248,9 @@ function Cable({ start, end, v1 = new Vector3(), v2 = new Vector3() }) {
         const e = end.current.getWorldPosition(v2)
         e.y += 0.2
         const m = new Vector3(
-            - (1 - (s.x - e.x) / 5) * 0.01,
-            1 - (s.y - e.y) / 5,
-            1 - (s.z - e.z) / 5)
+            s.x * 1.5,
+            s.y,
+            s.z)
         ref.current.setPoints(s, e, m)
 
         // console.log(ref.current);
