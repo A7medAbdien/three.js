@@ -381,10 +381,12 @@ I am struggling with making the anchor moves in the right position to follow the
 
   [1]: https://codesandbox.io/s/react-three-rapier-joints-mhhbd4
 
-## How to apply such a scroll effect in r3f
+## How to listen to the scroll effect in R3F
 
-How to implement the scroll effect similar to this  
+I am trying to apply a scroll effect similar to this
 
+
+## Move
 
 ```js
     const leftAnchorPos = { x: -1.11, y: 1.06, z: -0.39 } // from model file
