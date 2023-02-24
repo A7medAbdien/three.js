@@ -86,10 +86,10 @@ export default function Experience() {
     const [gravity, setGravity] = useState([0, -9.87, 0])
     const leftAnchorConnector = useRef()
     const rightAnchorConnector = useRef()
-    const midAnchorConnector = useRef()
-    const midAnchorConnectorMesh = useRef()
-    const ball = useRef()
-    const ballMesh = useRef()
+    const midAnchor = useRef()
+    const midAnchorMesh = useRef()
+    const flyingHead = useRef()
+    const flyingHeadMesh = useRef()
 
     /**
      * Leva
@@ -115,9 +115,8 @@ export default function Experience() {
     const ropeNodes = scene.children.slice(24, 38)
     const leftAnchorPos = nodes.Sphere018.position
     const rightAnchorPos = nodes.Sphere031.position
-    const midAnchorPos = nodes.Sphere037.position
-    const ballPos = nodes.Sphere014.position
-    const base = nodes.Sphere036.position
+    const headPos = nodes.Sphere014.position
+    const headBase = nodes.Sphere036.position
 
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
@@ -129,13 +128,13 @@ export default function Experience() {
     useEffect(() => {
         model.current.add(leftAnchorConnector.current)
         model.current.add(rightAnchorConnector.current)
-        model.current.add(midAnchorConnectorMesh.current)
+        model.current.add(midAnchorMesh.current)
     })
 
     useFrame(() => {
         const leftPos = new Vector3()
-        midAnchorConnectorMesh.current.getWorldPosition(leftPos)
-        midAnchorConnector.current.setTranslation(new Vector3(
+        midAnchorMesh.current.getWorldPosition(leftPos)
+        midAnchor.current.setTranslation(new Vector3(
             leftPos.x,
             leftPos.y,
             leftPos.z,
@@ -183,19 +182,18 @@ export default function Experience() {
                     <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
 
                     <RigidBody
-                        ref={midAnchorConnector}
+                        ref={midAnchor}
                         colliders={"ball"}
                         type={"kinematicPosition"} >
-                        <group ref={midAnchorConnectorMesh} position={base} />
+                        <group ref={midAnchorMesh} position={headBase} />
                     </RigidBody >
 
                     <RigidBody
-                        ref={ball}
-                        // colliders={"ball"}
+                        ref={flyingHead}
                         type={"dynamic"}
-                        position={ballPos}
+                        position={headPos}
                     >
-                        <group ref={ballMesh}>
+                        <group ref={flyingHeadMesh}>
                             <mesh
                                 castShadow
                                 receiveShadow
@@ -215,8 +213,8 @@ export default function Experience() {
                             />
                         </group>
                     </RigidBody >
-                    <RopeJoint a={ball} b={midAnchorConnector} radius={1.7} loss={0} />
-                    <Cable start={midAnchorConnectorMesh} end={ballMesh} />
+                    <RopeJoint a={flyingHead} b={midAnchor} radius={1.7} loss={0} />
+                    <Cable start={midAnchorMesh} end={flyingHeadMesh} />
 
                     {/* <Debug /> */}
                 </Physics>
@@ -225,8 +223,7 @@ export default function Experience() {
     );
 }
 
-const RopeJoint = ({ a, b, radius, loss }) => {
-    const jointRadius = 0.5
+const RopeJoint = ({ a, b }) => {
     useSphericalJoint(a, b, [
         [0, 0.5, 0],
         [-0.05, 0, 0]
@@ -237,16 +234,14 @@ const RopeJoint = ({ a, b, radius, loss }) => {
 function Cable({ start, end, v1 = new Vector3(), v2 = new Vector3() }) {
     const ref = useRef()
     useFrame(() => {
-        const s = start.current.getWorldPosition(v1)
-        const e = end.current.getWorldPosition(v2)
-        e.y += 0.08
-        const m = new Vector3(
-            s.x * 1.1,
-            s.y * 1.1,
-            s.z * 1.1)
-        ref.current.setPoints(s, e, m)
-
-        // console.log(ref.current);
+        const startPoint = start.current.getWorldPosition(v1)
+        const endPoint = end.current.getWorldPosition(v2)
+        endPoint.y += 0.08
+        const midPoint = new Vector3(
+            startPoint.x * 1.1,
+            startPoint.y * 1.1,
+            startPoint.z * 1.1)
+        ref.current.setPoints(startPoint, endPoint, midPoint)
     }, [])
     return <QuadraticBezierLine ref={ref} lineWidth={3} color="black" />
 }
