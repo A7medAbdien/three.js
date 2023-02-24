@@ -118,9 +118,7 @@ export default function Experience() {
     const midAnchorPos = nodes.Sphere037.position
     const ballPos = nodes.Sphere014.position
     const base = nodes.Sphere036.position
-    const pp = new Vector3()
-    nodes.Sphere014.getWorldPosition(pp)
-    console.log(ballPos);
+
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
             material.roughness = 0.5
@@ -147,7 +145,7 @@ export default function Experience() {
     return (
         <>
             {/* <Perf position="top-left" /> */}
-            <axesHelper scale={5} />
+            {/* <axesHelper scale={5} /> */}
             <OrbitControls />
 
             {/* <Environment preset="studio" />  */}
@@ -182,7 +180,7 @@ export default function Experience() {
 
             <group>
                 <Physics gravity={gravity}>
-                    {/* <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} /> */}
+                    <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
 
                     <RigidBody
                         ref={midAnchorConnector}
@@ -220,7 +218,7 @@ export default function Experience() {
                     <RopeJoint a={ball} b={midAnchorConnector} radius={1.7} loss={0} />
                     <Cable start={midAnchorConnectorMesh} end={ballMesh} />
 
-                    <Debug />
+                    {/* <Debug /> */}
                 </Physics>
             </group>
         </>
@@ -245,12 +243,12 @@ function Cable({ start, end, v1 = new Vector3(), v2 = new Vector3() }) {
         const m = new Vector3(
             s.x * 1.1,
             s.y * 1.1,
-            s.z)
+            s.z * 1.1)
         ref.current.setPoints(s, e, m)
 
         // console.log(ref.current);
     }, [])
-    return <QuadraticBezierLine ref={ref} lineWidth={5} color="#ff2060" />
+    return <QuadraticBezierLine ref={ref} lineWidth={3} color="black" />
 }
 
 useGLTF.preload("/boxWithSb7a.glb");

@@ -334,21 +334,21 @@ export const Model = forwardRef((props, ref) => {
                     rotation={[0.03, 0, 0]}
                     scale={0.69}
                 /> */}
-                <mesh
+                {/* <mesh
                     castShadow
                     receiveShadow
                     geometry={nodes.NurbsPath.geometry}
                     material={nodes.NurbsPath.material}
                     position={[-0.49, -1.11, 0.52]}
                     rotation={[-Math.PI, 0, -Math.PI / 2]}
-                />
-                <mesh
+                /> */}
+                {/* <mesh
                     castShadow
                     receiveShadow
                     geometry={nodes.Sphere036.geometry}
                     material={nodes.Sphere036.material}
                     position={[-0.44, -0.64, 0.49]}
-                />
+                /> */}
             </group>
         </group >
     );
