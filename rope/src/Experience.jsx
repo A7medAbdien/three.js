@@ -117,6 +117,10 @@ export default function Experience() {
     const rightAnchorPos = nodes.Sphere031.position
     const midAnchorPos = nodes.Sphere037.position
     const ballPos = nodes.Sphere014.position
+    const base = nodes.Sphere036.position
+    const pp = new Vector3()
+    nodes.Sphere014.getWorldPosition(pp)
+    console.log(ballPos);
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
             material.roughness = 0.5
@@ -171,8 +175,8 @@ export default function Experience() {
                 floatIntensity={0.5} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
                 floatingRange={[0.1, 0.7]}
             >
+                <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
             </Float>
-            <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
             <group ref={leftAnchorConnector} position={leftAnchorPos} />
             <group ref={rightAnchorConnector} position={rightAnchorPos} />
 
@@ -183,23 +187,14 @@ export default function Experience() {
                     <RigidBody
                         ref={midAnchorConnector}
                         colliders={"ball"}
-                        type={"kinematicPosition"}
-                    // rotation={rotation}
-
-                    >
-                        <group ref={midAnchorConnectorMesh} position={
-                            [
-                                midAnchorPos.x - 0.15,
-                                midAnchorPos.y - 0.3,
-                                midAnchorPos.z + 0.05,
-                            ]
-                        } />
+                        type={"kinematicPosition"} >
+                        <group ref={midAnchorConnectorMesh} position={base} />
                     </RigidBody >
+
                     <RigidBody
                         ref={ball}
-                        colliders={"ball"}
+                        // colliders={"ball"}
                         type={"dynamic"}
-                        // rotation={rotation}
                         position={ballPos}
                     >
                         <group ref={ballMesh}>
@@ -209,6 +204,7 @@ export default function Experience() {
                                 geometry={nodes.Sphere.geometry}
                                 material={nodes.Sphere.material}
                                 position={[0, -0.17, 0]}
+                                rotation={[-0.03, 0, 0]}
                                 scale={0.42}
                             />
                             <mesh
@@ -216,7 +212,6 @@ export default function Experience() {
                                 receiveShadow
                                 geometry={nodes.Sphere014.geometry}
                                 material={nodes.Sphere014.material}
-                                position={[0, 0, 0]}
                                 rotation={[0.03, 0, 0]}
                                 scale={0.69}
                             />
@@ -246,16 +241,16 @@ function Cable({ start, end, v1 = new Vector3(), v2 = new Vector3() }) {
     useFrame(() => {
         const s = start.current.getWorldPosition(v1)
         const e = end.current.getWorldPosition(v2)
-        e.y += 0.2
+        e.y += 0.08
         const m = new Vector3(
-            s.x * 1.5,
-            s.y,
+            s.x * 1.1,
+            s.y * 1.1,
             s.z)
         ref.current.setPoints(s, e, m)
 
         // console.log(ref.current);
     }, [])
-    return <QuadraticBezierLine ref={ref} lineWidth={3} color="#ff2060" />
+    return <QuadraticBezierLine ref={ref} lineWidth={5} color="#ff2060" />
 }
 
 useGLTF.preload("/boxWithSb7a.glb");
