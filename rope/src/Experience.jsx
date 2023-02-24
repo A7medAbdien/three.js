@@ -3,9 +3,11 @@ import {
     Center,
     Clone,
     ContactShadows,
+    CubicBezierLine,
     Environment,
     Float,
     OrbitControls,
+    QuadraticBezierLine,
     useGLTF,
     useHelper,
 } from "@react-three/drei";
@@ -85,7 +87,9 @@ export default function Experience() {
     const leftAnchorConnector = useRef()
     const rightAnchorConnector = useRef()
     const midAnchorConnector = useRef()
+    const midAnchorConnectorMesh = useRef()
     const ball = useRef()
+    const ballMesh = useRef()
 
     /**
      * Leva
@@ -169,8 +173,9 @@ export default function Experience() {
                         colliders={"ball"}
                         type={"kinematicPosition"}
                         // rotation={rotation}
-                        position={[0, 1.2, 1]}
+                        position={[1, 1.2, 1]}
                     >
+                        <group ref={midAnchorConnectorMesh} />
                     </RigidBody >
                     <RigidBody
                         ref={ball}
@@ -179,9 +184,10 @@ export default function Experience() {
                         // rotation={rotation}
                         position={[0, 1.2, 0]}
                     >
-                        <Box />
+                        <Box ref={ballMesh} scale={0.5} />
                     </RigidBody >
                     <RopeJoint a={ball} b={midAnchorConnector} radius={1.7} loss={0} />
+                    <Cable start={midAnchorConnectorMesh} end={ballMesh} />
 
                     <Debug />
                 </Physics>
@@ -194,9 +200,26 @@ const RopeJoint = ({ a, b, radius, loss }) => {
     const jointRadius = 0.5
     useSphericalJoint(a, b, [
         [0, 2, 0],
-        [0, -0.5, 0]
+        [-1, 0, 0]
     ]);
     return null;
 };
+
+function Cable({ start, end, v1 = new Vector3(), v2 = new Vector3() }) {
+    const ref = useRef()
+    useFrame(() => {
+        const s = start.current.getWorldPosition(v1)
+        const e = end.current.getWorldPosition(v2)
+        e.y += 0.2
+        const m = new Vector3(
+            - (1 - (s.x - e.x) / 5) * 0.01,
+            1 - (s.y - e.y) / 5,
+            1 - (s.z - e.z) / 5)
+        ref.current.setPoints(s, e, m)
+
+        // console.log(ref.current);
+    }, [])
+    return <QuadraticBezierLine ref={ref} lineWidth={3} color="#ff2060" />
+}
 
 useGLTF.preload("/boxWithSb7a.glb");
