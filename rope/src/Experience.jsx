@@ -115,8 +115,8 @@ export default function Experience() {
     const ropeNodes = scene.children.slice(24, 38)
     const leftAnchorPos = nodes.Sphere018.position
     const rightAnchorPos = nodes.Sphere031.position
-    const capPos = nodes.Sphere014.position
-    const capBase = nodes.Sphere036.position
+    const midAnchorNode = nodes.Sphere036
+    const freeCapNode = nodes.Sphere014
 
     useLayoutEffect(() => {
         Object.values(materials).forEach((material) => {
@@ -181,14 +181,12 @@ export default function Experience() {
                 <Physics gravity={gravity}>
                     <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
 
-                    <RigidBody
-                        ref={midAnchor}
-                        colliders={"ball"}
-                        type={"kinematicPosition"} >
-                        <group ref={midAnchorMesh} position={capBase} />
+                    <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
+                    <RigidBody ref={midAnchor} colliders={"ball"} type={"kinematicPosition"}>
+                        <group ref={midAnchorMesh} position={nodes.Sphere036.position} />
                     </RigidBody >
 
-                    <RigidBody ref={freeCap} type={"dynamic"} position={capPos}>
+                    <RigidBody ref={freeCap} type={"dynamic"} position={nodes.Sphere.position}>
                         <group ref={freeCapMesh}>
                             <mesh
                                 castShadow
@@ -217,6 +215,11 @@ export default function Experience() {
             </group>
         </>
     );
+}
+
+const Cap = ({ anchor, free }) => {
+    const { midAnchor, midAnchorMesh, midAnchorNode } = anchor
+    const { freeCap, freeCapMesh, freeCapNode } = free
 }
 
 const RopeJoint = ({ a, b }) => {
