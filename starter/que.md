@@ -112,3 +112,83 @@ and this is the result when I use the angle for the rotation
 ![drop](Screenshot%202023-02-19%20042226.png)
 
 Please check my [code](https://codesandbox.io/s/equation-rotation-62o76y)
+
+---
+
+## How to call a function on scroll event in React-three-fiber
+
+I am trying to do such a scrolling affect, https://www.fromscout.com/.
+
+what I want to do is..
+1. add scroll listener - it seems that there should be a scroll bar to activate this event
+2. onScroll call a method to move the object - done
+3. at the beginning of the method, I need to remove the listener
+4. at the end of the method, I activate the listener 
+
+my code is
+
+Experience.jsx
+```js
+export default function Experience() {
+  const [wheelListener, setWheelListener] = useState()
+  const count = 5
+  const theta = 360 / count
+  return (
+    <>
+      <Canvas camera={{ position: [0, 20, 5] }} onWheel={(e) => setWheelListener(e)}>
+        <ambientLight intensity={5} />
+        <axesHelper args={[2, 2, 2]} />
+
+        {[...Array(count)].map((ref, i) => {
+          let { x, y } = getCoordinates(i * theta)
+
+          return (
+            <Box onWheel={wheelListener} bTheta={i * theta} color={i * theta} key={i} position-x={x} position-z={y} rotation-y={x / 2} />
+          )
+        })}
+      </Canvas>
+    </>
+  )
+}
+```
+
+Box.jsx
+```js
+const Box = ({ onWheel, color, bTheta, ...props }) => {
+  const mesh = useRef()
+  const [theta, setTheta] = useState(bTheta)
+
+  const roll = (e) => {
+    setTheta((theta) => (theta + 360 / 5) % 360)
+    const { x, y: z } = getCoordinates(theta)
+    gsap.to(mesh.current.rotation, {
+      duration: 1.5,
+      ease: 'power2.inOut',
+      y: x / 2
+    })
+    gsap.to(mesh.current.position, {
+      duration: 1.5,
+      ease: 'power2.inOut',
+      x: x,
+      z: z
+    })
+  }
+
+  useEffect((onWheel) => {
+      roll(onWheel)
+    },
+    [onWheel]
+  )
+
+  return (
+    <>
+      <mesh ref={mesh} {...props}>
+        <boxGeometry args={[2, 2.5, 1]} />
+        <meshStandardMaterial metalness={0} roughness={0} color={`rgb(${color + 100},0,0)`} />
+      </mesh>
+    </>
+  )
+}
+```
+
+https://codesandbox.io/s/r3f-starter-forked-b4yfqx?file=/src/Boxes.js
