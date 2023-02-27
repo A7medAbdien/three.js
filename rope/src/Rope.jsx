@@ -1,4 +1,4 @@
-import { Box, Clone, Sphere } from "@react-three/drei";
+import { Clone, Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import {
     RigidBody,

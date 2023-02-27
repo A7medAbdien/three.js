@@ -1,5 +1,4 @@
 import {
-    Box,
     Center,
     Clone,
     ContactShadows,
@@ -31,7 +30,7 @@ import { Model } from "./Model";
 import { Quaternion, SpotLightHelper, Vector3 } from "three";
 
 
-const Scene = ({ nodes, anchor }) => {
+const RopeContainer = ({ nodes, anchor }) => {
 
     const { scale, loss, radius } = useControls('Drop', {
         scale: {
@@ -81,7 +80,7 @@ const Scene = ({ nodes, anchor }) => {
 }
 
 
-export default function Experience() {
+export default function Box() {
 
     const model = createRef()
     const [gravity, setGravity] = useState([0, -9.87, 0])
@@ -170,7 +169,7 @@ export default function Experience() {
 
             <group>
                 <Physics gravity={gravity}>
-                    <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
+                    <RopeContainer anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
                     <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
                     {/* <Debug /> */}
                 </Physics>
