@@ -80,12 +80,7 @@ export default function Box() {
     /**
      * Leva
     */
-    const { position, angle } = useControls({
-        position: {
-            value: { x: 3, y: 1.5, z: 1.5 },
-            stop: 0.1,
-            joystick: 'invertY'
-        },
+    const { angle } = useControls({
         angle: {
             value: 0,
             stop: 0.1,
@@ -119,29 +114,7 @@ export default function Box() {
 
     return (
         <>
-            <Perf position="top-left" />
-            {/* <axesHelper scale={5} /> */}
-            <OrbitControls />
 
-            {/* <Environment preset="studio" />  */}
-            <spotLight
-                distance={5}
-                angle={0.7}
-                position-x={position.x}
-                position-y={position.y}
-                position-z={position.z}
-                intensity={5}
-            />
-            <spotLight
-                distance={5}
-                angle={0.7}
-                position-x={-position.x}
-                position-y={-position.y}
-                position-z={-position.z}
-                intensity={5}
-            />
-            <ambientLight intensity={0.25} />
-            <fog attach="fog" args={["#000", 2, 100]} />
             <Float
                 speed={1}
                 rotationIntensity={1.5}
