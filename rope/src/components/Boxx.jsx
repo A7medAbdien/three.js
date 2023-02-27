@@ -4,12 +4,12 @@ import gsap from 'gsap';
 import { useControls } from 'leva';
 import { createRef, forwardRef, useEffect, useRef, useState } from 'react';
 import { SpotLightHelper, Vector3 } from 'three';
-import Box from '../Box';
+import { Box } from '../Box';
 
 
 export const Boxx = forwardRef(({ color, ...props }, ref) => {
     return <>
-        {/* <Box /> */}
+        <Box />
         {/* <mesh ref={ref} {...props}>
             <boxGeometry args={[2, 2.5, 1]} />
             <meshStandardMaterial metalness={0} roughness={0} color={`rgb(${color + 100},0,0)`} />

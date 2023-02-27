@@ -1,4 +1,4 @@
-import Box from './Box.jsx'
+import { Box } from './Box.jsx'
 import { OrbitControls, Sphere, SpotLight, Text, useHelper } from '@react-three/drei';
 import { Canvas, useThree } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
@@ -65,13 +65,7 @@ const SceneContainer = () => {
         }, duration * 1000);
     }
 
-
-
-
     return <>
-
-
-
         <Arrows
             rightAction={(e) => isRolling ? null : rollAll(true)}
             leftAction={(e) => isRolling ? null : rollAll(false)}
