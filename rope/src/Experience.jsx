@@ -139,23 +139,13 @@ export default function Experience() {
     })
 
     return <>
+        <Leva hidden />
         <Canvas
             shadows
             camera={{
                 position: [0, 0, 5]
             }}
         >
-            <spotLight
-                ref={spotLight}
-                attenuation={5}
-                decay={decay}
-                penumbra={penumbra}
-                position={[position.x, position.y, position.z]}
-                angle={0.3}
-                distance={15}
-                intensity={10}
-                target-position={[target.x, target.y, target.z]}
-            />
 
             <Perf position="top-left" />
             {/* <axesHelper scale={5} /> */}
@@ -163,6 +153,7 @@ export default function Experience() {
             {/* <Environment preset="studio" />  */}
             <fog attach="fog" args={["#000", 2, 100]} />
 
+            {/* <spotLight ref={spotLight} attenuation={5} decay={decay} penumbra={penumbra} position={[position.x, position.y, position.z]} angle={0.3} distance={15} intensity={10} target-position={[target.x, target.y, target.z]} /> */}
             <spotLight distance={5} angle={0.7} position-x={positionTwo.x} position-y={positionTwo.y} position-z={positionTwo.z} intensity={5} />
             <spotLight distance={5} angle={0.7} position-x={-positionTwo.x} position-y={-positionTwo.y} position-z={-positionTwo.z} intensity={5} />
             <ambientLight intensity={0.25} />
