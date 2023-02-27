@@ -9,11 +9,11 @@ import {
 } from "@react-three/rapier";
 
 import "./style.css";
-import { Rope } from "./Rope";
-import { Cap } from "./Cap";
+import { Rope } from "./compnents/Rope";
+import { Cap } from "./compnents/Cap";
 import { useControls } from "leva";
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Model } from "./Model";
+import { Model } from "./compnents/Model";
 import { Perf } from "r3f-perf";
 
 
