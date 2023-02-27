@@ -121,7 +121,7 @@ export const Box = forwardRef(({ ...props }, ref) => {
                     floatIntensity={0.5}
                     floatingRange={[0.1, 0.7]}
                 >
-                    <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes}  {...props} />
+                    <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
                 </Float>
                 <group ref={leftAnchorConnector} position={leftAnchorPos} />
                 <group ref={rightAnchorConnector} position={rightAnchorPos} />
