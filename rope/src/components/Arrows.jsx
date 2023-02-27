@@ -9,8 +9,8 @@ export const Arrows = ({ rightAction, leftAction }) => {
         <group>
             <Sphere
                 color="red"
-                // position={[width - Math.min(2, width * 0.6), 0, 0]}
-                position={[1, 0, 0]}
+                position={[width - Math.min(2, width * 0.6), 0, 0]}
+                // position={[1, 0, 0]}
                 scale={0.25}
                 onClick={rightAction} >
 
@@ -20,7 +20,7 @@ export const Arrows = ({ rightAction, leftAction }) => {
             <Sphere
                 rotation-y={Math.PI}
                 color="red"
-                position={[-1, 0, 0]}
+                position={[-(width - Math.min(2, width * 0.6)), 0, 0]}
                 scale={0.25}
                 onClick={leftAction} >
 

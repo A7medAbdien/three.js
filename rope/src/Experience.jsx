@@ -7,6 +7,7 @@ import { createRef, useEffect, useRef, useState } from 'react';
 import { Arrows } from './components/Arrows';
 import { Leva, useControls } from 'leva';
 import { SpotLightHelper } from 'three';
+import useRunOnce from './useRunOnce.jsx';
 
 const duration = 2.5
 
@@ -63,6 +64,12 @@ const SceneContainer = () => {
             isRolling = false
         }, duration * 1000);
     }
+
+    useRunOnce({
+        fn: () => {
+            rollAll(true);
+        }
+    });
 
     return <>
         <Arrows
