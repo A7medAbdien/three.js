@@ -67,9 +67,9 @@ const RopeContainer = ({ nodes, anchor }) => {
 }
 
 
-export const Box = forwardRef(({ ...props }, ref) => {
+export const Box = forwardRef(({ ...props }, model) => {
 
-    const model = createRef()
+    // const model = createRef()
     const leftAnchorConnector = useRef()
     const rightAnchorConnector = useRef()
     const midAnchor = useRef()
@@ -114,26 +114,26 @@ export const Box = forwardRef(({ ...props }, ref) => {
 
     return (
         <>
-            <group ref={ref}>
-                <Float
-                    speed={1}
-                    rotationIntensity={1.5}
-                    floatIntensity={0.5}
-                    floatingRange={[0.1, 0.7]}
-                >
-                    <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
-                </Float>
-                <group ref={leftAnchorConnector} position={leftAnchorPos} />
-                <group ref={rightAnchorConnector} position={rightAnchorPos} />
+            {/* <group ref={ref}> */}
+            <Float
+                speed={1}
+                rotationIntensity={1.5}
+                floatIntensity={0.5}
+                floatingRange={[0.1, 0.7]}
+            >
+                <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
+            </Float>
+            <group ref={leftAnchorConnector} position={leftAnchorPos} />
+            <group ref={rightAnchorConnector} position={rightAnchorPos} />
 
-                <group>
-                    <Physics >
-                        <RopeContainer anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
-                        <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
-                        {/* <Debug /> */}
-                    </Physics>
-                </group>
+            <group>
+                <Physics >
+                    <RopeContainer anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
+                    <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
+                    {/* <Debug /> */}
+                </Physics>
             </group>
+            {/* </group> */}
         </>
     );
 })

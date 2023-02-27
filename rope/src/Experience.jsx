@@ -42,7 +42,7 @@ const roll = (theta, ref) => {
 
 
 const SceneContainer = () => {
-    const count = 1
+    const count = 5
     const baseTheta = 360 / count
     let boxesTheta = Array.from({ length: count }).map((_, i) => i * baseTheta)
     let isRolling = false
@@ -77,11 +77,9 @@ const SceneContainer = () => {
             return <Boxx
                 key={i}
                 ref={ref}
-                color={i * baseTheta}
                 position-x={x}
                 position-z={y}
                 rotation-y={x / 2}
-                scale={1}
             />
         })}
     </>
