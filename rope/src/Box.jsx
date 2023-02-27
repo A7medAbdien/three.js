@@ -1,33 +1,19 @@
 import {
-    Center,
-    Clone,
     ContactShadows,
-    CubicBezierLine,
-    Environment,
     Float,
     OrbitControls,
-    QuadraticBezierLine,
     useGLTF,
-    useHelper,
 } from "@react-three/drei";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import {
-    Debug,
     Physics,
-    RigidBody,
-    useRapier,
-    useSphericalJoint,
 } from "@react-three/rapier";
 
 import "./style.css";
 import { Rope } from "./Rope";
 import { Cap } from "./Cap";
-import { Perf } from "r3f-perf";
 import { useControls } from "leva";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { createRef, forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Model } from "./Model";
-import { Quaternion, SpotLightHelper, Vector3 } from "three";
 
 
 const RopeContainer = ({ nodes, anchor }) => {

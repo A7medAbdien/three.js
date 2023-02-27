@@ -1,4 +1,4 @@
-import { Clone, Sphere } from "@react-three/drei";
+import { Clone } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import {
     RigidBody,
@@ -7,7 +7,7 @@ import {
 } from "@react-three/rapier";
 
 import { forwardRef, useRef, createRef } from "react";
-import { Quaternion, Vector3 } from "three";
+import { Vector3 } from "three";
 
 
 const RopeSegment = forwardRef(({ position, component, type, rotation }, ref) => {
