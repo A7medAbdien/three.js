@@ -14,6 +14,7 @@ import { Cap } from "./Cap";
 import { useControls } from "leva";
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Model } from "./Model";
+import { Perf } from "r3f-perf";
 
 
 const RopeContainer = ({ nodes, anchor }) => {
@@ -54,12 +55,12 @@ const RopeContainer = ({ nodes, anchor }) => {
                 radius={radius}
                 loss={loss}
             />
-            <ContactShadows
+            {/* <ContactShadows
                 scale={20}
                 blur={0.4}
                 opacity={0.5}
                 position={[-0, -2, 0]}
-            />
+            /> */}
 
         </group>
     );
@@ -69,7 +70,6 @@ const RopeContainer = ({ nodes, anchor }) => {
 export default function Box() {
 
     const model = createRef()
-    const [gravity, setGravity] = useState([0, -9.87, 0])
     const leftAnchorConnector = useRef()
     const rightAnchorConnector = useRef()
     const midAnchor = useRef()
@@ -119,7 +119,7 @@ export default function Box() {
 
     return (
         <>
-            {/* <Perf position="top-left" /> */}
+            <Perf position="top-left" />
             {/* <axesHelper scale={5} /> */}
             <OrbitControls />
 
@@ -154,7 +154,7 @@ export default function Box() {
             <group ref={rightAnchorConnector} position={rightAnchorPos} />
 
             <group>
-                <Physics gravity={gravity}>
+                <Physics >
                     <RopeContainer anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
                     <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
                     {/* <Debug /> */}
