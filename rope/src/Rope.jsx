@@ -39,7 +39,7 @@ export const Rope = ({ radius, loss, scale, nodes, anchor }) => {
         Array.from({ length: nodes.length }).map(() => createRef())
     );
 
-    useFrame((params) => {
+    useFrame(() => {
         const { leftAnchorConnector, rightAnchorConnector } = anchor
         const leftPos = new Vector3()
         leftAnchorConnector.current.getWorldPosition(leftPos)

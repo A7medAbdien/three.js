@@ -166,9 +166,21 @@ window.addEventListener('scroll', () => {
     scrollY = window.scrollY
 
     const newSection = Math.round(scrollY / sizes.height)
-
+    gsap.to(
+        camera.position,
+        {
+            duration: 1.5,
+            ease: 'power2.inOut',
+            y: '-=5',
+        }
+    )
     if (newSection != currentSection) {
         currentSection = newSection
+
+        const add = (x) => {
+            x += 6
+        }
+        const i = 6
 
         gsap.to(
             sectionMeshes[currentSection].rotation,
@@ -179,6 +191,7 @@ window.addEventListener('scroll', () => {
                 y: '+=3',
             }
         )
+
     }
 })
 
@@ -207,7 +220,7 @@ const tick = () => {
     oldElapsedTime = elapsedTime
 
     // Animate Camera
-    camera.position.y = - (scrollY / sizes.height) * objetDistance
+    // camera.position.y = - (scrollY / sizes.height) * objetDistance
 
     const parallaxX = cursor.x * 0.5
     const parallaxY = cursor.y * 0.5
