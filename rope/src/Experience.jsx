@@ -7,6 +7,7 @@ import { createRef, useEffect, useRef, useState } from 'react';
 import { Arrows } from './components/Arrows';
 import { Leva, useControls } from 'leva';
 import { SpotLightHelper } from 'three';
+import { Boxx } from './components/Boxx.jsx';
 
 const duration = 2.5
 
@@ -64,6 +65,50 @@ const SceneContainer = () => {
         }, duration * 1000);
     }
 
+
+
+
+    return <>
+
+
+
+        <Arrows
+            rightAction={(e) => isRolling ? null : rollAll(true)}
+            leftAction={(e) => isRolling ? null : rollAll(false)}
+        />
+
+        {refs.current.map((ref, i) => {
+            let { x, y } = getCoordinates(i * baseTheta)
+
+            return <Boxx
+                key={i}
+                ref={ref}
+                color={i * baseTheta}
+                position-x={x}
+                position-z={y}
+                rotation-y={x / 2}
+                scale={1}
+            />
+        })}
+    </>
+}
+
+
+export default function Experience() {
+
+    /**
+     * Leva
+    */
+    const { position: positionTwo } = useControls({
+        position: {
+            value: { x: 3, y: 1.5, z: 1.5 },
+            stop: 0.1,
+            joystick: 'invertY'
+        }
+    })
+
+    const spotLight = useRef()
+    // useHelper(spotLight, SpotLightHelper)
     const { position, target, decay, penumbra } = useControls('', {
         position:
         {
@@ -93,57 +138,6 @@ const SceneContainer = () => {
         }
     })
 
-    const spotLight = useRef()
-    // useHelper(spotLight, SpotLightHelper)
-    return <>
-
-        <SpotLight
-            ref={spotLight}
-            attenuation={5}
-            decay={decay}
-            penumbra={penumbra}
-            position={[position.x, position.y, position.z]}
-            angle={0.3}
-            distance={15}
-            intensity={10}
-            target-position={[target.x, target.y, target.z]}
-        />
-
-        <Arrows
-            rightAction={(e) => isRolling ? null : rollAll(true)}
-            leftAction={(e) => isRolling ? null : rollAll(false)}
-        />
-
-        {refs.current.map((ref, i) => {
-            let { x, y } = getCoordinates(i * baseTheta)
-
-            return <Boxx
-                key={i}
-                ref={ref}
-                color={i * baseTheta}
-                position-x={x}
-                position-z={y}
-                rotation-y={x / 2}
-                scale={1}
-            />
-        })}
-    </>
-}
-
-
-export default function Experience() {
-
-    /**
-     * Leva
-    */
-    const { position } = useControls({
-        position: {
-            value: { x: 3, y: 1.5, z: 1.5 },
-            stop: 0.1,
-            joystick: 'invertY'
-        }
-    })
-
     return <>
         <Canvas
             shadows
@@ -151,32 +145,31 @@ export default function Experience() {
                 position: [0, 0, 5]
             }}
         >
+            <spotLight
+                ref={spotLight}
+                attenuation={5}
+                decay={decay}
+                penumbra={penumbra}
+                position={[position.x, position.y, position.z]}
+                angle={0.3}
+                distance={15}
+                intensity={10}
+                target-position={[target.x, target.y, target.z]}
+            />
 
             <Perf position="top-left" />
             {/* <axesHelper scale={5} /> */}
             <OrbitControls />
-
             {/* <Environment preset="studio" />  */}
-
             <fog attach="fog" args={["#000", 2, 100]} />
-            <spotLight
-                distance={5}
-                angle={0.7}
-                position-x={position.x}
-                position-y={position.y}
-                position-z={position.z}
-                intensity={5}
-            />
-            <spotLight
-                distance={5}
-                angle={0.7}
-                position-x={-position.x}
-                position-y={-position.y}
-                position-z={-position.z}
-                intensity={5}
-            />
+
+            <spotLight distance={5} angle={0.7} position-x={positionTwo.x} position-y={positionTwo.y} position-z={positionTwo.z} intensity={5} />
+            <spotLight distance={5} angle={0.7} position-x={-positionTwo.x} position-y={-positionTwo.y} position-z={-positionTwo.z} intensity={5} />
             <ambientLight intensity={0.25} />
-            <Box />
+
+            <SceneContainer />
+
+            {/* <Box /> */}
         </Canvas>
     </>
 
