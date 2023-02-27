@@ -4,13 +4,15 @@ import { useThree } from "@react-three/fiber"
 export const Arrows = ({ rightAction, leftAction }) => {
 
     const arrow = ">"
-    const { width } = useThree(state => state.viewport)
+    const { width, height } = useThree(state => state.viewport)
+    const x = width - Math.min(2, width * 0.6)
+    const y = -height + height * 0.55
 
     return <>
         <group>
             <Text
                 color="red"
-                position={[width - Math.min(2, width * 0.6), 0, 0]}
+                position={[x, y, 0]}
                 scale={0.25}
                 onClick={rightAction} >
                 {arrow}
@@ -20,7 +22,7 @@ export const Arrows = ({ rightAction, leftAction }) => {
             <Text
                 rotation-y={Math.PI}
                 color="red"
-                position={[-(width - Math.min(2, width * 0.6)), 0, 0]}
+                position={[-x, y, 0]}
                 scale={0.25}
                 onClick={leftAction} >
                 {arrow}
