@@ -9,11 +9,12 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <>
-        <Leva hidden />
+        <Leva />
         <Canvas
             shadows
             camera={{
-                position: [0, 0, 1]
+                fov: 40,
+                position: [0, 0, 2]
             }}
         >
             <Experience />

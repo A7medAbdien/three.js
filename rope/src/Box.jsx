@@ -80,13 +80,37 @@ export const Box = forwardRef(({ ...props }, model) => {
     /**
      * Leva
     */
-    const { angle } = useControls({
+    const { angle, rotation, intensity, rangeS, rangeE } = useControls({
         angle: {
             value: 0,
-            stop: 0.1,
+            step: 0.1,
             min: 0,
             max: 360
-        }
+        },
+        rotation: {
+            value: 0.3,
+            step: 0.1,
+            min: 0,
+            max: 0.8
+        },
+        intensity: {
+            value: 0.1,
+            step: 0.1,
+            min: 0,
+            max: 0.8
+        },
+        rangeS: {
+            value: 0,
+            step: 0.1,
+            min: 0,
+            max: 0.8
+        },
+        rangeE: {
+            value: 0.2,
+            step: 0.1,
+            min: 0,
+            max: 0.8
+        },
     })
 
     /**
@@ -109,17 +133,17 @@ export const Box = forwardRef(({ ...props }, model) => {
         model.current.add(leftAnchorConnector.current)
         model.current.add(rightAnchorConnector.current)
         model.current.add(midAnchorMesh.current)
+        console.log(model.current.position);
     })
-
 
     return (
         <>
             {/* <group ref={ref}> */}
             <Float
                 speed={1}
-                rotationIntensity={1.5}
-                floatIntensity={0.5}
-                floatingRange={[0.1, 0.7]}
+                rotationIntensity={rotation}
+                floatIntensity={intensity}
+                floatingRange={[rangeS, rangeE]}
             >
                 <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
             </Float>
