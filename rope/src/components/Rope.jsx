@@ -13,6 +13,7 @@ import { Vector3 } from "three";
 const RopeSegment = forwardRef(({ position, component, type, rotation }, ref) => {
     return (
         <RigidBody
+            restitution={0}
             ref={ref}
             colliders={"ball"}
             type={type}

@@ -49,7 +49,7 @@ export const Cap = ({ anchor, free }) => {
                 <group ref={midAnchorMesh} position={midAnchorNode.position} />
             </RigidBody >
 
-            <RigidBody ref={freeCap} type={"dynamic"}>
+            <RigidBody mass={5} restitution={0} ref={freeCap} type={"dynamic"}>
                 <group ref={freeCapMesh}>
                     <mesh
                         castShadow
