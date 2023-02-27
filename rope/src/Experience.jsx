@@ -7,7 +7,6 @@ import { createRef, useEffect, useRef, useState } from 'react';
 import { Arrows } from './components/Arrows';
 import { Leva, useControls } from 'leva';
 import { SpotLightHelper } from 'three';
-import { Boxx } from './components/Boxx.jsx';
 
 const duration = 2.5
 
@@ -74,7 +73,7 @@ const SceneContainer = () => {
         {refs.current.map((ref, i) => {
             let { x, y } = getCoordinates(i * baseTheta)
 
-            return <Boxx
+            return <Box
                 key={i}
                 ref={ref}
                 position-x={x}
@@ -133,8 +132,8 @@ export default function Experience() {
     return <>
 
 
-        {/* <Perf position="top-left" /> */}
-        {/* <axesHelper scale={5} /> */}
+        <Perf position="top-left" />
+        <axesHelper scale={5} />
         <OrbitControls />
         {/* <Environment preset="studio" />  */}
         <fog attach="fog" args={["#000", 2, 100]} />
