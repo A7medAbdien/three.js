@@ -42,7 +42,7 @@ const roll = (theta, ref) => {
 
 
 const SceneContainer = () => {
-    const count = 1
+    const count = 5
     const baseTheta = 360 / count
     let boxesTheta = Array.from({ length: count }).map((_, i) => i * baseTheta)
     let isRolling = false
@@ -150,7 +150,7 @@ export default function Experience() {
             {/* <spotLight ref={spotLight} attenuation={5} decay={decay} penumbra={penumbra} position={[position.x, position.y, position.z]} angle={0.3} distance={15} intensity={10} target-position={[target.x, target.y, target.z]} /> */}
             <spotLight distance={5} angle={0.7} position-x={positionTwo.x} position-y={positionTwo.y} position-z={positionTwo.z} intensity={5} />
             <spotLight distance={5} angle={0.7} position-x={-positionTwo.x} position-y={-positionTwo.y} position-z={-positionTwo.z} intensity={5} />
-            <ambientLight intensity={0.25} />
+            <ambientLight intensity={0.5} />
 
             <SceneContainer />
 

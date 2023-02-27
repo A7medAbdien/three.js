@@ -114,7 +114,7 @@ export const Box = forwardRef(({ ...props }, ref) => {
 
     return (
         <>
-            <group ref={ref}>
+            <group ref={ref} {...props}>
                 <Float
                     speed={1}
                     rotationIntensity={1.5}
