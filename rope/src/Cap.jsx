@@ -25,7 +25,7 @@ function Cable({ start, end, v1 = new Vector3(), v2 = new Vector3() }) {
             startPoint.z * 1.1)
         ref.current.setPoints(startPoint, endPoint, midPoint)
     }, [])
-    return <QuadraticBezierLine ref={ref} lineWidth={3} color="black" />
+    return <QuadraticBezierLine ref={ref} lineWidth={3} color="red" />
 }
 
 export const Cap = ({ anchor, free }) => {
