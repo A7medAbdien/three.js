@@ -12,7 +12,7 @@ import "./style.css";
 import { Rope } from "./components/Rope";
 import { Cap } from "./components/Cap";
 import { useControls } from "leva";
-import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createRef, forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Model } from "./components/Model";
 import { Perf } from "r3f-perf";
 
@@ -67,7 +67,7 @@ const RopeContainer = ({ nodes, anchor }) => {
 }
 
 
-export default function Box() {
+export const Box = forwardRef(({ ...props }, ref) => {
 
     const model = createRef()
     const leftAnchorConnector = useRef()
@@ -114,27 +114,28 @@ export default function Box() {
 
     return (
         <>
+            <group ref={ref}>
+                <Float
+                    speed={1}
+                    rotationIntensity={1.5}
+                    floatIntensity={0.5}
+                    floatingRange={[0.1, 0.7]}
+                >
+                    <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
+                </Float>
+                <group ref={leftAnchorConnector} position={leftAnchorPos} />
+                <group ref={rightAnchorConnector} position={rightAnchorPos} />
 
-            <Float
-                speed={1}
-                rotationIntensity={1.5}
-                floatIntensity={0.5}
-                floatingRange={[0.1, 0.7]}
-            >
-                <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
-            </Float>
-            <group ref={leftAnchorConnector} position={leftAnchorPos} />
-            <group ref={rightAnchorConnector} position={rightAnchorPos} />
-
-            <group>
-                <Physics >
-                    <RopeContainer anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
-                    <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
-                    {/* <Debug /> */}
-                </Physics>
+                <group>
+                    <Physics >
+                        <RopeContainer anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
+                        <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
+                        {/* <Debug /> */}
+                    </Physics>
+                </group>
             </group>
         </>
     );
-}
+})
 
 useGLTF.preload("/boxWithSb7a.glb");
