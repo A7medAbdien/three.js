@@ -9,7 +9,11 @@ import { Box } from '../Box';
 
 export const Boxx = forwardRef(({ color, ...props }, ref) => {
     return <>
-        <Box ref={ref} {...props} />
+        <Box ref={ref} />
+        {/* <mesh ref={ref} {...props}>
+            <boxGeometry args={[2, 2.5, 1]} />
+            <meshStandardMaterial metalness={0} roughness={0} color={`rgb(${color + 100},0,0)`} />
+        </mesh> */}
     </>
 })
 

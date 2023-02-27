@@ -1,4 +1,4 @@
-import { Text } from "@react-three/drei"
+import { Sphere } from "@react-three/drei"
 import { useThree } from "@react-three/fiber"
 
 export const Arrows = ({ rightAction, leftAction }) => {
@@ -7,23 +7,23 @@ export const Arrows = ({ rightAction, leftAction }) => {
 
     return <>
         <group>
-            <Text
+            <Sphere
                 color="red"
                 position={[width - Math.min(2, width * 0.6), 0, 0]}
                 scale={0.25}
                 onClick={rightAction} >
                 -)
-            </Text>
+            </Sphere>
         </group>
         <group>
-            <Text
+            <Sphere
                 rotation-y={Math.PI}
                 color="red"
                 position={[-(width - Math.min(2, width * 0.6)), 0, 0]}
                 scale={0.25}
                 onClick={leftAction} >
                 -)
-            </Text>
+            </Sphere>
         </group>
     </>
 }

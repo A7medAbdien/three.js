@@ -42,7 +42,7 @@ const roll = (theta, ref) => {
 
 
 const SceneContainer = () => {
-    const count = 5
+    const count = 1
     const baseTheta = 360 / count
     let boxesTheta = Array.from({ length: count }).map((_, i) => i * baseTheta)
     let isRolling = false
