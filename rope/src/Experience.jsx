@@ -135,7 +135,7 @@ export default function Experience() {
     return (
         <>
             {/* <Perf position="top-left" /> */}
-            {/* <axesHelper scale={5} /> */}
+            <axesHelper scale={5} />
             <OrbitControls />
 
             {/* <Environment preset="studio" />  */}
@@ -157,14 +157,14 @@ export default function Experience() {
             />
             <ambientLight intensity={0.25} />
             <fog attach="fog" args={["#000", 2, 100]} />
-            <Float
+            {/* <Float
                 speed={1}
                 rotationIntensity={1.5}
                 floatIntensity={0.5}
                 floatingRange={[0.1, 0.7]}
-            >
-                <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
-            </Float>
+            > */}
+            <Model ref={model} rotation-z={angle * (Math.PI / 180)} nodes={nodes} />
+            {/* </Float> */}
             <group ref={leftAnchorConnector} position={leftAnchorPos} />
             <group ref={rightAnchorConnector} position={rightAnchorPos} />
 
@@ -172,7 +172,7 @@ export default function Experience() {
                 <Physics gravity={gravity}>
                     <Scene anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
                     <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
-                    {/* <Debug /> */}
+                    <Debug />
                 </Physics>
             </group>
         </>
