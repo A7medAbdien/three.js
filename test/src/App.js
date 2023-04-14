@@ -6,7 +6,7 @@ import { useRoute, useLocation } from 'wouter'
 import { easing } from 'maath'
 import getUuid from 'uuid-by-string'
 
-const GOLDENRATIO = 1.61803398875
+const GOLDENRATIO = 1.3
 
 export const App = ({ images }) => (
   <Canvas dpr={[1, 1.5]} camera={{ fov: 70, position: [0, 2, 15] }}>
@@ -94,7 +94,7 @@ function Frame({ url, c = new THREE.Color(), ...props }) {
         </mesh>
         <Image raycast={() => null} ref={image} position={[0, 0, 0.7]} url={url} />
       </mesh>
-      <Text maxWidth={0.1} anchorX="left" anchorY="top" position={[0.55, GOLDENRATIO, 0]} fontSize={0.025}>
+      <Text maxWidth={1} anchorX="left" anchorY="top" position={[-0.45, 0.1 + GOLDENRATIO, 0]} fontSize={0.05}>
         {name.split('-').join(' ')}
       </Text>
     </group>
