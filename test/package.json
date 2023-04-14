@@ -11,14 +11,15 @@
     "@react-three/drei": "9.40.0",
     "@react-three/fiber": "8.9.1",
     "maath": "0.4.2",
+    "plotly.js": "^2.20.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-plotly.js": "^2.6.0",
     "react-scripts": "5.0.1",
     "three": "0.146.0",
     "uuid-by-string": "4.0.0",
     "wouter": "2.8.0-alpha.2"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
