@@ -2,6 +2,7 @@ import { Box, Clone, Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import {
     RigidBody,
+    RoundCuboidCollider,
     useSphericalJoint,
     // vec3
 } from "@react-three/rapier";
@@ -14,11 +15,12 @@ const RopeSegment = forwardRef(({ position, component, type, rotation }, ref) =>
     return (
         <RigidBody
             ref={ref}
-            colliders={"ball"}
+            colliders={false}
             type={type}
             rotation={rotation}
             position={position}
         >
+            <RoundCuboidCollider args={[0.07, 0.07, 0.07, 0.07]} />
             {component}
         </RigidBody >
     );
