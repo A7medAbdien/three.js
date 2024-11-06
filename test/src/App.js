@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import Plot from 'react-plotly.js';
 import * as THREE from 'three';
+import * as Plotly from 'plotly.js';
 
 export const App = () => {
   const [svg, setSvg] = useState(null);
@@ -24,31 +25,22 @@ export const App = () => {
     margin: { t: 0, r: 0, b: 0, l: 0 },
   };
 
-  useEffect(() => {
-    if (ref.current) {
-      console.log(ref.current);
-      // const svgElement = ref.current.querySelector('svg');
-      // setSvg(svgElement.outerHTML);
-    }
-  }, [ref]);
+  Plotly.newPlot("graph", data, layout)
+    .then(async (gd) => {
+      await Plotly.downloadImage(gd, { format: "png" });
+    })
+    .then((dataURI) => {
+      console.log(dataURI);
+    });
+
 
   return (
-    <div style={{ width: '100%', height: '100%' }}>
-      {/* <div ref={ref} style={{ display: 'none' }}> */}
-      <Plot ref={ref} data={data} layout={layout} />
-      {/* </div> */}
-      <Canvas>
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        {svg && (
-          <Html scaleFactor={20}>
-            <img
-              src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`}
-              alt="Plotly Chart"
-            />
-          </Html>
-        )}
-      </Canvas>
+    <div>
+      <Plot
+        data={data}
+        layout={layout}
+      />
+      <div id="graph" style={{ display: "none" }}></div>
     </div>
   );
 };
